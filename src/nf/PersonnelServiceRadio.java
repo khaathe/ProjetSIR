@@ -1,4 +1,5 @@
 package nf;
+import nf.Profession;
 
 public class PersonnelServiceRadio {
     private String nom;
@@ -16,7 +17,7 @@ public class PersonnelServiceRadio {
     // constructeur pour initialiser le professionel correspondant à un examen, l'identifiant n'est pas nécessaire
     public PersonnelServiceRadio(String nom, String prenom, Profession profession){
         this.nom=nom;
-        this.profession=prenom;
+        this.prenom=prenom;
         this.profession=profession;
     }
 

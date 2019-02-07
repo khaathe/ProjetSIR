@@ -1,6 +1,8 @@
 package nf;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Examen {
     private String idExam;
@@ -10,10 +12,10 @@ public class Examen {
     private TypeExamen typeExamen;
     private List<Image> images;
     private PersonnelServiceRadio praticien;
-    private Service service;
+    private ServiceHosp service;
 
 
-    public Examen(String idExam, GregorianCalendar date, String numArchivage, TypeExamen typeExamen, PersonnelServiceRadio praticien, Service service){
+    public Examen(String idExam, GregorianCalendar date, String numArchivage, TypeExamen typeExamen, PersonnelServiceRadio praticien, ServiceHosp service){
         this.idExam= idExam;
         this.date = date;
         this.numArchivage = numArchivage;
@@ -34,7 +36,7 @@ public class Examen {
 
     }
     public void ajouterImage(Image image){
-        if (!images.contain(image)){
+        if (!images.contains(image)){
             images.add(image);
         }
     }

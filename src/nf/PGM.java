@@ -1,3 +1,5 @@
+package nf;
+
 import nf.Image;
 
 public class PGM extends Image {

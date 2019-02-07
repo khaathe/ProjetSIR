@@ -1,4 +1,7 @@
 package ui;
 
-public class MainWindow {
+import javax.swing.*;
+
+public class MainWindow extends JFrame {
+
 }
