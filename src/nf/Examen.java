@@ -7,13 +7,13 @@ public class Examen {
     private GregorianCalendar date;
     private String numArchivage;
     private CompteRendu cr;
-    private TypeExamen typeExamen;
 
 
-    public Examen(String idExam, GregorianCalendar date, String numArchivage){
+    public Examen (String idExam, GregorianCalendar date, String numArchivage){
         this.idExam= idExam;
         this.date = date;
         this.numArchivage = numArchivage;
+        this.cr=null;
 
     }
 
