@@ -1,11 +1,15 @@
 package nf;
 
 public abstract class Image {
-    private String numArchivage;
+    protected String numArchivage;
 
 
     public Image (String numArchivage){
+
         this.numArchivage= numArchivage;
+    }
+    public Image(){
+
     }
 
     public abstract void rotation();
