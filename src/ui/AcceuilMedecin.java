@@ -1,4 +1,7 @@
-package PACKAGE_NAME;
+package ui;
 
-public class AcceuilMedecin {
+import javax.swing.*;
+
+public class AcceuilMedecin extends JPanel {
+    private JPanel panel1;
 }

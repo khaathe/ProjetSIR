@@ -28,7 +28,7 @@
             <properties>
               <horizontalAlignment value="11"/>
               <horizontalTextPosition value="11"/>
-              <icon value="ui/iconeDoctor.png"/>
+              <icon value="iconeDocteur.png"/>
               <labelFor value=""/>
               <text value=""/>
             </properties>
@@ -98,7 +98,7 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="ui/iconeRotationDroite.png"/>
+                  <icon value="iconeRotationDroite.png"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -107,7 +107,7 @@
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="ui/iconeRotationGauche.png"/>
+                  <icon value="iconeRotationGauche.png"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -181,7 +181,7 @@
           <enabled value="true"/>
           <horizontalAlignment value="0"/>
           <horizontalTextPosition value="0"/>
-          <icon value="ui/brainImage.png"/>
+          <icon value="brainImage.png"/>
           <maximumSize width="200" height="250"/>
           <minimumSize width="150" height="200"/>
           <text value=""/>

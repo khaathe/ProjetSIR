@@ -3,7 +3,7 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class ModificationImage extends JFrame {
+public class ModificationImage extends JPanel {
     private JPanel panel1;
     private JSlider constrastSlider;
     private JSlider EcalircissementSlider;
@@ -78,11 +78,11 @@ public class ModificationImage extends JFrame {
         rotationLabel.setText("Rotation :\n");
         rotationPanel.add(rotationLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rightRotationLabel = new JLabel();
-        rightRotationLabel.setIcon(new ImageIcon(getClass().getResource("/ui/iconeRotationDroite.png")));
+        rightRotationLabel.setIcon(new ImageIcon(getClass().getResource("/resources/iconeRotationDroite.png")));
         rightRotationLabel.setText("");
         rotationPanel.add(rightRotationLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_EAST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         leftRotationLabel = new JLabel();
-        leftRotationLabel.setIcon(new ImageIcon(getClass().getResource("/ui/iconeRotationGauche.png")));
+        leftRotationLabel.setIcon(new ImageIcon(getClass().getResource("/resources/iconeRotationGauche.png")));
         leftRotationLabel.setText("");
         rotationPanel.add(leftRotationLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_EAST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         inversionCheckBox = new JCheckBox();
@@ -112,7 +112,7 @@ public class ModificationImage extends JFrame {
         imageCerveau.setEnabled(true);
         imageCerveau.setHorizontalAlignment(0);
         imageCerveau.setHorizontalTextPosition(0);
-        imageCerveau.setIcon(new ImageIcon(getClass().getResource("/ui/brainImage.png")));
+        imageCerveau.setIcon(new ImageIcon(getClass().getResource("/resources/brainImage.png")));
         imageCerveau.setMaximumSize(new Dimension(200, 250));
         imageCerveau.setMinimumSize(new Dimension(150, 200));
         imageCerveau.setText("");
