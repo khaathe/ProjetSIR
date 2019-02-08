@@ -15,19 +15,21 @@ public class Patient {
     public Patient(){
     };
     public Patient(String idPatient, String nom, String prenom, GregorianCalendar naissance, String numSS){
-        this.idPatient=idPatient;
-        this.nom=nom;
-        this.prenom=prenom;
-        this.naissance=naissance;
-        this.numSS=numSS;
+        this.setIdPatient(idPatient);
+        this.setNom(nom);
+        this.setPrenom(prenom);
+        this.setNaissance(naissance);
+        this.setNumSS(numSS);
     }
+
+
 
     public void getPatient(String idPatient) {
         //Patient p= new Patient();
         Connexion con = new Connexion();
-        con.Connection();
-        Connection conn = con.getCon();
         try{
+            con.Connection();
+            Connection conn = con.getCon();
             // our SQL SELECT query.
             // if you only need a few columns, specify them by name instead of using "*"
             String query = "SELECT * FROM patient WHERE id="+idPatient;
@@ -58,5 +60,45 @@ public class Patient {
         }
         //return p;
         }
+
+    public String getIdPatient() {
+        return idPatient;
     }
+
+    public void setIdPatient(String idPatient) {
+        this.idPatient = idPatient;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public GregorianCalendar getNaissance() {
+        return naissance;
+    }
+
+    public void setNaissance(GregorianCalendar naissance) {
+        this.naissance = naissance;
+    }
+
+    public String getNumSS() {
+        return numSS;
+    }
+
+    public void setNumSS(String numSS) {
+        this.numSS = numSS;
+    }
+}
 
