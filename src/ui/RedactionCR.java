@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import javax.swing.*;
+=======
+package ui;
+>>>>>>> 31d3d76c57022b6574e20359c80434be395cbe56
 
 public class RedactionCR {
     private JPanel panel1;

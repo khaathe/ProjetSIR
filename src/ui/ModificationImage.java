@@ -1,7 +1,8 @@
+package  ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class ModificationImage extends JFrame {
+public class ModificationImage extends JPanel {
     private JPanel panel1;
     private JSlider constrastSlider;
     private JSlider EcalircissementSlider;
@@ -38,7 +39,7 @@ public class ModificationImage extends JFrame {
      *
      * @noinspection ALL
      */
-   // private void $$$setupUI$$$() {
+   /* private void $$$setupUI$$$() {
      //
     //   panel1 = new JPanel();
     //    panel1.setLayout(new BorderLayout(0, 0));
@@ -115,12 +116,11 @@ public class ModificationImage extends JFrame {
     //  imageCerveau.setMaximumSize(new Dimension(200, 250));
     //  imageCerveau.setMinimumSize(new Dimension(150, 200));
     //  imageCerveau.setText("");
-    //  panel1.add(imageCerveau, BorderLayout.EAST);
-    //  final JPanel panel3 = new JPanel();
-    //  panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-    //  panel1.add(panel3, BorderLayout.CENTER);
-    //}
-
+      panel1.add(imageCerveau, BorderLayout.EAST);
+      final JPanel panel3 = new JPanel();
+      panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+      panel1.add(panel3, BorderLayout.CENTER);
+    }*/
 
     /**
      * @noinspection ALL
