@@ -14,6 +14,7 @@ public class CompteRendu {
     }
 
     public String ajouterContenu(){
+
         contenu+="contenu du compte-rendu";
         return contenu;
     }
