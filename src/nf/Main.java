@@ -11,29 +11,28 @@ public class Main {
         System.out.println("Hello World!");
         //test amandine
         System.out.println("jecris du test !");
-        Orthanc orthanc =new Orthanc();
+        Orthanc orthanc = new Orthanc();
 
         // Test pour voir si je peux écrire sur la BD
 
-        Statement stmt=null;
-        ResultSet rs =null;
-        Connexion con=null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        Connexion con = null;
         try {
-            stmt=con.getCon().createStatement();
+            stmt = con.getCon().createStatement();
 
-            rs =stmt.executeQuery("CREATE TABLE Patient (\n" +
+            rs = stmt.executeQuery("CREATE TABLE Patient (\n" +
                     "    PersonID int,\n" +
                     "    LastName varchar(255),\n" +
                     "    FirstName varchar(255),\n" +
                     "    Address varchar(255),\n" +
                     "    City varchar(255) \n" +
                     ");");
-        } catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        finally {
+        } finally {
             // it is a good idea to release
             // resources in a finally{} block
             // in reverse-order of their creation
@@ -42,7 +41,8 @@ public class Main {
             if (rs != null) {
                 try {
                     rs.close();
-                } catch (SQLException sqlEx) { } // ignore
+                } catch (SQLException sqlEx) {
+                } // ignore
 
                 rs = null;
             }
@@ -50,9 +50,11 @@ public class Main {
             if (stmt != null) {
                 try {
                     stmt.close();
-                } catch (SQLException sqlEx) { } // ignore
+                } catch (SQLException sqlEx) {
+                } // ignore
 
                 stmt = null;
             }
+        }
     }
 }
