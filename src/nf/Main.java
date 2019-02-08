@@ -10,7 +10,11 @@ public class Main {
         System.out.println("jecris du test !");
         Orthanc orthanc = new Orthanc();
 
-        // Test pour voir si je peux écrire sur la BD
+        //test getPatient
+        Patient p= new Patient();
+        p.getPatient("1");
+
+        /* Test pour voir si je peux écrire sur la BD
     try{
         Statement stmt = null;
         int rs = 0;
@@ -39,6 +43,6 @@ public class Main {
         {
             System.err.println("Got an exception!");
             System.err.println(e.getMessage());
-        }
+        }*/
     }}
 
