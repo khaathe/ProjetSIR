@@ -1,9 +1,6 @@
 package nf;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Main {
 
@@ -16,45 +13,19 @@ public class Main {
         // Test pour voir si je peux écrire sur la BD
 
         Statement stmt = null;
-        ResultSet rs = null;
-        Connexion con = null;
-        try {
-            stmt = con.getCon().createStatement();
+        int rs = 0;
+        Connexion con = new Connexion();
+        con.Connection();
+        Connection conn= con.getCon();
+        //public void insert(String name, double capacity) {
+        String sql = "INSERT INTO patient(ID,Nom,Prenom,Adresse) VALUES(1,Andrews,Rupy,3 rue louis vidal)";
 
-            rs = stmt.executeQuery("CREATE TABLE Patient (\n" +
-                    "    PersonID int,\n" +
-                    "    LastName varchar(255),\n" +
-                    "    FirstName varchar(255),\n" +
-                    "    Address varchar(255),\n" +
-                    "    City varchar(255) \n" +
-                    ");");
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        } finally {
-            // it is a good idea to release
-            // resources in a finally{} block
-            // in reverse-order of their creation
-            // if they are no-longer needed
-
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-
-                rs = null;
-            }
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-
-                stmt = null;
+            try (
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.executeUpdate("INSERT INTO patient(ID,Nom,Prenom,Adresse) VALUES(1,Andrews,Rupy,3 rue louis vidal)");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
-}
+
