@@ -44,6 +44,11 @@ public class Connexion {
         return true;
     }
 
+    public Connection getCon(){
+
+        return con;
+    }
+
     public ArrayList<DMR> getDMR() {
         return null;
     }
@@ -51,4 +56,6 @@ public class Connexion {
     public ArrayList<Examen> getExamens(Patient ID) {
         return null;
     }
+
+
 }

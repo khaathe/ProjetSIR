@@ -3,9 +3,6 @@ package nf;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import TypeExamen;
-import ServiceHosp;
-import Image;
 
 public class Examen {
     private String idExam;
