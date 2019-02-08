@@ -15,8 +15,8 @@ public class MainWindow extends JFrame {
             @Override
             public void run() {
                 MainWindow mainWindow = new MainWindow();
-                //AcceuilMedecin panel = new AcceuilMedecin();
-                ModificationImage panel = new ModificationImage();
+                AcceuilMedecin panel = new AcceuilMedecin();
+                //ModificationImage panel = new ModificationImage();
                 mainWindow.setContentPane(panel);
                 mainWindow.setPreferredSize(new Dimension(1000, 1000));
                 mainWindow.pack();

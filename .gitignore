@@ -1,5 +1,9 @@
 #intellij directory
-.idea
+.idea/
+out/
+
+#inteliij file
+*.iml
 
 # Compiled class file
 *.class
