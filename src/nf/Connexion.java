@@ -22,7 +22,7 @@ public class Connexion {
     }
 
     public boolean Connection() {
-        Boolean test = new Boolean(true);
+        boolean test = true;
         url += "?serverTimezone=UTC";
 
         try {
@@ -31,6 +31,7 @@ public class Connexion {
                 con = DriverManager.getConnection(url, "", ""); /*jdbc:mysql://localhost:3306/test*/
             } catch (Exception e) {
                 test = false;
+                e.printStackTrace();
             }
         } catch (ClassNotFoundException ex) {
             System.out.println("Driver not found.");

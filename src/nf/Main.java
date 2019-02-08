@@ -11,21 +11,34 @@ public class Main {
         Orthanc orthanc = new Orthanc();
 
         // Test pour voir si je peux écrire sur la BD
-
+    try{
         Statement stmt = null;
         int rs = 0;
         Connexion con = new Connexion();
         con.Connection();
-        Connection conn= con.getCon();
+        Connection conn = con.getCon();
         //public void insert(String name, double capacity) {
-        String sql = "INSERT INTO patient(ID,Nom,Prenom,Adresse) VALUES(1,Andrews,Rupy,3 rue louis vidal)";
+        // the mysql insert statement
+        String query = " insert into patient (ID, Nom,Prenom,Adresse)"
+                + " values (?, ?, ?, ?)";
 
-            try (
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.executeUpdate("INSERT INTO patient(ID,Nom,Prenom,Adresse) VALUES(1,Andrews,Rupy,3 rue louis vidal)");
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        preparedStmt.setString(1, "1");
+        preparedStmt.setString(2, "Andrews");
+        preparedStmt.setString(3, "Rupy");
+        preparedStmt.setString(4, "Adresse");
+
+
+        // execute the preparedstatement
+        preparedStmt.execute();
+
+        conn.close();}
+
+    catch(Exception e)
+        {
+            System.err.println("Got an exception!");
+            System.err.println(e.getMessage());
         }
-    }
+    }}
 
