@@ -35,4 +35,20 @@ public class Main {
     }
 
 
+    public static class ConnectionDB{
+
+        public Connection getConnection(){
+            Connection connection =null;
+
+            try{
+                Class.forName("ProjetSIR/lib/mysql-connector-java-8.0.14.jar");
+                System.out.println("Driver oki");
+                connection.DriverManager.getConnection("localhostDB","userName","password");
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            return connection;
+        }
+    }
 }
