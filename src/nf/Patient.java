@@ -28,7 +28,7 @@ public class Patient {
         //Patient p= new Patient();
         Connexion con = new Connexion();
         try{
-            con.Connection();
+            con.Connection("","");
             Connection conn = con.getCon();
             // our SQL SELECT query.
             // if you only need a few columns, specify them by name instead of using "*"

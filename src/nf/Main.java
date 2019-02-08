@@ -8,10 +8,19 @@ import java.util.GregorianCalendar;
 public class Main {
 
     public static void main(String[] args) {
-        //System.out.println( new SimpleDateFormat("dd/MM/yyyy:HH-mm").format(System.currentTimeMillis()) );
-        Date date = new Date( System.currentTimeMillis() );
-        GregorianCalendar gregorianCalendar = new GregorianCalendar(2018, 1, 2);
-        Patient p = new Patient();
+        GregorianCalendar gregorianCalendar = new GregorianCalendar(); //création d'un greogrian calendar
+        gregorianCalendar.setGregorianChange(new Date(System.currentTimeMillis())); //set le gregorian calendar avec une date en récupérant le currentTimemillis en long
+        java.sql.Date sqlDate = new java.sql.Date(gregorianCalendar.getTime().getTime()); //récupére un objet date et on recupere le temps en long
+        System.out.println( new SimpleDateFormat("dd/MM/yyyy:HH-mm").format(sqlDate) ); //on l'affiche
+        try {
+            Connexion connexion = new Connexion();
+            connexion.Connection("toto", "1234abcd");
+            connexion.Disconnection();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        /*Patient p = new Patient();
         p.setIdPatient("2");
         Examen ex = new Examen(
                 "32765026587469",
@@ -28,8 +37,7 @@ public class Main {
             c.Disconnection();
         } catch (Exception e){
             e.printStackTrace();
-        }
-
+        }*/
     }
 
 }

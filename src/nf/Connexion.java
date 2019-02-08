@@ -19,11 +19,11 @@ public class Connexion {
         con = null;
     }
 
-    public boolean Connection() throws Exception {
+    public boolean Connection(String user, String mdp) throws Exception {
         boolean test = true;
         url += "?serverTimezone=UTC";
         Class.forName(driver);
-        con = DriverManager.getConnection(url, "", ""); /*jdbc:mysql://localhost:3306/test*/
+        con = DriverManager.getConnection(url, user, mdp); /*jdbc:mysql://localhost:3306/test*/
         return test;
     }
 
