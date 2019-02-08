@@ -17,5 +17,6 @@ public class CompteRendu {
 
         contenu+="contenu du compte-rendu";
         return contenu;
+
     }
 }

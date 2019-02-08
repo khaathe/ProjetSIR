@@ -27,15 +27,14 @@ public class Connexion {
 
         try {
             Class.forName(driver);
-            try {
-                con = DriverManager.getConnection(url, "", ""); /*jdbc:mysql://localhost:3306/test*/
-            } catch (Exception e) {
-                test = false;
-                e.printStackTrace();
-            }
-        } catch (ClassNotFoundException ex) {
+            con = DriverManager.getConnection(url, "", ""); /*jdbc:mysql://localhost:3306/test*/
+        }
+        catch (ClassNotFoundException e) {
             System.out.println("Driver not found.");
             test = false;
+        e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return test;
     }
