@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Connexion {
 
     private Connection con;
-    private String url = "jdbc:mysql://localhost:3306/test";
+    private static String url = "jdbc:mysql://localhost:3306/test";
     private static String driver = "com.mysql.cj.jdbc.Driver";
     /*private static String protocol = "jdbc:mysql";
     private String host = "localhost";
@@ -39,15 +39,16 @@ public class Connexion {
         return test;
     }
 
-    public boolean Disconnection() {
+    public boolean Disconnection() throws Exception {
         con.close();
+        return true;
     }
 
     public ArrayList<DMR> getDMR() {
-
+        return null;
     }
 
-    public ArrayList<examens> getExamens(patient ID) {
-
+    public ArrayList<Examen> getExamens(Patient ID) {
+        return null;
     }
 }
