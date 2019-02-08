@@ -1,5 +1,4 @@
 package nf;
-import nf.Profession;
 
 public class PersonnelServiceRadio {
     private String nom;
