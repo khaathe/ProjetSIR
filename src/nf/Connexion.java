@@ -1,14 +1,12 @@
 package nf;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Connexion {
 
     private Connection con;
-    private static String url = "jdbc:mysql://localhost:3306/test";
+    private static String url = "jdbc:mysql://localhost:3306/sir";
     private static String driver = "com.mysql.cj.jdbc.Driver";
     /*private static String protocol = "jdbc:mysql";
     private String host = "localhost";
@@ -21,21 +19,11 @@ public class Connexion {
         con = null;
     }
 
-    public boolean Connection() {
+    public boolean Connection() throws Exception {
         boolean test = true;
         url += "?serverTimezone=UTC";
-
-        try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, "", ""); /*jdbc:mysql://localhost:3306/test*/
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Driver not found.");
-            test = false;
-        e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Class.forName(driver);
+        con = DriverManager.getConnection(url, "", ""); /*jdbc:mysql://localhost:3306/test*/
         return test;
     }
 
@@ -57,5 +45,23 @@ public class Connexion {
         return null;
     }
 
+    public boolean addExamen(Examen exam, Patient patient) throws Exception {
+        String query = " insert into examen (idexam, numarchivage,date, typeexam, idpatient, service)"
+                    + " values (?, ?, ?, ?, ?, ?)";
 
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setString(1, exam.getIdExam());
+            preparedStmt.setString(2, exam.getNumArchivage());
+            preparedStmt.setDate(3, new Date(System.currentTimeMillis()) );
+        preparedStmt.setString(4, exam.getTypeExamen().toString());
+        preparedStmt.setString(5, patient.getIdPatient());
+        preparedStmt.setString(6, exam.getService().toString());
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+            return true;
+    }
 }
+
+

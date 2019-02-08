@@ -14,8 +14,6 @@ public class DMR {
     }
 
     public void ajouterExamen(Examen exam){
-        if(!listeExamen.contains(exam)){
-            listeExamen.add(exam);
-        }
+
     }
 }
