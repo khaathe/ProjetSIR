@@ -1,4 +1,6 @@
 package nf;
+import com.pixelmed.dicom.AttributeList;
+import  com.pixelmed.dicom.ImageToDicom;
 
 public abstract class Image {
     protected String numArchivage;
