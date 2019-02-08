@@ -10,7 +10,7 @@ public class TestImageDICOM{
 
         try{
             //generate the DICOM file from the jpeg file and the other attributes supplied
-            new ImageToDicom(scJpegFilePath
+            new ImageToDicom(scJpegFilePath,
 
                                 newDicomFile, //path to existing JPEG image
 
