@@ -10,8 +10,10 @@ public abstract class Image {
     protected BufferedImage image;
     public static final int ROTATE_LEFT = -1;
     public static final int ROTATE_RIGHT = 1;
-    public static float BRIGHTER = 1.0f;
-    public static float DARKER = -1.0f;
+    public static final float CONTRASTE_PLUS = 1.5f;
+    public static final float CONTRASTE_MINUS = 0.5f;
+    public static float BRIGHTER = 1.1f;
+    public static float DARKER = 0.95f;
 
 
     public Image (String numArchivage){
@@ -39,19 +41,21 @@ public abstract class Image {
         this.image = imageRetourner;
     }
 
-    public void contraste(int contraste) {
+    public void contraste(float contraste) {
         int w=image.getWidth(), h=image.getHeight();
         BufferedImage dst = new BufferedImage(w, h, image.getType());
-        for(int i = 0; i<h; i++){
-            for(int j = 0; j<w; j++){
-
-            }
-        }
+        float[] accentuation = {
+                0f, 0f, 0f,
+                0.0f, contraste, 0f,
+                0f, 0f, 0f
+        };
+        ConvolveOp cop = new ConvolveOp(new Kernel(3,3, accentuation));
+        cop.filter(image, dst);
         image= dst;
     }
 
-    public void eclaircissement(float offset) {
-        RescaleOp op = new RescaleOp(1.0f, offset, null);
+    public void eclaircissement(float scale) {
+        RescaleOp op = new RescaleOp(scale, 0.0f, null);
         BufferedImage eclairci = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
         op.filter(image, eclairci);
         this.image = eclairci;
