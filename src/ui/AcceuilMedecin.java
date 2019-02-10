@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.*;
 
+
 public class AcceuilMedecin extends JPanel {
     private JPanel panel1;
     private JPanel jPanelNorth;
@@ -12,4 +13,10 @@ public class AcceuilMedecin extends JPanel {
     private JLabel jLabelNomMed;
     private JLabel jLabelIconMed;
     private JLabel jLabelDateJr;
+
+
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
 }

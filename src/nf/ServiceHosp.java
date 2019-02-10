@@ -1,13 +1,13 @@
 package nf;
 
 public  enum ServiceHosp {
-    CARDIOLOGIE(""),
+    CARDIOLOGIE("cardiologie"),
     UROLOGIE("urologie"),
-    GENICO_OBSTETRIE(""),
-    DERMATOLOGIE(""),
-    PSYCHIATRIE(""),
+    GENICO_OBSTETRIE("genico_obstetrie"),
+    DERMATOLOGIE("dermatologie"),
+    PSYCHIATRIE("psychiatrie"),
     NEUROLOGIE("neurologie"),
-    PNEUMOLOGIE("");
+    PNEUMOLOGIE("pneumologie");
 
     private String name;
 

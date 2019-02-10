@@ -1,8 +1,5 @@
 package nf;
-import com.pixelmed.dicom.AttributeList;
-import  com.pixelmed.dicom.ImageToDicom;
 
-import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.File;

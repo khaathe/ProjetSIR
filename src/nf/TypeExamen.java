@@ -1,13 +1,13 @@
 package nf;
 
 public enum TypeExamen {
-    RADIOGRAPHIE(""),
+    RADIOGRAPHIE("radiographie"),
     SCANNER("scanner"),
     IRM("irm"),
-    ANGIOGRAPHIE(""),
-    ECHOGRAPHIE(""),
-    MAMMOGRAPHIE(""),
-    ECHOENDOSCOPIE("");
+    ANGIOGRAPHIE("angiographie"),
+    ECHOGRAPHIE("echographie"),
+    MAMMOGRAPHIE("mammographie"),
+    ECHOENDOSCOPIE("echoendoscopie");
 
     private String name;
 
