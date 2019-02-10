@@ -1,4 +1,4 @@
-package ui;
+package ui.view;
 
 import javax.swing.*;
 
@@ -115,6 +115,58 @@ public class essaisConnexion extends JFrame {
      */
     public JComponent $$$getRootComponent$$$() {
         return connexionPanel;
+    }
+
+    public JPanel getHeadPanel() {
+        return headPanel;
+    }
+
+    public JPanel getWestPanel() {
+        return westPanel;
+    }
+
+    public JPanel getEastPanel() {
+        return eastPanel;
+    }
+
+    public JPanel getSouthPanel() {
+        return southPanel;
+    }
+
+    public JLabel getImageCHUPP() {
+        return imageCHUPP;
+    }
+
+    public JLabel getLogoH2I() {
+        return logoH2I;
+    }
+
+    public JLabel getMdpLabel() {
+        return mdpLabel;
+    }
+
+    public JLabel getIdentifiantLabel() {
+        return identifiantLabel;
+    }
+
+    public JLabel getConnexionLabel() {
+        return connexionLabel;
+    }
+
+    public JTextField getIdentifiantTextField() {
+        return identifiantTextField;
+    }
+
+    public JPasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public JButton getConnexionButton() {
+        return connexionButton;
+    }
+
+    public JPanel getResultPanel() {
+        return resultPanel;
     }
 
     /*
