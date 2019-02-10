@@ -35,11 +35,11 @@ public abstract class Image {
         int w = src.getWidth(), h = src.getHeight(), type = src.getType();
         double anchorx = 0, anchory = 0;
         if(this.rotation == ROTATE_RIGHT) {
-            anchorx = (double) w / 2.0;
-            anchory = (double) w / 2.0;
-        } else {
             anchorx = (double) h / 2.0;
             anchory = (double) h / 2.0;
+        } else {
+            anchorx = (double) w / 2.0;
+            anchory = (double) w / 2.0;
         }
         BufferedImage dst = new BufferedImage(h, w, type);
         AffineTransform transform = new AffineTransform();
