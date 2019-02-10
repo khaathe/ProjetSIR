@@ -2,16 +2,19 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
+import nf.*;
 
 
 public class MainWindow extends JFrame {
     private static String title = "SIR";
+    private SIR sir;
 
 
     public MainWindow (){
         super(title);
 
-    }
+        sir = new SIR();
+}
 
     public static void main(String[] args){
 

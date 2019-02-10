@@ -8,17 +8,17 @@ public class PGM extends Image {
         }
     }
     @Override
-    public void rotation() {
+    public void rotation(int i) {
 
     }
 
     @Override
-    public void contraste() {
+    public void contraste(float contraste) {
 
     }
 
     @Override
-    public void eclaircissement() {
+    public void eclaircissement(float scale) {
 
     }
 
@@ -28,7 +28,11 @@ public class PGM extends Image {
     }
 
     @Override
-    public void retournement() {
+    public void retournementVertical() {
+
+    }
+    @Override
+    public void retournementHorizontal(){
 
     }
 }
