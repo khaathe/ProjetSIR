@@ -1,6 +1,7 @@
 package nf;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.sql.*;
 import java.util.GregorianCalendar;
@@ -8,10 +9,8 @@ import java.util.GregorianCalendar;
 public class Main {
 
     public static void main(String[] args) {
-        GregorianCalendar gregorianCalendar = new GregorianCalendar(); //création d'un greogrian calendar
-        gregorianCalendar.setGregorianChange(new Date(System.currentTimeMillis())); //set le gregorian calendar avec une date en récupérant le currentTimemillis en long
-        java.sql.Date sqlDate = new java.sql.Date(gregorianCalendar.getTime().getTime()); //récupére un objet date et on recupere le temps en long
-        System.out.println( new SimpleDateFormat("dd/MM/yyyy:HH-mm").format(sqlDate) ); //on l'affiche
+        GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
+        java.sql.Date sqlDate = new java.sql.Date(calendar.getTime().getTime()); //récupére un objet date et on recupere le temps en long
         try {
             Connexion connexion = new Connexion();
             connexion.Connection("toto", "1234abcd");
