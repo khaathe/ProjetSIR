@@ -2,12 +2,10 @@ package nf;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
 
 public abstract class Image {
     protected String numArchivage;
-    private BufferedImage image, original;
+    private BufferedImage image;
     public static final int ROTATE_LEFT = -1;
     public static final int ROTATE_RIGHT = 1;
     public static final int NO_ROTATE = 0;
@@ -20,6 +18,7 @@ public abstract class Image {
 
     public Image (String numArchivage){
         this.numArchivage= numArchivage;
+        this.image = null;
         rotation = NO_ROTATE;
         inverser = false;
         retourner = false;
@@ -27,8 +26,11 @@ public abstract class Image {
         luminosite = 0;
     }
 
+    protected Image() {
+    }
+
     public void setImage (BufferedImage image) {
-        this.original = image;
+        this.image = image;
     }
 
     protected BufferedImage rotation (BufferedImage src){
@@ -103,8 +105,6 @@ public abstract class Image {
         return retourner;
     }
 
-    public BufferedImage getImage (){return  this.image;}
-
     public void setRotation (int sens){
         switch (sens){
             case ROTATE_LEFT :
@@ -124,30 +124,25 @@ public abstract class Image {
                     this.rotation = sens;
                 break;
         }
-        refresh();
     }
 
     public void setContraste (int contraste){
         this.contraste = contraste;
-        refresh();
     }
 
     public void setLuminosite (int luminosite){
         this.luminosite = luminosite;
-        refresh();
     }
 
     public void setInverser (){
         this.inverser = !(this.inverser);
-        refresh();
     }
     public void setRetourner (){
         this.retourner = !(this.retourner);
-        refresh();
     }
 
-    protected void refresh (){
-        BufferedImage newImage = this.original;
+    protected BufferedImage getImage (){
+        BufferedImage newImage = this.image;
         if(this.rotation != NO_ROTATE)
             newImage = rotation(newImage);
         newImage = eclaircissement(newImage);
@@ -156,10 +151,8 @@ public abstract class Image {
             newImage = inversion(newImage);
         if(retourner)
             newImage = retournementHorizontal(newImage);
-        this.image = newImage;
+        return newImage;
     }
 
-    public  void reset () {image = original;}
-
-    public void save () { original = image;}
+    public void save () { image = getImage();}
 }

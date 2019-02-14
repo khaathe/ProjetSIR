@@ -21,7 +21,7 @@ public class Connexion {
         con = null;
     }
 
-    public boolean Connection(String user, String mdp) throws Exception {
+    public boolean connection(String user, String mdp) throws Exception {
         boolean test = true;
         url += "?serverTimezone=UTC";
         Class.forName(driver);
@@ -47,6 +47,7 @@ public class Connexion {
         return null;
     }
 
+<<<<<<< HEAD
     public Examen getExamen(String idExamen) throws Exception{
         String query = "SELECT * FROM examen WHERE idexam="+idExamen;
 
@@ -98,6 +99,9 @@ public class Connexion {
         return e;
     }
     public void addExamen(Examen exam, Patient patient) throws Exception {
+=======
+    public boolean addExamen(Examen exam, Patient patient) throws Exception {
+>>>>>>> 0edd378c240caf547cf617435793f327dba2b5fd
         String query = " insert into examen (idexam, numarchivage,date, typeexam, idpatient, service)"
                 + " values (?, ?, ?, ?, ?, ?)";
 
@@ -110,10 +114,20 @@ public class Connexion {
         preparedStmt.setString(5, patient.getIdPatient());
         preparedStmt.setString(6, exam.getService().toString());
 
-        // execute the preparedstatement
-        preparedStmt.execute();
 
-    }
+            // execute the preparedstatement
+            preparedStmt.execute();
+            return true;
+
+
+
+
+        }
+
+
+
+
+
 
     public Patient getPatient(String idPatient) throws Exception {
 
@@ -181,7 +195,12 @@ public class Connexion {
 
     }
 
+<<<<<<< HEAD
     public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception {
+=======
+
+    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception{
+>>>>>>> 0edd378c240caf547cf617435793f327dba2b5fd
 
 
         String query = " insert into personnelhospitalier (idp, nom,prenom, profession)"

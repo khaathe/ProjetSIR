@@ -3,7 +3,6 @@ package nf;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.sql.*;
 import java.util.GregorianCalendar;
 
 public class Main {
@@ -11,14 +10,9 @@ public class Main {
     public static void main(String[] args) {
         GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
         java.sql.Date sqlDate = new java.sql.Date(calendar.getTime().getTime()); //récupére un objet date et on recupere le temps en long
+        System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
             Connexion connexion = new Connexion();
-            connexion.Connection("rupy", "rupy123");
-            PersonnelServiceRadio p=connexion.getPersonnelServiceRadio("1234");
-            CompteRendu c=new CompteRendu(p.getNom(),p.getPrenom(),p.getProfession(),calendar);
-            c.ajouterContenu("ouasibervihberkjvzekvejzhbsx");
-           connexion.getExamen("1293785");
-
 
 
 

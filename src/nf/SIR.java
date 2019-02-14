@@ -5,19 +5,24 @@ import java.util.List;
 
 public class SIR {
 
-    List<DMR> listeDMR;
+    private List<DMR> listeDMR;
     //Connection connection;
 
     public SIR() {
-        listeDMR = new ArrayList<DMR>();
+        setListeDMR(new ArrayList<DMR>());
     }
 
 
 //créer un nouveau DMR, implique d'associer un patient et un examen. On vérifie d'abord qu'un DMR pour ce patient n'est pas déjà présent dans le SIR
     public void creationDMR(DMR dmr){
-        if(!listeDMR.contains(dmr)){
-            listeDMR.add(dmr);
-        }
+    }
+
+    public List<DMR> getListeDMR() {
+        return listeDMR;
+    }
+
+    public void setListeDMR(List<DMR> listeDMR) {
+        this.listeDMR = listeDMR;
     }
 
     /*public String openDMR(DMR dmr){

@@ -35,7 +35,7 @@ public class MainFrameController {
 
 
     private void initComponents() {
-        ec = new essaisConnexion();
+        //ec = new essaisConnexion();
         headPanel = ec.getHeadPanel();
         westPanel = ec.getWestPanel();
         eastPanel = ec.getEastPanel();
