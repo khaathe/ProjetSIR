@@ -14,8 +14,9 @@ public class Main {
         System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
             Connexion connexion = new Connexion();
-            connexion.Connection("toto", "1234abcd");
-            connexion.Disconnection();
+            connexion.Connection("rupy", "rupy123");
+            connexion.getPatient("1");
+
         } catch (Exception e){
             e.printStackTrace();
         }
