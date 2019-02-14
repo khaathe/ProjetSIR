@@ -81,6 +81,7 @@ public class Connexion {
         String nom = "";
         String prenom = "";
         String num = "";
+        GregorianCalendar date=new GregorianCalendar();
         // iterate through the java resultset
         while (rs.next()) {
             id = rs.getString("idPatient");
@@ -92,15 +93,15 @@ public class Connexion {
             java.sql.Date sqlDate = rs.getDate("date");
             GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
             cal.setTimeInMillis(sqlDate.getTime());
-            GregorianCalendar date=cal;
+            date=cal;
 
             num=rs.getString("numss");
             // print the results
-            //return p;
+            System.out.println(id+nom+prenom+date+num);
         }
 
         st.close();
-        Patient p=new Patient(id,nom,prenom,num);
+        Patient p=new Patient(id,nom,prenom,date,num);
         return p;
     }
 
