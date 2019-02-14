@@ -14,7 +14,13 @@ public class Main {
         try {
             Connexion connexion = new Connexion();
             connexion.Connection("rupy", "rupy123");
-            connexion.getPatient("1");
+            PersonnelServiceRadio p=connexion.getPersonnelServiceRadio("1234");
+            CompteRendu c=new CompteRendu(p.getNom(),p.getPrenom(),p.getProfession(),calendar);
+            c.ajouterContenu("ouasibervihberkjvzekvejzhbsx");
+           connexion.getExamen("1293785");
+
+
+
 
         } catch (Exception e){
             e.printStackTrace();
