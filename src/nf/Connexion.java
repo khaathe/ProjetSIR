@@ -19,7 +19,7 @@ public class Connexion {
         con = null;
     }
 
-    public boolean Connection(String user, String mdp) throws Exception {
+    public boolean connection(String user, String mdp) throws Exception {
         boolean test = true;
         url += "?serverTimezone=UTC";
         Class.forName(driver);
@@ -61,7 +61,11 @@ public class Connexion {
             // execute the preparedstatement
             preparedStmt.execute();
             return true;
-    }
+
+
+
+
+        }
 }
 
 

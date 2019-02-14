@@ -2,7 +2,6 @@ package nf;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.sql.*;
 import java.util.GregorianCalendar;
 
 public class Main {
@@ -14,7 +13,7 @@ public class Main {
         System.out.println( new SimpleDateFormat("dd/MM/yyyy:HH-mm").format(sqlDate) ); //on l'affiche
         try {
             Connexion connexion = new Connexion();
-            connexion.Connection("toto", "1234abcd");
+            connexion.connection("toto", "1234abcd");
             connexion.Disconnection();
         } catch (Exception e){
             e.printStackTrace();

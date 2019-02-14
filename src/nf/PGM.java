@@ -7,6 +7,7 @@ public class PGM extends Image {
         switch (super.numArchivage = numArchivage) {
         }
     }
+    /*
     @Override
     public void rotation(int i) {
 
@@ -31,8 +32,5 @@ public class PGM extends Image {
     public void retournementVertical() {
 
     }
-    @Override
-    public void retournementHorizontal(){
-
-    }
+    */
 }
