@@ -97,7 +97,7 @@ public class Connexion {
 
             num=rs.getString("numss");
             // print the results
-            System.out.println(id+nom+prenom+date+num);
+            System.out.println(id+nom+prenom+date.get(GregorianCalendar.DAY_OF_MONTH)+"/"+(date.get(GregorianCalendar.MONTH)+1)+"/"+date.get(GregorianCalendar.YEAR)+"  "+num);
         }
 
         st.close();
