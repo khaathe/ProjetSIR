@@ -13,10 +13,27 @@ public class CompteRendu {
         this.date=date;
     }
 
-    public String ajouterContenu(){
-
-        contenu+="contenu du compte-rendu";
+    public String getContenu() {
         return contenu;
+    }
 
+    public PersonnelServiceRadio getEditeur() {
+        return editeur;
+    }
+
+    public GregorianCalendar getDate() {
+        return date;
+    }
+
+    public void setContenu(String contenu) {
+        this.contenu = contenu;
+    }
+
+    public void setDate(GregorianCalendar date) {
+        this.date = date;
+    }
+
+    public void setEditeur(PersonnelServiceRadio editeur) {
+        this.editeur = editeur;
     }
 }

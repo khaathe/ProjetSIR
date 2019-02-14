@@ -5,7 +5,6 @@ import ui.view.essaisConnexion;
 
 import javax.swing.*;
 
-
 public class MainWindow extends JFrame {
     private static String title = "SIR";
     private SIR sir;
@@ -16,6 +15,8 @@ public class MainWindow extends JFrame {
     public MainWindow (){
         super(title);
         sir = new SIR();
+
+
 }
 
     public static void main(String[] args){

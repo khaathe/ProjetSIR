@@ -4,9 +4,9 @@ public class PGM extends Image {
 
 
     public PGM(String numArchivage){
-        switch (super.numArchivage = numArchivage) {
-        }
+        super(numArchivage);
     }
+
     /*
     @Override
     public void rotation(int i) {
@@ -33,4 +33,5 @@ public class PGM extends Image {
 
     }
     */
+
 }

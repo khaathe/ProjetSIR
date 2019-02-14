@@ -17,6 +17,7 @@ public class essaisConnexion extends JPanel {
     //public static final int HEIGHT = 500;
 
     private MainWindow mainWindow;
+    private MainWindow secondWindow;
     private JPanel connexionPanel;
     private JPanel headPanel;
     private JPanel westPanel;
@@ -58,7 +59,7 @@ public class essaisConnexion extends JPanel {
             this.id = id;
             identifiantTextField.setText("");
             passwordField.setText("");
-            this.mainWindow.setContentPane(new AcceuilMedecin().panel1);
+            this.mainWindow.setContentPane(new AcceuilMedecin(mainWindow).getPanel1());
             this.mainWindow.revalidate();
 
         } catch (Exception e) {
