@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) {
         GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
         java.sql.Date sqlDate = new java.sql.Date(calendar.getTime().getTime()); //récupére un objet date et on recupere le temps en long
+        System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
             Connexion connexion = new Connexion();
             connexion.Connection("toto", "1234abcd");
