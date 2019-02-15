@@ -1,5 +1,10 @@
 package nf;
 
+import com.mysql.cj.jdbc.Blob;
+
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -132,8 +137,6 @@ public class Connexion {
     }
 
     public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception{
-
-
         String query = " insert into personnelhospitalier (idp, nom,prenom, profession)"
                 + " values (?, ?, ?, ?)";
 
@@ -146,7 +149,38 @@ public class Connexion {
 
         // execute the preparedstatement
         preparedStmt.execute();
+    }
 
 
+
+    public void addImage (ArrayList<Image> listImage) throws Exception{
+        PreparedStatement statement = this.con.prepareStatement("INSERT INTO image (numArchivage, image) VALUES (?, ?)");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        for(Image image : listImage){
+            statement.setString(1, image.getNumArchivage());
+            ImageIO.write(image.getImage(), "jpg", baos);
+            byte[] imageInByte = baos.toByteArray();
+            com.mysql.cj.jdbc.Blob blob = new Blob(imageInByte, null);
+            statement.setBlob(2,  blob);
+            statement.execute();
+        }
+        baos.close();
+        statement.close();
+    }
+
+    public ArrayList<Image> getImage () throws Exception{
+        ArrayList<Image> listImage = new ArrayList<Image>();
+        Statement statement = this.con.createStatement();
+        String query = "select * from image";
+        ResultSet res = statement.executeQuery(query);
+        while (res.next()){
+            String numArchivage = res.getString("numArchivage");
+            byte[] imageData = res.getBytes("image");
+            Image image = new Image(numArchivage);
+            image.setImage( ImageIO.read(new ByteArrayInputStream(imageData)) );
+            listImage.add(image);
+        }
+        res.close();
+        return listImage;
     }
 }

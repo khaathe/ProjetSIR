@@ -5,7 +5,7 @@ import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class Image {
+public class Image {
     protected String numArchivage;
     private BufferedImage image;
     public static final int ROTATE_LEFT = -1;
@@ -27,6 +27,8 @@ public abstract class Image {
         contraste = 1;
         luminosite = 0;
     }
+
+    public String getNumArchivage (){ return  numArchivage;}
 
     public void setImage (BufferedImage image) {
         this.image = image;
