@@ -50,6 +50,18 @@ public class AcceuilMedecin extends JPanel {
             }
         });
 
+        jButtonAccesPACS.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                openPACS();
+            }
+        });
+        jButtonNumerisation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
     }
 
     public void openListePatients() {
@@ -74,6 +86,18 @@ public class AcceuilMedecin extends JPanel {
         }
 
 
+    }
+
+    public void openPACS() {
+        try {
+
+            this.mainWindow.setContentPane(new PACS(mainWindow).getGeneralPanel());
+            this.mainWindow.revalidate();
+            //System.out.println("et bah non en fait");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "interface indisponible pour le moment");
+        }
     }
 
     /**
