@@ -2,8 +2,6 @@ package nf;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
 
 public class Image {
     protected String numArchivage;

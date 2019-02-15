@@ -9,11 +9,27 @@ public class DMR {
     private List<Examen> listeExamen ;
 
     public DMR(String idPatient,String nom, String prenom, GregorianCalendar naissance, String numSS){
-        this.patient = new Patient(idPatient, nom, prenom, naissance, numSS);
-        listeExamen = new ArrayList<Examen>();
+        this.setPatient(new Patient(idPatient, nom, prenom, naissance, numSS));
+        setListeExamen(new ArrayList<Examen>());
     }
 
     public void ajouterExamen(Examen exam){
 
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public List<Examen> getListeExamen() {
+        return listeExamen;
+    }
+
+    public void setListeExamen(List<Examen> listeExamen) {
+        this.listeExamen = listeExamen;
     }
 }

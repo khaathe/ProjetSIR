@@ -13,6 +13,13 @@ public class CompteRendu {
         this.date=date;
     }
 
+    public String ajouterContenu(String text){
+
+        contenu+=text;
+        return contenu;
+
+    }
+
     public String getContenu() {
         return contenu;
     }
