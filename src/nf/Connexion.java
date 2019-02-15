@@ -102,7 +102,7 @@ public class Connexion {
 
         return e;
     }
-    
+
     public boolean addExamen(Examen exam, Patient patient) throws Exception {
         String query = " insert into examen (idexam, numarchivage,date, typeexam, idpatient, service)"
                 + " values (?, ?, ?, ?, ?, ?)";
@@ -197,17 +197,7 @@ public class Connexion {
 
     }
 
-<<<<<<< HEAD
-    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception {
-=======
-
     public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception{
-<<<<<<< HEAD
-=======
->>>>>>> 0edd378c240caf547cf617435793f327dba2b5fd
-
-
->>>>>>> 4d5804313799c766af4cfeb8cfc4a981e7b944e7
         String query = " insert into personnelhospitalier (idp, nom,prenom, profession)"
                 + " values (?, ?, ?, ?)";
 
