@@ -1,14 +1,17 @@
 package nf;
 
+import javax.naming.NamingException;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class SIR {
 
     private List<DMR> listeDMR;
-    //Connection connection;
+    Connexion connexion = new Connexion();
 
-    public SIR() {
+    public SIR() throws NamingException {
         setListeDMR(new ArrayList<DMR>());
     }
 
@@ -17,8 +20,8 @@ public class SIR {
     public void creationDMR(DMR dmr){
     }
 
-    public List<DMR> getListeDMR() {
-        return listeDMR;
+    public List<DMR> getListeDMR() throws Exception {
+        return connexion.getDMR();
     }
 
     public void setListeDMR(List<DMR> listeDMR) {

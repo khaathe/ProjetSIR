@@ -3,7 +3,7 @@ package ui.view;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import nf.Connexion;
-import ui.AcceuilMedecin;
+import ui.Acceuil;
 import ui.MainWindow;
 
 import javax.swing.*;
@@ -57,7 +57,7 @@ public class essaisConnexion extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                if(e.getKeyCode()==KeyEvent.VK_ENTER){
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     valider();
                 }
             }
@@ -66,7 +66,7 @@ public class essaisConnexion extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                if(e.getKeyCode()==KeyEvent.VK_ENTER){
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     valider();
                 }
             }
@@ -81,7 +81,7 @@ public class essaisConnexion extends JPanel {
             this.id = id;
             identifiantTextField.setText("");
             passwordField.setText("");
-            this.mainWindow.setContentPane(new AcceuilMedecin(mainWindow).getPanel1());
+            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
             this.mainWindow.revalidate();
 
         } catch (Exception e) {
@@ -254,6 +254,7 @@ public class essaisConnexion extends JPanel {
     private void $$$setupUI$$$() {
         connexionPanel = new JPanel();
         connexionPanel.setLayout(new BorderLayout(0, 0));
+        connexionPanel.setPreferredSize(new Dimension(600, 600));
         headPanel = new JPanel();
         headPanel.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         headPanel.setMaximumSize(new Dimension(400, 200));

@@ -1,11 +1,12 @@
 package nf;
 
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.util.GregorianCalendar;
 
-public class Patient {
+public class Patient extends JList {
     private String idPatient;
     private String nom;
     private String prenom;

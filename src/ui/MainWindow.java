@@ -3,6 +3,7 @@ package ui;
 import nf.SIR;
 import ui.view.essaisConnexion;
 
+import javax.naming.NamingException;
 import javax.swing.*;
 
 public class MainWindow extends JFrame {
@@ -12,9 +13,9 @@ public class MainWindow extends JFrame {
 
 
 
-    public MainWindow (){
+    public MainWindow () throws NamingException {
         super(title);
-        sir = new SIR();
+        setSir(new SIR());
 
 
 }
@@ -23,7 +24,12 @@ public class MainWindow extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run(){
-                MainWindow window = new MainWindow();
+                MainWindow window = null;
+                try {
+                    window = new MainWindow();
+                } catch (NamingException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("test");
                 window.setContentPane(new essaisConnexion(window).getConnexionPanel());
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,4 +42,11 @@ public class MainWindow extends JFrame {
 
     }
 
+    public SIR getSir() {
+        return sir;
+    }
+
+    public void setSir(SIR sir) {
+        this.sir = sir;
+    }
 }
