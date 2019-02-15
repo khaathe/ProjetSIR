@@ -97,6 +97,10 @@ public class Examen {
         this.service = service;
     }
 
+    public String getExamen(){
+        return idExam;
+    }
+
    /* public void ajouterCR(CompteRendu cr){
         Connexion.ajouterCR(cr);
     }

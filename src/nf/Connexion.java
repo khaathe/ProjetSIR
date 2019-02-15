@@ -39,15 +39,104 @@ public class Connexion {
         return con;
     }
 
-    public ArrayList<DMR> getDMR() {
-        return null;
+    public ArrayList<DMR> getDMR() throws Exception {
+
+
+        String query = "SELECT * FROM patient";
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        ArrayList<DMR> array = new ArrayList<>();
+        int i = 1;
+        String s = "";
+        while (rs.next()) {
+            s = rs.getString("idpatient");
+            array.add(new DMR(getPatient(Integer.toString(i)).getIdPatient(), getPatient(Integer.toString(i)).getNom(), getPatient(Integer.toString(i)).getPrenom(), getPatient(Integer.toString(i)).getNaissance(), getPatient(Integer.toString(i)).getNumSS()));
+            i++;
+
+        }
+
+
+
+        st.close();
+        return array;
+
     }
 
-    public ArrayList<Examen> getExamens(Patient ID) {
-        return null;
+    /*public ArrayList<Examen> getExamens(Patient ID) throws Exception{
+        String query = "SELECT * FROM examen where idpatient="+ID;
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        ArrayList<Examen> array = new ArrayList<>();
+        int i = 1;
+        String s = "";
+        while (rs.next()) {
+            s = rs.getString("idexam");
+            array.add(new Examen(getExamens(Integer.toString(i)).getIdPatient(), getPatient(Integer.toString(i)).getNom(), getPatient(Integer.toString(i)).getPrenom(), getPatient(Integer.toString(i)).getNaissance(), getPatient(Integer.toString(i)).getNumSS()));
+            i++;
+
+        }
+
+
+
+        st.close();
+        return array;
+
+    }*/
+
+
+    public Examen getExamen(String idExamen) throws Exception {
+        String query = "SELECT * FROM examen WHERE idexam=" + idExamen;
+
+        // create the java statement
+        Statement st = con.createStatement();
+
+        // execute the query, and get a java resultset
+        ResultSet rs = st.executeQuery(query);
+        String id = "";
+        String archiv = "";
+        TypeExamen typeexam = null;
+
+        GregorianCalendar date = new GregorianCalendar();
+        ServiceHosp service = null;
+        // iterate through the java resultset
+
+        String idp = "";
+        String nom = "";
+        String prenom = "";
+        Profession prof = null;
+
+        while (rs.next()) {
+            id = rs.getString("idExam");
+            archiv = rs.getString("numarchivage");
+            service = ServiceHosp.valueOf(rs.getString("service").toUpperCase());
+            idp = rs.getString("idpatient");
+            typeexam = TypeExamen.valueOf(rs.getString("typeexam").toUpperCase());
+
+            //pour recup une date
+            GregorianCalendar cal = new GregorianCalendar();
+            java.sql.Date sqlDate = rs.getDate("date");
+            GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
+            cal.setTimeInMillis(sqlDate.getTime());
+            date = cal;
+
+
+            //idp = rs.getString("idp");
+            //nom = rs.getString("nom");
+            //prenom = rs.getString("prenom");
+            //prof = Profession.valueOf(rs.getString("profession").toUpperCase());
+            // print the results
+            System.out.println(id + "  " + archiv + "  " + service + "  " + idp + "   " + typeexam);
+        }
+
+        st.close();
+        PersonnelServiceRadio p = new PersonnelServiceRadio(nom, prenom, id, prof);
+        Examen e = new Examen(id, date, archiv, typeexam, p, service);
+
+        return e;
     }
 
     public boolean addExamen(Examen exam, Patient patient) throws Exception {
+
         String query = " insert into examen (idexam, numarchivage,date, typeexam, idpatient, service)"
                 + " values (?, ?, ?, ?, ?, ?)";
 
@@ -61,18 +150,12 @@ public class Connexion {
         preparedStmt.setString(6, exam.getService().toString());
 
 
-            // execute the preparedstatement
-            preparedStmt.execute();
-            return true;
+        // execute the preparedstatement
+        preparedStmt.execute();
+        return true;
 
 
-
-
-        }
-
-
-
-
+    }
 
 
     public Patient getPatient(String idPatient) throws Exception {
@@ -91,7 +174,8 @@ public class Connexion {
         String nom = "";
         String prenom = "";
         String num = "";
-        GregorianCalendar date=new GregorianCalendar();
+        GregorianCalendar date = new GregorianCalendar();
+
         // iterate through the java resultset
         while (rs.next()) {
             id = rs.getString("idPatient");
@@ -99,50 +183,49 @@ public class Connexion {
             prenom = rs.getString("prenom");
 
             //pour recup une date
-            GregorianCalendar cal=new GregorianCalendar();
+            GregorianCalendar cal = new GregorianCalendar();
             java.sql.Date sqlDate = rs.getDate("date");
             GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
             cal.setTimeInMillis(sqlDate.getTime());
-            date=cal;
+            date = cal;
 
-            num=rs.getString("numss");
+            num = rs.getString("numss");
             // print the results
-            System.out.println(id+nom+prenom+date.get(GregorianCalendar.DAY_OF_MONTH)+"/"+(date.get(GregorianCalendar.MONTH)+1)+"/"+date.get(GregorianCalendar.YEAR)+"  "+num);
+           // System.out.println(id + nom + prenom + date.get(GregorianCalendar.DAY_OF_MONTH) + "/" + (date.get(GregorianCalendar.MONTH) + 1) + "/" + date.get(GregorianCalendar.YEAR) + "  " + num);
         }
 
         st.close();
-        Patient p=new Patient(id,nom,prenom,date,num);
+        Patient p = new Patient(id, nom, prenom, date, num);
         return p;
     }
 
 
+    public PersonnelServiceRadio getPersonnelServiceRadio(String idMed) throws Exception {
 
-    public PersonnelServiceRadio getPersonnelServiceRadio(String idMed) throws Exception{
 
+        String query = "SELECT * FROM personnelhospitalier WHERE idp=" + idMed;
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
 
-            String query = "SELECT * FROM personnelhospitalier WHERE idp="+idMed ;
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+        String id = "";
+        String nom = "";
+        String prenom = "";
+        Profession prof = null;
 
-            String id="";
-            String nom="";
-            String prenom="";
-            Profession prof=null;
-
-            while (rs.next()) {
-                id = rs.getString("idp");
-                nom = rs.getString("nom");
-                prenom = rs.getString("prenom");
-                prof = Profession.valueOf(rs.getString("profession").toUpperCase());
-            }
-            st.close();
-        PersonnelServiceRadio p=new PersonnelServiceRadio(nom,prenom,id,prof);
+        while (rs.next()) {
+            id = rs.getString("idp");
+            nom = rs.getString("nom");
+            prenom = rs.getString("prenom");
+            prof = Profession.valueOf(rs.getString("profession").toUpperCase());
+        }
+        st.close();
+        PersonnelServiceRadio p = new PersonnelServiceRadio(nom, prenom, id, prof);
         return p;
 
     }
 
 
-    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception{
+    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception {
 
 
         String query = " insert into personnelhospitalier (idp, nom,prenom, profession)"
@@ -158,6 +241,19 @@ public class Connexion {
         // execute the preparedstatement
         preparedStmt.execute();
 
+
+    }
+
+    public void addCompteRendu(Examen e, CompteRendu cr, PersonnelServiceRadio p) throws Exception {
+        String query = " insert into compte_rendu (idp, idexam,cr)"
+                + " values (?, ?, ?)";
+        PreparedStatement preparedStmt = con.prepareStatement(query);
+        preparedStmt.setString(1, p.getIdMedical());
+        preparedStmt.setString(2, e.getIdExam());
+        preparedStmt.setString(3, cr.getContenu());
+
+
+        preparedStmt.execute();
 
     }
 }

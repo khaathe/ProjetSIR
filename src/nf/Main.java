@@ -1,6 +1,7 @@
 package nf;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -8,17 +9,20 @@ import java.util.GregorianCalendar;
 public class Main {
 
     public static void main(String[] args) {
-        GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
-        java.sql.Date sqlDate = new java.sql.Date(calendar.getTime().getTime()); //récupére un objet date et on recupere le temps en long
-        System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
+        //GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
+        //java.sql.Date sqlDate = new java.sql.Date(calendar.getTime().getTime()); //récupére un objet date et on recupere le temps en long
+        //System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
             Connexion connexion = new Connexion();
+            connexion.connection("rupy","rupy123");
+            ArrayList <DMR> s;
 
-            connexion.connection("toto", "1234abcd");
-            connexion.Disconnection();
+            s=connexion.getDMR();
 
-            connexion.connection("rupy", "rupy123");
-            connexion.getPatient("1");
+            for (int i=0; i<s.size();i++){
+                System.out.println(s.get(i).getPatient().getPrenom());
+            }
+
 
 
         } catch (Exception e){
