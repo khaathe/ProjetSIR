@@ -62,7 +62,7 @@ public class Connexion {
 
     }
 
-    public ArrayList<Examen> getExamens(Patient ID) throws Exception{
+    /*public ArrayList<Examen> getExamens(Patient ID) throws Exception{
         String query = "SELECT * FROM examen where idpatient="+ID;
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query);
@@ -81,7 +81,7 @@ public class Connexion {
         st.close();
         return array;
 
-    }
+    }*/
 
 
     public Examen getExamen(String idExamen) throws Exception {
