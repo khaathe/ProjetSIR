@@ -40,7 +40,7 @@ public class essaisConnexion extends JPanel {
 
     public essaisConnexion(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-       //setSize(WIDTH, HEIGHT);
+        //setSize(WIDTH, HEIGHT);
         //setContentPane(connexionPanel);
         //setLocationRelativeTo(null);
         connexion = new Connexion();
@@ -73,10 +73,10 @@ public class essaisConnexion extends JPanel {
         });
     }
 
-   public void valider() {
+    public void valider() {
         try {
             String id = identifiantTextField.getText();
-            String mdp = passwordField.getText();
+            String mdp = new String(passwordField.getPassword());
             connexion.connection(id, mdp);
             this.id = id;
             identifiantTextField.setText("");
