@@ -39,17 +39,53 @@ public class Connexion {
         return con;
     }
 
-    public ArrayList<DMR> getDMR() {
-        return null;
+    public ArrayList<DMR> getDMR() throws Exception {
+
+
+        String query = "SELECT * FROM patient";
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        ArrayList<DMR> array = new ArrayList<>();
+        int i = 1;
+        String s = "";
+        while (rs.next()) {
+            s = rs.getString("idpatient");
+            array.add(new DMR(getPatient(Integer.toString(i)).getIdPatient(), getPatient(Integer.toString(i)).getNom(), getPatient(Integer.toString(i)).getPrenom(), getPatient(Integer.toString(i)).getNaissance(), getPatient(Integer.toString(i)).getNumSS()));
+            i++;
+
+        }
+
+
+
+        st.close();
+        return array;
+
     }
 
-    public ArrayList<Examen> getExamens(Patient ID) {
-        return null;
+    public ArrayList<Examen> getExamens(Patient ID) throws Exception{
+        String query = "SELECT * FROM examen where idpatient="+ID;
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        ArrayList<Examen> array = new ArrayList<>();
+        int i = 1;
+        String s = "";
+        while (rs.next()) {
+            s = rs.getString("idexam");
+            array.add(new Examen(getExamens(Integer.toString(i)).getIdPatient(), getPatient(Integer.toString(i)).getNom(), getPatient(Integer.toString(i)).getPrenom(), getPatient(Integer.toString(i)).getNaissance(), getPatient(Integer.toString(i)).getNumSS()));
+            i++;
+
+        }
+
+
+
+        st.close();
+        return array;
+
     }
 
 
-    public Examen getExamen(String idExamen) throws Exception{
-        String query = "SELECT * FROM examen WHERE idexam="+idExamen;
+    public Examen getExamen(String idExamen) throws Exception {
+        String query = "SELECT * FROM examen WHERE idexam=" + idExamen;
 
         // create the java statement
         Statement st = con.createStatement();
@@ -61,7 +97,7 @@ public class Connexion {
         TypeExamen typeexam = null;
 
         GregorianCalendar date = new GregorianCalendar();
-        ServiceHosp service=null;
+        ServiceHosp service = null;
         // iterate through the java resultset
 
         String idp = "";
@@ -89,16 +125,15 @@ public class Connexion {
             //prenom = rs.getString("prenom");
             //prof = Profession.valueOf(rs.getString("profession").toUpperCase());
             // print the results
-            System.out.println(id+"  "+archiv+"  "+service+"  "+idp+"   "+typeexam);
+            System.out.println(id + "  " + archiv + "  " + service + "  " + idp + "   " + typeexam);
         }
 
         st.close();
         PersonnelServiceRadio p = new PersonnelServiceRadio(nom, prenom, id, prof);
-        Examen e= new Examen(id,date,archiv,typeexam,p,service);
+        Examen e = new Examen(id, date, archiv, typeexam, p, service);
 
         return e;
     }
-    public void addExamen(Examen exam, Patient patient) throws Exception {
 
     public boolean addExamen(Examen exam, Patient patient) throws Exception {
 
@@ -115,18 +150,12 @@ public class Connexion {
         preparedStmt.setString(6, exam.getService().toString());
 
 
-            // execute the preparedstatement
-            preparedStmt.execute();
-            return true;
+        // execute the preparedstatement
+        preparedStmt.execute();
+        return true;
 
 
-
-
-        }
-
-
-
-
+    }
 
 
     public Patient getPatient(String idPatient) throws Exception {
@@ -162,7 +191,7 @@ public class Connexion {
 
             num = rs.getString("numss");
             // print the results
-            System.out.println(id + nom + prenom + date.get(GregorianCalendar.DAY_OF_MONTH) + "/" + (date.get(GregorianCalendar.MONTH) + 1) + "/" + date.get(GregorianCalendar.YEAR) + "  " + num);
+           // System.out.println(id + nom + prenom + date.get(GregorianCalendar.DAY_OF_MONTH) + "/" + (date.get(GregorianCalendar.MONTH) + 1) + "/" + date.get(GregorianCalendar.YEAR) + "  " + num);
         }
 
         st.close();
@@ -196,10 +225,7 @@ public class Connexion {
     }
 
 
-
-
-    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception{
-
+    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception {
 
 
         String query = " insert into personnelhospitalier (idp, nom,prenom, profession)"
@@ -218,7 +244,7 @@ public class Connexion {
 
     }
 
-    public void addCompteRendu(Examen e,CompteRendu cr,PersonnelServiceRadio p) throws Exception{
+    public void addCompteRendu(Examen e, CompteRendu cr, PersonnelServiceRadio p) throws Exception {
         String query = " insert into compte_rendu (idp, idexam,cr)"
                 + " values (?, ?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(query);
