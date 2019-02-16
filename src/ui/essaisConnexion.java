@@ -8,8 +8,7 @@ import ui.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 
 public class essaisConnexion extends JPanel {
@@ -30,18 +29,30 @@ public class essaisConnexion extends JPanel {
     private JPasswordField passwordField;
     private JButton connexionButton;
     private JPanel resultPanel;
-    private Connexion connexion;
-    private String id;
 
 
     public essaisConnexion(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-        connexion = new Connexion();
-        id = "";
         connexionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 valider();
+            }
+        });
+        identifiantTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if(e.getKeyChar() == KeyEvent.VK_ENTER)
+                    valider();
+            }
+        });
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if(e.getKeyChar() == KeyEvent.VK_ENTER)
+                    valider();
             }
         });
     }
@@ -49,17 +60,17 @@ public class essaisConnexion extends JPanel {
    public void valider() {
         try {
             String id = identifiantTextField.getText();
-            String mdp = passwordField.getText();
-            connexion.connection(id, mdp);
-            this.id = id;
-            identifiantTextField.setText("");
-            passwordField.setText("");
+            String mdp = new String(passwordField.getPassword());
+            mainWindow.getSir().connection(id, mdp);
+            mainWindow.setIdMed(id);
+            mainWindow.setResizable(true);
             this.mainWindow.setContentPane(new AcceuilMedecin(mainWindow).getPanel1());
             this.mainWindow.revalidate();
-
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erreur de connexion");
+            identifiantTextField.setText("");
+            passwordField.setText("");
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
