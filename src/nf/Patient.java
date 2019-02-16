@@ -8,16 +8,18 @@ public class Patient extends JList {
     private String nom;
     private String prenom;
     private GregorianCalendar naissance;
-    private String numSS;
+    private String idPR;
 
-    public Patient(){
+    public Patient(String idPR){
+        this.setIdPR(idPR);
     };
-    public Patient(String idPatient, String nom, String prenom, GregorianCalendar naissance, String numSS){
+    public Patient(){}
+    public Patient(String idPatient, String nom, String prenom, GregorianCalendar naissance, String idPR){
         this.setIdPatient(idPatient);
         this.setNom(nom);
         this.setPrenom(prenom);
         this.setNaissance(naissance);
-        this.setNumSS(numSS);
+        this.setIdPR(idPR);
     }
 
 
@@ -91,12 +93,13 @@ public class Patient extends JList {
         this.naissance = naissance;
     }
 
-    public String getNumSS() {
-        return numSS;
+    public String getIdPR(){return idPR;}
+
+    public void setIdPR(String idPR) {
+        this.idPR = idPR;
     }
 
-    public void setNumSS(String numSS) {
-        this.numSS = numSS;
-    }
+
+
 }
 

@@ -4,11 +4,13 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class ModificationImage extends JPanel {
-    public JPanel mainPanel;
+public class Image extends JPanel {
+    private JPanel mainPanel;
     private JSlider constrastSlider;
     private JSlider EcalircissementSlider;
     private JCheckBox inversionCheckBox;
@@ -30,6 +32,7 @@ public class ModificationImage extends JPanel {
     private JLabel leftRotationLabel;
     private JLabel imageCerveau;
     private MainWindow mainWindow;
+    private nf.Image picture;
 
 
     {
@@ -39,12 +42,22 @@ public class ModificationImage extends JPanel {
         //    $$$setupUI$$$();
     }
 
-    public ModificationImage() {
-        constrastSlider.addComponentListener(new ComponentAdapter() {
+    public Image(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
+
+        nameDoctorLabel.setText("Mr/Mme " + mainWindow.getIdMed());
+        getConstrastSlider().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
                 super.componentResized(componentEvent);
 
+
+            }
+        });
+        annulebutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                retourAcceuil();
             }
         });
     }
@@ -70,16 +83,16 @@ public class ModificationImage extends JPanel {
         headPanel.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(headPanel, BorderLayout.NORTH);
         nameDoctorLabel = new JLabel();
-        nameDoctorLabel.setText("Docteur MARTIN Frédéric");
-        headPanel.add(nameDoctorLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
+        nameDoctorLabel.setText("");
+        headPanel.add(nameDoctorLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
         iconeDoctorLabel = new JLabel();
         iconeDoctorLabel.setHorizontalAlignment(11);
         iconeDoctorLabel.setHorizontalTextPosition(11);
-        iconeDoctorLabel.setIcon(new ImageIcon(getClass().getResource("/iconeDocteur.png")));
+        iconeDoctorLabel.setIcon(new ImageIcon(getClass().getResource("/icone medecin.png")));
         iconeDoctorLabel.setText("");
-        headPanel.add(iconeDoctorLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        headPanel.add(iconeDoctorLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nbImageLabel = new JLabel();
-        nbImageLabel.setText("Numéro d'archivage : 11992847");
+        nbImageLabel.setText("Numéro d'archivage : ");
         headPanel.add(nbImageLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         westPanel = new JPanel();
         westPanel.setLayout(new GridLayoutManager(8, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -101,11 +114,9 @@ public class ModificationImage extends JPanel {
         rotationLabel.setText("Rotation :\n");
         rotationPanel.add(rotationLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rightRotationLabel = new JLabel();
-        rightRotationLabel.setIcon(new ImageIcon(getClass().getResource("/iconeRotationDroite.png")));
         rightRotationLabel.setText("");
         rotationPanel.add(rightRotationLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         leftRotationLabel = new JLabel();
-        leftRotationLabel.setIcon(new ImageIcon(getClass().getResource("/iconeRotationGauche.png")));
         leftRotationLabel.setText("");
         rotationPanel.add(leftRotationLabel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         inversionCheckBox = new JCheckBox();
@@ -149,8 +160,194 @@ public class ModificationImage extends JPanel {
         return mainPanel;
     }
 
+    public void retourAcceuil() {
+        try {
+            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+            this.mainWindow.revalidate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Problème d'interface");
+        }
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    public JSlider getConstrastSlider() {
+        return constrastSlider;
+    }
+
+    public void setConstrastSlider(JSlider constrastSlider) {
+        this.constrastSlider = constrastSlider;
+    }
+
+    public JSlider getEcalircissementSlider() {
+        return EcalircissementSlider;
+    }
+
+    public void setEcalircissementSlider(JSlider ecalircissementSlider) {
+        EcalircissementSlider = ecalircissementSlider;
+    }
+
+    public JCheckBox getInversionCheckBox() {
+        return inversionCheckBox;
+    }
+
+    public void setInversionCheckBox(JCheckBox inversionCheckBox) {
+        this.inversionCheckBox = inversionCheckBox;
+    }
+
+    public JCheckBox getRetournementCheckBox() {
+        return retournementCheckBox;
+    }
+
+    public void setRetournementCheckBox(JCheckBox retournementCheckBox) {
+        this.retournementCheckBox = retournementCheckBox;
+    }
+
+    public JTextArea getAnnotationTextArea() {
+        return annotationTextArea;
+    }
+
+    public void setAnnotationTextArea(JTextArea annotationTextArea) {
+        this.annotationTextArea = annotationTextArea;
+    }
+
+    public JButton getImpressionbutton() {
+        return impressionbutton;
+    }
+
+    public void setImpressionbutton(JButton impressionbutton) {
+        this.impressionbutton = impressionbutton;
+    }
+
+    public JButton getValidatebutton() {
+        return validatebutton;
+    }
+
+    public void setValidatebutton(JButton validatebutton) {
+        this.validatebutton = validatebutton;
+    }
+
+    public JButton getAnnulebutton() {
+        return annulebutton;
+    }
+
+    public void setAnnulebutton(JButton annulebutton) {
+        this.annulebutton = annulebutton;
+    }
+
+    public JPanel getHeadPanel() {
+        return headPanel;
+    }
+
+    public void setHeadPanel(JPanel headPanel) {
+        this.headPanel = headPanel;
+    }
+
+    public JLabel getNameDoctorLabel() {
+        return nameDoctorLabel;
+    }
+
+    public void setNameDoctorLabel(JLabel nameDoctorLabel) {
+        this.nameDoctorLabel = nameDoctorLabel;
+    }
+
+    public JLabel getIconeDoctorLabel() {
+        return iconeDoctorLabel;
+    }
+
+    public void setIconeDoctorLabel(JLabel iconeDoctorLabel) {
+        this.iconeDoctorLabel = iconeDoctorLabel;
+    }
+
+    public JLabel getNbImageLabel() {
+        return nbImageLabel;
+    }
+
+    public void setNbImageLabel(JLabel nbImageLabel) {
+        this.nbImageLabel = nbImageLabel;
+    }
+
+    public JPanel getWestPanel() {
+        return westPanel;
+    }
+
+    public void setWestPanel(JPanel westPanel) {
+        this.westPanel = westPanel;
+    }
+
+    public JLabel getContrasteLabel() {
+        return contrasteLabel;
+    }
+
+    public void setContrasteLabel(JLabel contrasteLabel) {
+        this.contrasteLabel = contrasteLabel;
+    }
+
+    public JLabel getEclaircissementLabel() {
+        return eclaircissementLabel;
+    }
+
+    public void setEclaircissementLabel(JLabel eclaircissementLabel) {
+        this.eclaircissementLabel = eclaircissementLabel;
+    }
+
+    public JPanel getRotationPanel() {
+        return rotationPanel;
+    }
+
+    public void setRotationPanel(JPanel rotationPanel) {
+        this.rotationPanel = rotationPanel;
+    }
+
+    public JLabel getRotationLabel() {
+        return rotationLabel;
+    }
+
+    public void setRotationLabel(JLabel rotationLabel) {
+        this.rotationLabel = rotationLabel;
+    }
+
+    public JLabel getRightRotationLabel() {
+        return rightRotationLabel;
+    }
+
+    public void setRightRotationLabel(JLabel rightRotationLabel) {
+        this.rightRotationLabel = rightRotationLabel;
+    }
+
+    public JLabel getLeftRotationLabel() {
+        return leftRotationLabel;
+    }
+
+    public void setLeftRotationLabel(JLabel leftRotationLabel) {
+        this.leftRotationLabel = leftRotationLabel;
+    }
+
+    public JLabel getImageCerveau() {
+        return imageCerveau;
+    }
+
+    public void setImageCerveau(JLabel imageCerveau) {
+        this.imageCerveau = imageCerveau;
+    }
+
+    public MainWindow getMainWindow() {
+        return mainWindow;
+    }
+
+    public void setMainWindow(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
     }
 
     /**

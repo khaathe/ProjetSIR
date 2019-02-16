@@ -13,12 +13,14 @@ public class Examen {
     private List<Image> images;
     private PersonnelServiceRadio praticien;
     private ServiceHosp service;
+    private String idPR;
 
 
-    public Examen(String idExam, GregorianCalendar date, String numArchivage, TypeExamen typeExamen, PersonnelServiceRadio praticien, ServiceHosp service){
+    public Examen(String idExam, GregorianCalendar date, String numArchivage, String idPR, TypeExamen typeExamen, PersonnelServiceRadio praticien, ServiceHosp service){
         this.setIdExam(idExam);
         this.setDate(date);
         this.setNumArchivage(numArchivage);
+        this.idPR=idPR;
         images = new ArrayList<Image>();
         this.setCr(null);
         this.setTypeExamen(typeExamen);
@@ -99,6 +101,14 @@ public class Examen {
 
     public String getExamen(){
         return idExam;
+    }
+
+    public String getIdPR() {
+        return idPR;
+    }
+
+    public void setIdPR(String idPR) {
+        this.idPR = idPR;
     }
 
    /* public void ajouterCR(CompteRendu cr){

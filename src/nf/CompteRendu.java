@@ -1,26 +1,21 @@
 package nf;
 
-import java.util.GregorianCalendar;
-
 public class CompteRendu {
-    private String contenu;
+    private String compteRendu;
+    private String idExam;
 
-    public CompteRendu(String contenu){
-        this.contenu= contenu;
+
+    public CompteRendu(String compteRendu, String idExam){
+        this.idExam=idExam;
+        this.compteRendu= compteRendu;
     }
 
-    public String ajouterContenu(String text){
-        contenu+=text;
-        return contenu;
-
+    public String getIdExam() {
+        return idExam;
     }
 
-    public String getContenu() {
-        return contenu;
-    }
-
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public String getCompteRendu() {
+        return compteRendu;
     }
 
 }

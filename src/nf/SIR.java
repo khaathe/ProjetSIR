@@ -27,7 +27,7 @@ public class SIR {
     public void deconnection () throws Exception{
         conn.Disconnection();
     }
-    
+
 //créer un nouveau DMR, implique d'associer un patient et un examen. On vérifie d'abord qu'un DMR pour ce patient n'est pas déjà présent dans le SIR
     public void creationDMR(DMR dmr){
 

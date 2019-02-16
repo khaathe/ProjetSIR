@@ -54,8 +54,8 @@ public class Connexion {
         int i = 1;
         String s = "";
         while (rs.next()) {
-            s = rs.getString("idpatient");
-            array.add(new DMR(getPatient(Integer.toString(i)).getIdPatient(), getPatient(Integer.toString(i)).getNom(), getPatient(Integer.toString(i)).getPrenom(), getPatient(Integer.toString(i)).getNaissance(), getPatient(Integer.toString(i)).getNumSS()));
+            s = rs.getString("idP");
+            array.add(new DMR(getPatient(Integer.toString(i)).getIdPatient(), getPatient(Integer.toString(i)).getNom(), getPatient(Integer.toString(i)).getPrenom(), getPatient(Integer.toString(i)).getNaissance(), getPatient(Integer.toString(i)).getIdPR()));
             i++;
 
         }
@@ -77,7 +77,7 @@ public class Connexion {
         int i = 1;
         String s = "";
         while (rs.next()) {
-            s = rs.getString("idp");
+            s = rs.getString("idPersonnel");
             array.add(new PersonnelServiceRadio(getPersonnelServiceRadio(Integer.toString(i)).getIdMedical(), getPersonnelServiceRadio(Integer.toString(i)).getNom(), getPersonnelServiceRadio(Integer.toString(i)).getPrenom(), getPersonnelServiceRadio(Integer.toString(i)).getProfession()));
             i++;
 
@@ -113,7 +113,7 @@ public class Connexion {
 
 
     public Examen getExamen(String idExamen) throws Exception {
-        String query = "SELECT * FROM examen WHERE idexam=" + idExamen;
+        String query = "SELECT * FROM examen WHERE idExamen=" + idExamen;
 
         // create the java statement
         Statement st = con.createStatement();
@@ -128,17 +128,17 @@ public class Connexion {
         ServiceHosp service = null;
         // iterate through the java resultset
 
-        String idp = "";
+        String idpr = "";
         String nom = "";
         String prenom = "";
         Profession prof = null;
 
         while (rs.next()) {
-            id = rs.getString("idExam");
-            archiv = rs.getString("numarchivage");
+            id = rs.getString("idExamen");
+            archiv = rs.getString("numArchivage");
             service = ServiceHosp.valueOf(rs.getString("service").toUpperCase());
-            idp = rs.getString("idpatient");
-            typeexam = TypeExamen.valueOf(rs.getString("typeexam").toUpperCase());
+            idpr = rs.getString("idPR");
+            typeexam = TypeExamen.valueOf(rs.getString("typeExamen").toUpperCase());
 
             //pour recup une date
             GregorianCalendar cal = new GregorianCalendar();
@@ -153,12 +153,12 @@ public class Connexion {
             //prenom = rs.getString("prenom");
             //prof = Profession.valueOf(rs.getString("profession").toUpperCase());
             // print the results
-            System.out.println(id + "  " + archiv + "  " + service + "  " + idp + "   " + typeexam);
+            System.out.println(id + "  " + archiv + "  " + service + "  " + idpr + "   " + typeexam);
         }
 
         st.close();
         PersonnelServiceRadio p = new PersonnelServiceRadio(nom, prenom, id, prof);
-        Examen e = new Examen(id, date, archiv, typeexam, p, service);
+        Examen e = new Examen(id, date, archiv, idpr, typeexam, p, service);
 
         return e;
     }
@@ -166,17 +166,19 @@ public class Connexion {
 
 
     public boolean addExamen(Examen exam, Patient patient) throws Exception {
-        String query = " insert into examen (idexam, numarchivage,date, typeexam, idpatient, service)"
-                + " values (?, ?, ?, ?, ?, ?)";
+        String query = " insert into examen (idExamen, date,numArchivage, idPR, typeExamen, service, idPersonnel)"
+                + " values (?, ?, ?, ?, ?, ?, ?)";
 
         // create the mysql insert preparedstatement
         PreparedStatement preparedStmt = con.prepareStatement(query);
         preparedStmt.setString(1, exam.getIdExam());
-        preparedStmt.setString(2, exam.getNumArchivage());
-        preparedStmt.setDate(3, new Date(System.currentTimeMillis()));
-        preparedStmt.setString(4, exam.getTypeExamen().toString());
-        preparedStmt.setString(5, patient.getIdPatient());
+        preparedStmt.setDate(2, new Date(System.currentTimeMillis()));
+        preparedStmt.setString(3, exam.getNumArchivage());
+        preparedStmt.setString(4, exam.getIdPR());
+        preparedStmt.setString(5, exam.getTypeExamen().toString());
         preparedStmt.setString(6, exam.getService().toString());
+        preparedStmt.setString(7, exam.getPraticien().getIdMedical());
+
 
 
         // execute the preparedstatement
@@ -192,7 +194,7 @@ public class Connexion {
         //Connexion conn = con.getCon();
         // our SQL SELECT query.
         // if you only need a few columns, specify them by name instead of using "*"
-        String query = "SELECT * FROM patient WHERE idPatient=" + idPatient;
+        String query = "SELECT * FROM patient WHERE idP=" + idPatient;
 
         // create the java statement
         Statement st = con.createStatement();
@@ -207,7 +209,7 @@ public class Connexion {
 
         // iterate through the java resultset
         while (rs.next()) {
-            id = rs.getString("idPatient");
+            id = rs.getString("idP");
             nom = rs.getString("nom");
             prenom = rs.getString("prenom");
 
@@ -218,7 +220,7 @@ public class Connexion {
             cal.setTimeInMillis(sqlDate.getTime());
             date = cal;
 
-            num = rs.getString("numss");
+            num = rs.getString("idPR");
             // print the results
            // System.out.println(id + nom + prenom + date.get(GregorianCalendar.DAY_OF_MONTH) + "/" + (date.get(GregorianCalendar.MONTH) + 1) + "/" + date.get(GregorianCalendar.YEAR) + "  " + num);
         }
@@ -231,7 +233,7 @@ public class Connexion {
 
     public PersonnelServiceRadio getPersonnelServiceRadio(String idMed) throws Exception {
 
-        String query = "SELECT * FROM personnelhospitalier WHERE idp=" + idMed;
+        String query = "SELECT * FROM personnelhospitalier WHERE idPersonnel=" + idMed;
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(query);
 
@@ -241,7 +243,7 @@ public class Connexion {
         Profession prof = null;
 
         while (rs.next()) {
-            id = rs.getString("idp");
+            id = rs.getString("idPersonnel");
             nom = rs.getString("nom");
             prenom = rs.getString("prenom");
             prof = Profession.valueOf(rs.getString("profession").toUpperCase());
@@ -253,20 +255,25 @@ public class Connexion {
     }
 
     public void addPatient(Patient patient) throws Exception{
-        String query = "insert into personnelhospitalier (idpatient, nom, prenom, date, numss)"
+        String query = "insert into patient (idPR, idP, date, nom, prenom)"
                 + "values (?, ?, ?, ?, ?)";
 
         //create the mysql insert preparedstatement
+
         PreparedStatement preparedStatement = con.prepareStatement(query);
-        preparedStatement.setString(1,patient.getIdPatient());
-        preparedStatement.setString(2, patient.getNom());
-        preparedStatement.setString(3, patient.getPrenom());
-        preparedStatement.setString(4, patient.getNaissance().toString());
-        preparedStatement.setString(5,patient.getNumSS());
+        preparedStatement.setString(1,patient.getIdPR());
+        preparedStatement.setString(2,patient.getIdPatient());
+        preparedStatement.setString(4, patient.getNom());
+        preparedStatement.setString(5, patient.getPrenom());
+        preparedStatement.setDate(3, new Date(System.currentTimeMillis()));
+
+        preparedStatement.execute();
+
+
     }
 
     public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception {
-        String query = " insert into personnelhospitalier (idp, nom,prenom, profession)"
+        String query = " insert into personnelhospitalier (idPersonnel, nom,prenom, profession)"
                 + " values (?, ?, ?, ?)";
 
         // create the mysql insert preparedstatement
@@ -314,12 +321,11 @@ public class Connexion {
     }
 
     public void addCompteRendu(Examen e, CompteRendu cr, PersonnelServiceRadio p) throws Exception {
-        String query = " insert into compte_rendu (idp, idexam,cr)"
-                + " values (?, ?, ?)";
+        String query = " insert into compterendu (idExamen, compteRendu)"
+                + " values (?, ?)";
         PreparedStatement preparedStmt = con.prepareStatement(query);
-        preparedStmt.setString(1, p.getIdMedical());
-        preparedStmt.setString(2, e.getIdExam());
-        preparedStmt.setString(3, cr.getContenu());
+        preparedStmt.setString(1, cr.getIdExam());
+        preparedStmt.setString(2, cr.getCompteRendu());
 
 
         preparedStmt.execute();
