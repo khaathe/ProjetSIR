@@ -67,6 +67,29 @@ public class Connexion {
 
     }
 
+    public ArrayList<PersonnelServiceRadio> getListePersonnel() throws Exception {
+
+
+        String query = "SELECT * FROM personnelhospitalier";
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        ArrayList<PersonnelServiceRadio> array = new ArrayList<>();
+        int i = 1;
+        String s = "";
+        while (rs.next()) {
+            s = rs.getString("idp");
+            array.add(new PersonnelServiceRadio(getPersonnelServiceRadio(Integer.toString(i)).getIdMedical(), getPersonnelServiceRadio(Integer.toString(i)).getNom(), getPersonnelServiceRadio(Integer.toString(i)).getPrenom(), getPersonnelServiceRadio(Integer.toString(i)).getProfession()));
+            i++;
+
+        }
+
+
+
+        st.close();
+        return array;
+
+    }
+
     /*public ArrayList<Examen> getExamens(Patient ID) throws Exception{
         String query = "SELECT * FROM examen where idpatient="+ID;
         Statement st = con.createStatement();

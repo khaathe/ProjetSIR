@@ -1,8 +1,6 @@
 package nf;
 
-import javax.naming.NamingException;
 import java.util.ArrayList;
-import java.util.List;
 
 
 
@@ -23,12 +21,15 @@ public class SIR {
     public void connection (String id, String mdp) throws Exception{
         conn.connection(id, mdp);
         listeDMR = conn.getDMR();
+        listePersonnel = conn.getListePersonnel();
 
     }
 //créer un nouveau DMR, implique d'associer un patient et un examen. On vérifie d'abord qu'un DMR pour ce patient n'est pas déjà présent dans le SIR
     public void creationDMR(DMR dmr){
 
     }
+
+
 
 /*
     public List<DMR> getListeDMR() throws Exception {
@@ -44,6 +45,13 @@ public class SIR {
 
     public void setListeDMR(ArrayList<DMR> listeDMR) {
         this.listeDMR = listeDMR;
+    }
+
+    public ArrayList<PersonnelServiceRadio> getListePersonnel(){
+        return  listePersonnel;
+    }
+    public void setListePersonnel(ArrayList<PersonnelServiceRadio> listePersonnel){
+        this.listePersonnel= listePersonnel;
     }
 
     /*public String openDMR(DMR dmr){

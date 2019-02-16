@@ -1,7 +1,6 @@
 package nf;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class Main {
 
@@ -13,6 +12,7 @@ public class Main {
             Connexion connexion = new Connexion();
             connexion.connection("robert","joke");
             ArrayList <DMR> s;
+            ArrayList <PersonnelServiceRadio> psr;
 
            /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
                     "57",
@@ -21,7 +21,7 @@ public class Main {
                     Profession.PH
                     );
 */
-            PersonnelServiceRadio personnelServiceRadio2 = new PersonnelServiceRadio(
+            /*PersonnelServiceRadio personnelServiceRadio2 = new PersonnelServiceRadio(
                     "Robert",
                     "Amandine",
                     "robert",
@@ -33,19 +33,23 @@ public class Main {
                     "Margaux",
                     new GregorianCalendar(1997, 8,11),
                     "08719859265"
-            );
+            );*/
 
-            connexion.addPatient(patient1);
+            //connexion.addPatient(patient1);
            // connexion.addPersonnelServiceRadio(personnelServiceRadio);
-            connexion.addPersonnelServiceRadio(personnelServiceRadio2);
+           //connexion.addPersonnelServiceRadio(personnelServiceRadio2);
 
+            psr = connexion.getListePersonnel();
             s=connexion.getDMR();
 
             for (int i=0; i<s.size();i++){
                 System.out.println(s.get(i).getPatient().getPrenom());
             }
 
-
+            //System.out.println(psr);
+            for(int i =0; i<psr.size();i++){
+                System.out.println(psr.get(i).getNom());
+            }
 
         } catch (Exception e){
             e.printStackTrace();
