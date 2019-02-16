@@ -2,17 +2,19 @@ package ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import nf.Connexion;
-import nf.DMR;
 import nf.Patient;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 
 public class Acceuil extends JPanel {
-    private JPanel mainPanel;
-    private JList<DMR> list1 = new JList<>();
+    public JPanel mainPanel;
+    private JList<String> list1 = new JList<>();
     private JButton ajoutExamButton;
     private JButton accesImageButton;
     private JButton CRButton;
@@ -25,14 +27,16 @@ public class Acceuil extends JPanel {
     private JLabel nameLabel;
     private JLabel iconLabel;
     private JLabel dateLabel;
+    private JButton button2;
     private MainWindow mainWindow;
     private Connexion connexion;
-    private DefaultListModel<DMR> model = new DefaultListModel<>();
+    private DefaultListModel<String> model = new DefaultListModel<>();
     private String id;
     private String nom;
     private String prenom;
     private GregorianCalendar daten;
     private String numss;
+    private essaisConnexion ec;
     // private SIR sir;
 
 
@@ -40,17 +44,36 @@ public class Acceuil extends JPanel {
         this.mainWindow = mainWindow;
         id = "";
 
+
         // sir = new SIR();
-        connexion = new Connexion();
+        //connexion = new Connexion();
         list1.setModel(model);
         //model.addElement(new DMR("2", "Robert", "Amandine", new GregorianCalendar(), "17264187463"));
-        /*for (int i = 0; i < connexion.getDMR().size(); i++) {
-            model.addElement(connexion.getDMR().get(i));
-        }*/
         for (int i = 0; i < mainWindow.getSir().getListeDMR().size(); i++) {
-            model.addElement(mainWindow.getSir().getListeDMR().get(i));
+            model.addElement(mainWindow.getSir().getListeDMR().get(i).getPatient().getNom() + " " + mainWindow.getSir().getListeDMR().get(i).getPatient().getPrenom());
         }
 
+        //nameLabel.setText("Mr/Mme " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getNom() + " " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getPrenom());
+      //  nameLabel.setText(mainWindow.getSir().getConn().getPersonnelServiceRadio(ec.getId()).getNom());
+        ajoutExamButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                openAjouterPatient();
+            }
+        });
+
+
+    }
+
+    public void openAjouterPatient() {
+        try {
+            this.mainWindow.setContentPane(new AjoutExamen(mainWindow).getGeneralPanel());
+            this.mainWindow.revalidate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Problème d'interface");
+        }
     }
 
     public JPanel getMainPanel() {
@@ -147,7 +170,11 @@ public class Acceuil extends JPanel {
     }
 
     public void setNameLabel(JLabel nameLabel) {
-        this.nameLabel = nameLabel;
+        /*try {
+            //this.nameLabel = mainWindow.getSir().getConn().getPersonnelServiceRadio(ec.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
 
     public JLabel getIconLabel() {
@@ -206,14 +233,17 @@ public class Acceuil extends JPanel {
         dateLabel.setText("");
         northPanel.add(dateLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         northPanel.add(panel1, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         admissionButton = new JButton();
+        admissionButton.setLabel("Admission Patient");
         admissionButton.setText("Admission Patient");
         panel1.add(admissionButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        button5 = new JButton();
-        button5.setText("Button");
-        panel1.add(button5, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        panel1.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        button2 = new JButton();
+        button2.setText("Button");
+        panel1.add(button2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         westPanel = new JPanel();
         westPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(westPanel, BorderLayout.WEST);
@@ -222,20 +252,21 @@ public class Acceuil extends JPanel {
         southPanel = new JPanel();
         southPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(southPanel, BorderLayout.SOUTH);
-        ajoutExamButton = new JButton();
-        ajoutExamButton.setText("Ajouter un examen");
-        southPanel.add(ajoutExamButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         accesImageButton = new JButton();
         accesImageButton.setText("Accès images");
         southPanel.add(accesImageButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         CRButton = new JButton();
         CRButton.setText("Accès CR");
         southPanel.add(CRButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        ajoutExamButton = new JButton();
+        ajoutExamButton.setText("Ajouter un examen");
+        southPanel.add(ajoutExamButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         centrePanel = new JPanel();
         centrePanel.setLayout(new BorderLayout(0, 0));
         mainPanel.add(centrePanel, BorderLayout.CENTER);
         final JLabel label1 = new JLabel();
         label1.setIcon(new ImageIcon(getClass().getResource("/PrincetonHealthCenterpicture.png")));
+        label1.setPreferredSize(new Dimension(400, 400));
         label1.setText("");
         centrePanel.add(label1, BorderLayout.CENTER);
     }

@@ -3,7 +3,7 @@ package nf;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 
-public abstract class Image {
+public class Image {
     protected String numArchivage;
     private BufferedImage image;
     public static final int ROTATE_LEFT = -1;
@@ -26,8 +26,7 @@ public abstract class Image {
         luminosite = 0;
     }
 
-    protected Image() {
-    }
+    public String getNumArchivage (){ return  numArchivage;}
 
     public void setImage (BufferedImage image) {
         this.image = image;

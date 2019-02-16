@@ -1,7 +1,6 @@
 package ui;
 
 import nf.SIR;
-import ui.view.essaisConnexion;
 
 import javax.naming.NamingException;
 import javax.swing.*;
