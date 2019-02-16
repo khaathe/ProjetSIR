@@ -65,7 +65,7 @@ public class essaisConnexion extends JPanel {
             mainWindow.getSir().connection(id, mdp);
             mainWindow.setIdMed(id);
             mainWindow.setResizable(true);
-            this.mainWindow.setContentPane(new AcceuilMedecin(mainWindow).getPanel1());
+            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();
