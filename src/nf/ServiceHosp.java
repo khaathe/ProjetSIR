@@ -1,6 +1,7 @@
 package nf;
 
 public  enum ServiceHosp {
+    UNKNOWN("inconu"),
     CARDIOLOGIE("cardiologie"),
     UROLOGIE("urologie"),
     GENICO_OBSTETRIE("genico_obstetrie"),

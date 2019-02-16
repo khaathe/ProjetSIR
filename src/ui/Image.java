@@ -33,6 +33,7 @@ public class Image extends JPanel {
     private JLabel imageCerveau;
     private MainWindow mainWindow;
     private nf.Image picture;
+    private Acceuil acceuil;
 
 
     {
@@ -42,9 +43,9 @@ public class Image extends JPanel {
         //    $$$setupUI$$$();
     }
 
-    public Image(MainWindow mainWindow) {
+    public Image(MainWindow mainWindow, Acceuil acceuil) {
         this.mainWindow = mainWindow;
-
+        this.acceuil = acceuil;
         nameDoctorLabel.setText("Mr/Mme " + mainWindow.getIdMed());
         getConstrastSlider().addComponentListener(new ComponentAdapter() {
             @Override
@@ -162,7 +163,7 @@ public class Image extends JPanel {
 
     public void retourAcceuil() {
         try {
-            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+            this.mainWindow.setContentPane(acceuil.getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();

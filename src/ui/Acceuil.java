@@ -4,18 +4,23 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import nf.Connexion;
+import nf.DMR;
 import nf.Patient;
+import nf.Profession;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.GregorianCalendar;
 
 public class Acceuil extends JPanel {
     public JPanel mainPanel;
-    private JList<String> list1 = new JList<>();
+    private JList list;
+    private DefaultListModel model;
     private JButton ajoutExamButton;
     private JButton accesImageButton;
     private JButton CRButton;
@@ -32,7 +37,6 @@ public class Acceuil extends JPanel {
     private JButton numeriserButton;
     private MainWindow mainWindow;
     private Connexion connexion;
-    private DefaultListModel<String> model = new DefaultListModel<>();
 
     private String id;
     private String nom;
@@ -40,25 +44,23 @@ public class Acceuil extends JPanel {
     private GregorianCalendar daten;
     private String numss;
     private essaisConnexion ec;
-    // private SIR sir;
 
 
     public Acceuil(MainWindow mainWindow) throws Exception {
         this.mainWindow = mainWindow;
         id = "";
+        list = new JList();
+        model = new DefaultListModel();
 
+        for(DMR d : mainWindow.getSir().getListeDMR() ) {
+            model.addElement(d);
+        }
 
-        // sir = new SIR();
-        //connexion = new Connexion();
         $$$setupUI$$$();
 
-        //model.addElement(new DMR("2", "Robert", "Amandine", new GregorianCalendar(), "17264187463"));
-        for (int i = 0; i < mainWindow.getSir().getConn().getDMR().size(); i++) {
-            model.addElement(mainWindow.getSir().getConn().getDMR().get(i).getPatient().getNom() + " " + mainWindow.getSir().getConn().getDMR().get(i).getPatient().getPrenom());
-        }
-        list1.setModel(model);
-        //nameLabel.setText("Mr/Mme " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getNom() + " " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getPrenom());
-        nameLabel.setText("Mr/Mme " + mainWindow.getIdMed());
+        list.setModel(model);
+
+        nameLabel.setText("Mr/Mme " + mainWindow.getSir().getPersonneConnecte().getNom() + " " + mainWindow.getSir().getPersonneConnecte().getNom());
         ajoutExamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -66,18 +68,26 @@ public class Acceuil extends JPanel {
             }
         });
 
-
         accesImageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 openImage();
             }
         });
-        for (int i = 0; i < mainWindow.getSir().getConn().getListePersonnel().size(); i++) {
-            System.out.println(mainWindow.getSir().getConn().getListePersonnel().get(i).getProfession());
-        }
 
-        /*switch (mainWindow.getSir().getConn().getPersonnelServiceRadio(mainWindow.getIdMed()).getProfession()) {
+        list.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                displayPatient();
+            }
+        });
+        initDifferentialAccess();
+    }
+
+
+    public void initDifferentialAccess () {
+        switch ( mainWindow.getSir().getPersonneConnecte().getProfession() ) {
             case PH:
                 admissionButton.setVisible(false);
                 button2.setVisible(false);
@@ -93,14 +103,12 @@ public class Acceuil extends JPanel {
                 numeriserButton.setVisible(false);
                 accesImageButton.setVisible(false);
                 break;
-        }*/
-
-
+        }
     }
 
     public void openImage() {
         try {
-            this.mainWindow.setContentPane(new Image(mainWindow).getMainPanel());
+            this.mainWindow.setContentPane(new Image(mainWindow, this).getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,13 +118,18 @@ public class Acceuil extends JPanel {
 
     public void openAjouterPatient() {
         try {
-            this.mainWindow.setContentPane(new AjoutExamen(mainWindow).getGeneralPanel());
+            this.mainWindow.setContentPane(new AjoutExamen(mainWindow, this).getGeneralPanel());
             this.mainWindow.revalidate();
 
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Problème d'interface");
         }
+    }
+
+    public void displayPatient (){
+        DMR d = (DMR) list.getSelectedValue();
+        System.out.println("je clique sur " + d.getPatient().getNom() + " " + d.getPatient().getPrenom());
     }
 
     public JPanel getMainPanel() {
@@ -128,11 +141,11 @@ public class Acceuil extends JPanel {
     }
 
     public JList getList1() {
-        return list1;
+        return list;
     }
 
     public void setList1(JList list1) {
-        this.list1 = list1;
+        this.list = list1;
 
     }
 
@@ -282,8 +295,7 @@ public class Acceuil extends JPanel {
         westPanel = new JPanel();
         westPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(westPanel, BorderLayout.WEST);
-        list1 = new Patient();
-        westPanel.add(list1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        westPanel.add(list, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         southPanel = new JPanel();
         southPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(southPanel, BorderLayout.SOUTH);

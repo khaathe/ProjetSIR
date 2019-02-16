@@ -45,17 +45,18 @@ public class AjoutExamen extends JPanel {
     private PersonnelServiceRadio ps;
     private TypeExamen tp;
     private ServiceHosp sh;
+    private Acceuil accueil;
 
 
-    public AjoutExamen(MainWindow mainWindow) {
+    public AjoutExamen(MainWindow mainWindow, Acceuil acceuil) {
         this.mainWindow = mainWindow;
-
+        this.accueil = acceuil;
 
         li = null;
         numArchiv = "957635";
         //idPersonnel= "0917983967";
         idPR = "08719859265";
-        Patient patient = new Patient(idPR);
+        Patient patient = new Patient();
 
         //examen.setNumArchivage(numArchiv);
 
@@ -95,13 +96,13 @@ public class AjoutExamen extends JPanel {
         });
 
 
-        creationExam();
+        //creationExam();
         ajouterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    //mainWindow.getSir().getConn().addCompteRendu(examen, cr, ps);
-                    mainWindow.getSir().getConn().addExamen(examen, patient);
+                    mainWindow.getSir().getConn().addCompteRendu(examen, cr, ps);
+                    mainWindow.getSir().getConn().addExamen(examen);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -120,35 +121,27 @@ public class AjoutExamen extends JPanel {
     }
 
 
-    public void creationExam() {
+    /*public void creationExam() {
         examen = new Examen("75630202", calendar, numArchiv, idPR, tp, ps, sh);
-    }
+    }*/
 
     public void remplissageComboTypeExam() {
-
-        model.addElement(TypeExamen.ANGIOGRAPHIE);
-        model.addElement(TypeExamen.ECHOENDOSCOPIE);
-        model.addElement(TypeExamen.ECHOGRAPHIE);
-        model.addElement(TypeExamen.MAMMOGRAPHIE);
-        model.addElement(TypeExamen.RADIOGRAPHIE);
+        for(TypeExamen typeExamen : TypeExamen.values()){
+            model.addElement(typeExamen);
+        }
     }
 
 
     public void remplissageComboService() {
-
-        model2.addElement(ServiceHosp.CARDIOLOGIE);
-        model2.addElement(ServiceHosp.DERMATOLOGIE);
-        model2.addElement(ServiceHosp.NEUROLOGIE);
-        model2.addElement(ServiceHosp.PNEUMOLOGIE);
-        model2.addElement(ServiceHosp.PSYCHIATRIE);
-        model2.addElement(ServiceHosp.UROLOGIE);
-        model2.addElement(ServiceHosp.GENICO_OBSTETRIE);
+        for(ServiceHosp serviceHosp : ServiceHosp.values()){
+            model2.addElement(serviceHosp);
+        }
     }
 
 
     public void retourAcceuil() {
         try {
-            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+            this.mainWindow.setContentPane(accueil.getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();

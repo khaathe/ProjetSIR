@@ -1,6 +1,9 @@
 package nf;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Main {
@@ -11,17 +14,10 @@ public class Main {
         //System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
             Connexion connexion = new Connexion();
-            connexion.connection("robert","joke");
-            ArrayList <DMR> s;
+            connexion.connection("kevin","1234abcd");
+            ArrayList <DMR> s = connexion.getDMR();
             ArrayList <PersonnelServiceRadio> psr;
 
-           /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
-                    "57",
-                    "Trouillet",
-                    "Juliette",
-                    Profession.PH
-                    );
-*/
             PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
                     "8278375",
                     "Trouillet",
@@ -29,80 +25,35 @@ public class Main {
                     Profession.MANIPULATEUR
             );
             Patient patient = new Patient (
-                    "56",
+                    "983250865",
+                    "565694949",
                     "Heissler",
                     "Claire",
-                    new GregorianCalendar(1997, 10,7),
-                    "983250865"
-            );
+                    new GregorianCalendar(1997, 10,7)
+                    );
             Patient patient3 = new Patient (
-                    "6",
+                    "649849949",
+                    "264641646",
                     "Mottin",
                     "Laurence",
-                    new GregorianCalendar(1968, 9,4),
-                    "87695286"
+                    new GregorianCalendar(1968, 9,4)
             );
-            //connexion.addPatient(patient3);
-            System.out.println(patient3);
+
             Examen e=new Examen(
-                    "08470296",
-                    new GregorianCalendar(),
-                    "86",
-                    "983250865",
+                    (GregorianCalendar) Calendar.getInstance(),
+                    "864994949",
                     TypeExamen.IRM,
+                    patient,
                     personnelServiceRadio,
-                    ServiceHosp.CARDIOLOGIE
+                    ServiceHosp.CARDIOLOGIE,
+                    new ArrayList<Image>()
             );
-            connexion.addExamen(e,patient);
-           //connexion.addPersonnelServiceRadio(personnelServiceRadio);
-           //connexion.addPersonnelServiceRadio(personnelServiceRadio2);
 
-            //psr = connexion.getListePersonnel();
-            //s=connexion.getDMR();
-
-            /*for (int i=0; i<s.size();i++){
-                System.out.println(s.get(i).getPatient().getPrenom());
-            }
-
-            //System.out.println(psr);
-            for(int i =0; i<psr.size();i++){
-                System.out.println(psr.get(i).getNom());
-            }*/
+           connexion.Disconnection();
 
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
-                "57",
-                "Trouillet",
-                "Juliette",
-                Profession.PH
-        );*/
-
-
-
-
-
-        /*Patient p = new Patient();
-        p.setIdPatient("2");
-        Examen ex = new Examen(
-                "32765026587469",
-                new GregorianCalendar(2018, 2, 5),
-                "879880983",
-                TypeExamen.SCANNER,
-                new PersonnelServiceRadio("Spinicci", "Kevin", "7274289", Profession.PH),
-                ServiceHosp.NEUROLOGIE
-        );
-
-        Connexion c = new Connexion();
-        try {
-            c.Connection();
-            c.addExamen(ex, p);
-            c.Disconnection();
-        } catch (Exception e){
-            e.printStackTrace();
-        }*/
     }
 
 }

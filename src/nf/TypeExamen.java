@@ -1,6 +1,7 @@
 package nf;
 
 public enum TypeExamen {
+    UNKNOWN("inconu"),
     RADIOGRAPHIE("radiographie"),
     SCANNER("scanner"),
     IRM("irm"),

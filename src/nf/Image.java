@@ -2,28 +2,42 @@ package nf;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
+import java.util.HashMap;
 
 public class Image {
-    protected String numArchivage;
-    private BufferedImage image;
     public static final int ROTATE_LEFT = -1;
     public static final int ROTATE_RIGHT = 1;
     public static final int NO_ROTATE = 0;
-    private int rotation;
-    private int contraste;
-    private int luminosite;
-    private boolean inverser;
-    private boolean retourner;
+    protected static HashMap<String, Integer> nbInstanceParNumArchivage = new HashMap<>();
+    protected String numArchivage;
+    protected String annotation;
+    protected BufferedImage image;
+    protected int numInstance;
+    protected int rotation;
+    protected int contraste;
+    protected int luminosite;
+    protected boolean inverser,  retourner;
+
 
 
     public Image (String numArchivage){
-        this.numArchivage= numArchivage;
+        this.numArchivage = numArchivage;
+        if (nbInstanceParNumArchivage.containsKey(numArchivage))
+            numInstance = nbInstanceParNumArchivage.get(numArchivage)+1;
+        else
+            numInstance = 1;
+        nbInstanceParNumArchivage.put(numArchivage, numInstance);
         this.image = null;
         rotation = NO_ROTATE;
         inverser = false;
         retourner = false;
         contraste = 1;
         luminosite = 0;
+        annotation = "";
+    }
+
+    public static int getNoRotate() {
+        return NO_ROTATE;
     }
 
     public String getNumArchivage (){ return  numArchivage;}
@@ -136,9 +150,12 @@ public class Image {
     public void setInverser (){
         this.inverser = !(this.inverser);
     }
+
     public void setRetourner (){
         this.retourner = !(this.retourner);
     }
+
+    public void setAnnotation (String annotation) { this.annotation = annotation; }
 
     protected BufferedImage getImage (){
         BufferedImage newImage = this.image;
@@ -154,4 +171,16 @@ public class Image {
     }
 
     public void save () { image = getImage();}
+
+    public int getNumInstance() {
+        return numInstance;
+    }
+
+    public void setNumInstance(int numInstance) {
+        this.numInstance = numInstance;
+    }
+
+    public String getAnnotation() {
+        return annotation;
+    }
 }
