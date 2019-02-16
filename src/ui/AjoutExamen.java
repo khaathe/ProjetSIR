@@ -3,13 +3,15 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import nf.Examen;
-import nf.Patient;
+import nf.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 
 public class AjoutExamen extends JPanel {
     private JPanel generalPanel;
@@ -22,26 +24,132 @@ public class AjoutExamen extends JPanel {
     private JComboBox comboBox4;
     private JComboBox comboBox5;
     private JTextArea ajoutDExamenTextArea;
-    private JTextArea textArea2;
+    private JTextArea crArea;
     private JLabel ajoutPatientLabel;
     private JLabel imageLabel;
+    private JButton dateButton;
+    private JLabel dateLabel;
+    private JLabel crLabel;
     private MainWindow mainWindow;
     private Patient patient;
     private Examen examen;
+    private DefaultComboBoxModel<TypeExamen> model;
+    private DefaultComboBoxModel<ServiceHosp> model2;
+    GregorianCalendar cal = new GregorianCalendar();
+    GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
+    private CompteRendu cr;
+    private ArrayList<Image> li;
+    private String numArchiv;
+    private String idPersonnel;
+    private String idPR;
+    private PersonnelServiceRadio ps;
+    private TypeExamen tp;
+    private ServiceHosp sh;
+
 
     public AjoutExamen(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
+
+
+        li = null;
+        numArchiv = "957635";
+        //idPersonnel= "0917983967";
+        idPR = "08719859265";
+        Patient patient = new Patient(idPR);
+
+        //examen.setNumArchivage(numArchiv);
+
+        ps = new PersonnelServiceRadio(mainWindow.getIdMed(), "Robert", "Amandine", Profession.PH);
+        //examen.setPraticien(ps);
+        model = new DefaultComboBoxModel();
+        comboBox4.setModel(model);
+        remplissageComboTypeExam();
+        tp = (TypeExamen) comboBox4.getSelectedItem();
+
+
+        model2 = new DefaultComboBoxModel();
+        comboBox5.setModel(model2);
+        remplissageComboService();
+        sh = (ServiceHosp) comboBox5.getSelectedItem();
+
+
         annulerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 retourAcceuil();
             }
         });
+
+
+        crArea.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent componentEvent) {
+                super.componentResized(componentEvent);
+                String contenu = crArea.getText();
+                //cr.setCompteRendu(contenu);
+                //cr.setIdExam("984368");
+                // examen.setIdExam(cr.getIdExam());
+                cr = new CompteRendu(contenu, "75630202");
+
+            }
+        });
+
+
+        creationExam();
+        ajouterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    //mainWindow.getSir().getConn().addCompteRendu(examen, cr, ps);
+                    mainWindow.getSir().getConn().addExamen(examen, patient);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //essai pour choisir un type d'examen, mais fait planter l'ajout d'examen à cause d'un conflit avec la méthode de Connexion
+        /*comboBox4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                comboBox4 = (JComboBox) actionEvent.getSource();
+                tp = (TypeExamen) comboBox4.getSelectedItem();
+
+            }
+        });*/
     }
+
+
+    public void creationExam() {
+        examen = new Examen("75630202", calendar, numArchiv, idPR, tp, ps, sh);
+    }
+
+    public void remplissageComboTypeExam() {
+
+        model.addElement(TypeExamen.ANGIOGRAPHIE);
+        model.addElement(TypeExamen.ECHOENDOSCOPIE);
+        model.addElement(TypeExamen.ECHOGRAPHIE);
+        model.addElement(TypeExamen.MAMMOGRAPHIE);
+        model.addElement(TypeExamen.RADIOGRAPHIE);
+    }
+
+
+    public void remplissageComboService() {
+
+        model2.addElement(ServiceHosp.CARDIOLOGIE);
+        model2.addElement(ServiceHosp.DERMATOLOGIE);
+        model2.addElement(ServiceHosp.NEUROLOGIE);
+        model2.addElement(ServiceHosp.PNEUMOLOGIE);
+        model2.addElement(ServiceHosp.PSYCHIATRIE);
+        model2.addElement(ServiceHosp.UROLOGIE);
+        model2.addElement(ServiceHosp.GENICO_OBSTETRIE);
+    }
+
 
     public void retourAcceuil() {
         try {
             this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+            this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Problème d'interface");
@@ -84,14 +192,14 @@ public class AjoutExamen extends JPanel {
         generalPanel.add(panel2, BorderLayout.CENTER);
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new BorderLayout(0, 0));
-        panel2.add(panel3, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label1 = new JLabel();
-        label1.setText("Compte-rendu");
-        panel3.add(label1, BorderLayout.WEST);
+        panel2.add(panel3, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        crLabel = new JLabel();
+        crLabel.setText("Compte-rendu");
+        panel3.add(crLabel, BorderLayout.WEST);
         ajoutDExamenTextArea = new JTextArea();
         panel3.add(ajoutDExamenTextArea, BorderLayout.EAST);
-        textArea2 = new JTextArea();
-        panel3.add(textArea2, BorderLayout.CENTER);
+        crArea = new JTextArea();
+        panel3.add(crArea, BorderLayout.CENTER);
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         panel2.add(panel4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -103,32 +211,29 @@ public class AjoutExamen extends JPanel {
         panel4.add(choisirImageButton);
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        panel2.add(panel5, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label2 = new JLabel();
-        label2.setText("Service hospitalier : ");
-        panel5.add(label2);
+        panel2.add(panel5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JLabel label1 = new JLabel();
+        label1.setText("Service hospitalier : ");
+        panel5.add(label1);
         comboBox5 = new JComboBox();
         panel5.add(comboBox5);
         final JPanel panel6 = new JPanel();
         panel6.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         panel2.add(panel6, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label3 = new JLabel();
-        label3.setText("Date :");
-        panel6.add(label3);
-        comboBox1 = new JComboBox();
-        panel6.add(comboBox1);
-        comboBox2 = new JComboBox();
-        panel6.add(comboBox2);
-        comboBox3 = new JComboBox();
-        panel6.add(comboBox3);
-        final JPanel panel7 = new JPanel();
-        panel7.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        panel2.add(panel7, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JLabel label4 = new JLabel();
-        label4.setText("Type d'examen : ");
-        panel7.add(label4);
+        final JLabel label2 = new JLabel();
+        label2.setText("Type d'examen : ");
+        panel6.add(label2);
         comboBox4 = new JComboBox();
-        panel7.add(comboBox4);
+        panel6.add(comboBox4);
+        final JPanel panel7 = new JPanel();
+        panel7.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.add(panel7, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        dateButton = new JButton();
+        dateButton.setText("Ajouter la date");
+        panel7.add(dateButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        dateLabel = new JLabel();
+        dateLabel.setText("Date");
+        panel7.add(dateLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -218,12 +323,12 @@ public class AjoutExamen extends JPanel {
         this.ajoutDExamenTextArea = ajoutDExamenTextArea;
     }
 
-    public JTextArea getTextArea2() {
-        return textArea2;
+    public JTextArea getCrArea() {
+        return crArea;
     }
 
-    public void setTextArea2(JTextArea textArea2) {
-        this.textArea2 = textArea2;
+    public void setCrArea(JTextArea crArea) {
+        this.crArea = crArea;
     }
 
     public JLabel getAjoutPatientLabel() {

@@ -29,9 +29,11 @@ public class Acceuil extends JPanel {
     private JLabel iconLabel;
     private JLabel dateLabel;
     private JButton button2;
+    private JButton numeriserButton;
     private MainWindow mainWindow;
     private Connexion connexion;
     private DefaultListModel<String> model = new DefaultListModel<>();
+
     private String id;
     private String nom;
     private String prenom;
@@ -49,14 +51,14 @@ public class Acceuil extends JPanel {
         // sir = new SIR();
         //connexion = new Connexion();
         $$$setupUI$$$();
-        list1.setModel(model);
-        //model.addElement(new DMR("2", "Robert", "Amandine", new GregorianCalendar(), "17264187463"));
-        for (int i = 0; i < mainWindow.getSir().getListeDMR().size(); i++) {
-            model.addElement(mainWindow.getSir().getListeDMR().get(i).getPatient().getNom() + " " + mainWindow.getSir().getListeDMR().get(i).getPatient().getPrenom());
-        }
 
+        //model.addElement(new DMR("2", "Robert", "Amandine", new GregorianCalendar(), "17264187463"));
+        for (int i = 0; i < mainWindow.getSir().getConn().getDMR().size(); i++) {
+            model.addElement(mainWindow.getSir().getConn().getDMR().get(i).getPatient().getNom() + " " + mainWindow.getSir().getConn().getDMR().get(i).getPatient().getPrenom());
+        }
+        list1.setModel(model);
         //nameLabel.setText("Mr/Mme " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getNom() + " " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getPrenom());
-         nameLabel.setText(mainWindow.getIdMed());
+        nameLabel.setText("Mr/Mme " + mainWindow.getIdMed());
         ajoutExamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -71,11 +73,35 @@ public class Acceuil extends JPanel {
                 openImage();
             }
         });
+        for (int i = 0; i < mainWindow.getSir().getConn().getListePersonnel().size(); i++) {
+            System.out.println(mainWindow.getSir().getConn().getListePersonnel().get(i).getProfession());
+        }
+
+        /*switch (mainWindow.getSir().getConn().getPersonnelServiceRadio(mainWindow.getIdMed()).getProfession()) {
+            case PH:
+                admissionButton.setVisible(false);
+                button2.setVisible(false);
+                numeriserButton.setVisible(false);
+                break;
+            case MANIPULATEUR:
+                ajoutExamButton.setVisible(false);
+                CRButton.setVisible(false);
+                break;
+            case SECRETAIRE_MEDICALE:
+                ajoutExamButton.setVisible(false);
+                CRButton.setVisible(false);
+                numeriserButton.setVisible(false);
+                accesImageButton.setVisible(false);
+                break;
+        }*/
+
+
     }
 
     public void openImage() {
         try {
             this.mainWindow.setContentPane(new Image(mainWindow).getMainPanel());
+            this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Problème d'interface");
@@ -259,17 +285,20 @@ public class Acceuil extends JPanel {
         list1 = new Patient();
         westPanel.add(list1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         southPanel = new JPanel();
-        southPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
+        southPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(southPanel, BorderLayout.SOUTH);
         accesImageButton = new JButton();
         accesImageButton.setText("Accès images");
-        southPanel.add(accesImageButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        southPanel.add(accesImageButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         CRButton = new JButton();
         CRButton.setText("Accès CR");
-        southPanel.add(CRButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        southPanel.add(CRButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ajoutExamButton = new JButton();
         ajoutExamButton.setText("Ajouter un examen");
-        southPanel.add(ajoutExamButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        southPanel.add(ajoutExamButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        numeriserButton = new JButton();
+        numeriserButton.setText("Numeriser");
+        southPanel.add(numeriserButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         centrePanel = new JPanel();
         centrePanel.setLayout(new BorderLayout(0, 0));
         mainPanel.add(centrePanel, BorderLayout.CENTER);

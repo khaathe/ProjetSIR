@@ -1,46 +1,35 @@
 package nf;
 
-import java.util.GregorianCalendar;
-
 public class CompteRendu {
-    private PersonnelServiceRadio editeur;
-    private String contenu;
-    private GregorianCalendar date;
+    private String compteRendu;
+    private String idExam;
 
-    public CompteRendu(String nom, String prenom, Profession profession, GregorianCalendar date){
-        this.contenu=null;
-        this.editeur= new PersonnelServiceRadio(nom,prenom,profession);
-        this.date=date;
-    }
 
-    public String ajouterContenu(String text){
-
-        contenu+=text;
-        return contenu;
+    public CompteRendu(String compteRendu, String idExam){
+        this.idExam=idExam;
+        this.compteRendu= compteRendu;
 
     }
 
-    public String getContenu() {
-        return contenu;
+
+
+    public String getIdExam() {
+        return idExam;
     }
 
-    public PersonnelServiceRadio getEditeur() {
-        return editeur;
+    public String getCompteRendu() {
+        return compteRendu;
     }
 
-    public GregorianCalendar getDate() {
-        return date;
+
+
+    public void setIdExam(String idExam) {
+        this.idExam = idExam;
     }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
-    }
 
-    public void setDate(GregorianCalendar date) {
-        this.date = date;
-    }
 
-    public void setEditeur(PersonnelServiceRadio editeur) {
-        this.editeur = editeur;
+    public void setCompteRendu(String compteRendu) {
+        this.compteRendu = compteRendu;
     }
 }

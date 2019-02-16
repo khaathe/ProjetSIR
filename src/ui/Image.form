@@ -15,20 +15,20 @@
         <children>
           <component id="47ecd" class="javax.swing.JLabel" binding="nameDoctorLabel">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="1" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Docteur MARTIN Frédéric"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="31d98" class="javax.swing.JLabel" binding="iconeDoctorLabel">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <horizontalAlignment value="11"/>
               <horizontalTextPosition value="11"/>
-              <icon value="iconeDocteur.png"/>
+              <icon value="icone medecin.png"/>
               <labelFor value=""/>
               <text value=""/>
             </properties>
@@ -38,7 +38,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Numéro d'archivage : 11992847"/>
+              <text value="Numéro d'archivage : "/>
             </properties>
           </component>
         </children>
@@ -98,7 +98,6 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="iconeRotationDroite.png"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -107,7 +106,6 @@
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="iconeRotationGauche.png"/>
                   <text value=""/>
                 </properties>
               </component>

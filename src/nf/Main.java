@@ -1,6 +1,7 @@
 package nf;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class Main {
 
@@ -21,35 +22,52 @@ public class Main {
                     Profession.PH
                     );
 */
-            /*PersonnelServiceRadio personnelServiceRadio2 = new PersonnelServiceRadio(
-                    "Robert",
-                    "Amandine",
-                    "robert",
-                    Profession.PH
+            PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+                    "8278375",
+                    "Trouillet",
+                    "Juliette",
+                    Profession.MANIPULATEUR
             );
-            Patient patient1 = new Patient (
-                    "3",
-                    "Poitevin",
-                    "Margaux",
-                    new GregorianCalendar(1997, 8,11),
-                    "08719859265"
-            );*/
-
-            //connexion.addPatient(patient1);
-           // connexion.addPersonnelServiceRadio(personnelServiceRadio);
+            Patient patient = new Patient (
+                    "56",
+                    "Heissler",
+                    "Claire",
+                    new GregorianCalendar(1997, 10,7),
+                    "983250865"
+            );
+            Patient patient3 = new Patient (
+                    "6",
+                    "Mottin",
+                    "Laurence",
+                    new GregorianCalendar(1968, 9,4),
+                    "87695286"
+            );
+            //connexion.addPatient(patient3);
+            System.out.println(patient3);
+            Examen e=new Examen(
+                    "08470296",
+                    new GregorianCalendar(),
+                    "86",
+                    "983250865",
+                    TypeExamen.IRM,
+                    personnelServiceRadio,
+                    ServiceHosp.CARDIOLOGIE
+            );
+            connexion.addExamen(e,patient);
+           //connexion.addPersonnelServiceRadio(personnelServiceRadio);
            //connexion.addPersonnelServiceRadio(personnelServiceRadio2);
 
-            psr = connexion.getListePersonnel();
-            s=connexion.getDMR();
+            //psr = connexion.getListePersonnel();
+            //s=connexion.getDMR();
 
-            for (int i=0; i<s.size();i++){
+            /*for (int i=0; i<s.size();i++){
                 System.out.println(s.get(i).getPatient().getPrenom());
             }
 
             //System.out.println(psr);
             for(int i =0; i<psr.size();i++){
                 System.out.println(psr.get(i).getNom());
-            }
+            }*/
 
         } catch (Exception e){
             e.printStackTrace();
@@ -62,13 +80,7 @@ public class Main {
                 Profession.PH
         );*/
 
-       /* Patient patient1 = new Patient (
-          "3",
-                "Poitevin",
-                "Margaux",
-                new GregorianCalendar(1997, 8,11),
-                "08719859265"
-        );*/
+
 
 
 

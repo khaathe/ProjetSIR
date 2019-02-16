@@ -32,6 +32,7 @@ public class Image extends JPanel {
     private JLabel leftRotationLabel;
     private JLabel imageCerveau;
     private MainWindow mainWindow;
+    private nf.Image picture;
 
 
     {
@@ -43,10 +44,13 @@ public class Image extends JPanel {
 
     public Image(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
+
+        nameDoctorLabel.setText("Mr/Mme " + mainWindow.getIdMed());
         getConstrastSlider().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
                 super.componentResized(componentEvent);
+
 
             }
         });
@@ -79,16 +83,16 @@ public class Image extends JPanel {
         headPanel.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(headPanel, BorderLayout.NORTH);
         nameDoctorLabel = new JLabel();
-        nameDoctorLabel.setText("Docteur MARTIN Frédéric");
-        headPanel.add(nameDoctorLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
+        nameDoctorLabel.setText("");
+        headPanel.add(nameDoctorLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
         iconeDoctorLabel = new JLabel();
         iconeDoctorLabel.setHorizontalAlignment(11);
         iconeDoctorLabel.setHorizontalTextPosition(11);
-        iconeDoctorLabel.setIcon(new ImageIcon(getClass().getResource("/iconeDocteur.png")));
+        iconeDoctorLabel.setIcon(new ImageIcon(getClass().getResource("/icone medecin.png")));
         iconeDoctorLabel.setText("");
-        headPanel.add(iconeDoctorLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        headPanel.add(iconeDoctorLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nbImageLabel = new JLabel();
-        nbImageLabel.setText("Numéro d'archivage : 11992847");
+        nbImageLabel.setText("Numéro d'archivage : ");
         headPanel.add(nbImageLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         westPanel = new JPanel();
         westPanel.setLayout(new GridLayoutManager(8, 2, new Insets(0, 0, 0, 0), -1, -1));
@@ -110,11 +114,9 @@ public class Image extends JPanel {
         rotationLabel.setText("Rotation :\n");
         rotationPanel.add(rotationLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rightRotationLabel = new JLabel();
-        rightRotationLabel.setIcon(new ImageIcon(getClass().getResource("/iconeRotationDroite.png")));
         rightRotationLabel.setText("");
         rotationPanel.add(rightRotationLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         leftRotationLabel = new JLabel();
-        leftRotationLabel.setIcon(new ImageIcon(getClass().getResource("/iconeRotationGauche.png")));
         leftRotationLabel.setText("");
         rotationPanel.add(leftRotationLabel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         inversionCheckBox = new JCheckBox();
@@ -161,6 +163,7 @@ public class Image extends JPanel {
     public void retourAcceuil() {
         try {
             this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+            this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Problème d'interface");
