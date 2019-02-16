@@ -69,7 +69,7 @@ public class ListePatientAccesMed extends JPanel {
         DefaultMutableTreeNode racine = new DefaultMutableTreeNode("Liste des patients");
         DefaultTreeModel model = new DefaultTreeModel(racine);
 
-        for (int i = 0; i < sir.getListeDMR().size(); i++) {
+       /* for (int i = 0; i < sir.getListeDMR().size(); i++) {
 
             listePatient = new DefaultMutableTreeNode("Patient : " + "Mr/Mme " + sir.getListeDMR().get(i).getPatient().getNom());
             DefaultMutableTreeNode nomPatient = new DefaultMutableTreeNode(sir.getListeDMR().get(i).getPatient().getNom());
@@ -81,7 +81,7 @@ public class ListePatientAccesMed extends JPanel {
             racine.add(listePatient);
 
         }
-
+*/
         return model;
     }
 

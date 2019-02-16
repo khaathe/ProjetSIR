@@ -67,6 +67,29 @@ public class Connexion {
 
     }
 
+    public ArrayList<PersonnelServiceRadio> getListePersonnel() throws Exception {
+
+
+        String query = "SELECT * FROM personnelhospitalier";
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        ArrayList<PersonnelServiceRadio> array = new ArrayList<>();
+        int i = 1;
+        String s = "";
+        while (rs.next()) {
+            s = rs.getString("idp");
+            array.add(new PersonnelServiceRadio(getPersonnelServiceRadio(Integer.toString(i)).getIdMedical(), getPersonnelServiceRadio(Integer.toString(i)).getNom(), getPersonnelServiceRadio(Integer.toString(i)).getPrenom(), getPersonnelServiceRadio(Integer.toString(i)).getProfession()));
+            i++;
+
+        }
+
+
+
+        st.close();
+        return array;
+
+    }
+
     /*public ArrayList<Examen> getExamens(Patient ID) throws Exception{
         String query = "SELECT * FROM examen where idpatient="+ID;
         Statement st = con.createStatement();
@@ -139,6 +162,8 @@ public class Connexion {
 
         return e;
     }
+
+
 
     public boolean addExamen(Examen exam, Patient patient) throws Exception {
         String query = " insert into examen (idexam, numarchivage,date, typeexam, idpatient, service)"
@@ -225,6 +250,19 @@ public class Connexion {
         PersonnelServiceRadio p = new PersonnelServiceRadio(nom, prenom, id, prof);
         return p;
 
+    }
+
+    public void addPatient(Patient patient) throws Exception{
+        String query = "insert into personnelhospitalier (idpatient, nom, prenom, date, numss)"
+                + "values (?, ?, ?, ?, ?)";
+
+        //create the mysql insert preparedstatement
+        PreparedStatement preparedStatement = con.prepareStatement(query);
+        preparedStatement.setString(1,patient.getIdPatient());
+        preparedStatement.setString(2, patient.getNom());
+        preparedStatement.setString(3, patient.getPrenom());
+        preparedStatement.setString(4, patient.getNaissance().toString());
+        preparedStatement.setString(5,patient.getNumSS());
     }
 
     public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception {

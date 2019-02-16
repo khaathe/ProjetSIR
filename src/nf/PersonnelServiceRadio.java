@@ -7,7 +7,7 @@ public class PersonnelServiceRadio {
     private Profession profession;
 
 
-    public PersonnelServiceRadio(String nom, String prenom, String idMedical, Profession profession) {
+    public PersonnelServiceRadio(String idMedical, String nom, String prenom, Profession profession) {
         this.setNom(nom);
         this.setPrenom(prenom);
         this.setIdMedical(idMedical);
@@ -15,11 +15,13 @@ public class PersonnelServiceRadio {
     }
 
     // constructeur pour initialiser le professionel correspondant à un examen, l'identifiant n'est pas nécessaire
-    public PersonnelServiceRadio(String nom, String prenom, Profession profession) {
+   public PersonnelServiceRadio(String nom, String prenom, Profession profession) {
         this.setNom(nom);
         this.setPrenom(prenom);
         this.setProfession(profession);
     }
+
+
 
     public String getNom() {
         return nom;

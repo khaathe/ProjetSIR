@@ -1,11 +1,9 @@
 package nf;
 
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.Connection;
+import javax.swing.*;
 import java.util.GregorianCalendar;
 
-public class Patient {
+public class Patient extends JList {
     private String idPatient;
     private String nom;
     private String prenom;
@@ -24,7 +22,7 @@ public class Patient {
 
 
 
-    public void getPatient(String idPatient) {
+   /* public void getPatient(String idPatient) {
         //Patient p= new Patient();
         Connexion con = new Connexion();
         try{
@@ -59,7 +57,7 @@ public class Patient {
             System.err.println(e.getMessage());
         }
         //return p;
-        }
+        } */
 
     public String getIdPatient() {
         return idPatient;

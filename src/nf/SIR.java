@@ -1,21 +1,28 @@
 package nf;
 
 import java.util.ArrayList;
-import java.util.List;
+
+
 
 public class SIR {
 
+
     private ArrayList<DMR> listeDMR;
     Connexion conn;
+    private ArrayList<PersonnelServiceRadio> listePersonnel;
+
 
     public SIR() {
         conn = new Connexion();
         listeDMR = null;
-    }
+        listePersonnel = null;
+}
 
     public void connection (String id, String mdp) throws Exception{
         conn.connection(id, mdp);
         listeDMR = conn.getDMR();
+        listePersonnel = conn.getListePersonnel();
+
     }
 
     public void deconnection () throws Exception{
@@ -26,12 +33,29 @@ public class SIR {
 
     }
 
+
+
+/*
+    public List<DMR> getListeDMR() throws Exception {
+        return connexion.getDMR();
+*/
     public ArrayList<DMR> getListeDMR() {
         return listeDMR;
+
+    }
+    public Connexion getConn(){
+        return conn;
     }
 
     public void setListeDMR(ArrayList<DMR> listeDMR) {
         this.listeDMR = listeDMR;
+    }
+
+    public ArrayList<PersonnelServiceRadio> getListePersonnel(){
+        return  listePersonnel;
+    }
+    public void setListePersonnel(ArrayList<PersonnelServiceRadio> listePersonnel){
+        this.listePersonnel= listePersonnel;
     }
 
     /*public String openDMR(DMR dmr){
