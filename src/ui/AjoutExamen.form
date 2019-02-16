@@ -105,7 +105,7 @@
                   <text value="Service hospitalier : "/>
                 </properties>
               </component>
-              <component id="ea456" class="javax.swing.JComboBox" binding="comboBox5" default-binding="true">
+              <component id="ea456" class="javax.swing.JComboBox" binding="serviceComboBox">
                 <constraints/>
                 <properties/>
               </component>
@@ -124,7 +124,7 @@
                   <text value="Type d'examen : "/>
                 </properties>
               </component>
-              <component id="48914" class="javax.swing.JComboBox" binding="comboBox4" default-binding="true">
+              <component id="48914" class="javax.swing.JComboBox" binding="examComboBox">
                 <constraints/>
                 <properties/>
               </component>

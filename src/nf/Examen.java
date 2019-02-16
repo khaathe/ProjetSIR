@@ -24,14 +24,15 @@ public class Examen {
     }
 
 
-    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, ArrayList<Image> images){
+    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, ArrayList<Image> images, CompteRendu cr){
         this.date = date;
         this.numArchivage = numArchivage;
         this.typeExamen = typeExamen;
         this.patient = patient;
         this.praticien = praticien;
         this.service = service;
-        images = images;
+        this.images = images;
+        this.cr = cr;
     }
 
     public void imprimerCR(){
@@ -105,5 +106,9 @@ public class Examen {
 
     public Patient getPatient() {
         return patient;
+    }
+
+    public ArrayList<Image> getImages() {
+        return images;
     }
 }

@@ -60,11 +60,14 @@ public class Acceuil extends JPanel {
 
         list.setModel(model);
 
-        nameLabel.setText("Mr/Mme " + mainWindow.getSir().getPersonneConnecte().getNom() + " " + mainWindow.getSir().getPersonneConnecte().getNom());
+        nameLabel.setText("Mr/Mme " + mainWindow.getSir().getPersonneConnecte().getNom()
+                + " " + mainWindow.getSir().getPersonneConnecte().getPrenom()
+                + " (" + mainWindow.getSir().getPersonneConnecte().getIdMedical() + ")"
+        );
         ajoutExamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                openAjouterPatient();
+                openAjouterExam();
             }
         });
 
@@ -116,11 +119,10 @@ public class Acceuil extends JPanel {
         }
     }
 
-    public void openAjouterPatient() {
+    public void openAjouterExam() {
         try {
             this.mainWindow.setContentPane(new AjoutExamen(mainWindow, this).getGeneralPanel());
             this.mainWindow.revalidate();
-
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Problème d'interface");

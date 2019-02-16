@@ -5,8 +5,8 @@ public class CompteRendu {
     private String numArchivage;
 
 
-    public CompteRendu(String compteRendu, String idExam){
-        this.numArchivage=idExam;
+    public CompteRendu(String numArchivage, String compteRendu){
+        this.numArchivage=numArchivage;
         this.compteRendu= compteRendu;
     }
 

@@ -72,19 +72,17 @@ public class Connexion {
     }
 
 
-    public PersonnelServiceRadio getPersonnel(String id) throws Exception {
-        String query = "SELECT * FROM personnelhospitalier where id='?'";
+    public PersonnelServiceRadio getPersonnelServiceRadio(String id) throws Exception {
+        String query = "SELECT * FROM personnelhospitalier where idPersonnel=?";
         PreparedStatement statement = con.prepareStatement(query);
         statement.setString(1, id);
         ResultSet rs = statement.executeQuery();
-        if (rs.getRow()==0)
-            throw new SQLException("no personnel found for id : "+id);
         PersonnelServiceRadio personnel = null;
         while (rs.next()) {
             String idPersonnel = rs.getString("idPersonnel");
-            String nom = rs.getNString("nom");
+            String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
-            Profession profession = Profession.valueOf(rs.getString("pofession").toUpperCase());
+            Profession profession = Profession.valueOf(rs.getString("profession").toUpperCase());
             personnel = new PersonnelServiceRadio(idPersonnel, nom, prenom, profession);
         }
         statement.close();
@@ -165,9 +163,13 @@ public class Connexion {
         return e;
     }
 
+    public void addExamen (Examen examen) throws Exception{
+        insertExamen(examen);
+        insertCompteRendu(examen.getCr());
+        insertImage(examen.getImages());
+    }
 
-
-    public void addExamen(Examen exam) throws Exception {
+    private void insertExamen (Examen exam) throws Exception {
         String query = "INSERT INTO examen (date, idPR, idPersonnel, numArchivage, typeExamen, service) VALUES (?, ?, ?, ?, ?, ?)";
 
         // create the mysql insert preparedstatement
@@ -183,6 +185,16 @@ public class Connexion {
         preparedStmt.execute();
     }
 
+
+
+    public void insertCompteRendu(CompteRendu cr) throws Exception {
+        String query = " insert into compterendu (numArchivage, compteRendu)"
+                + " values (?, ?)";
+        PreparedStatement preparedStmt = con.prepareStatement(query);
+        preparedStmt.setString(1, cr.getNumArchivage());
+        preparedStmt.setString(2, cr.getCompteRendu());
+        preparedStmt.execute();
+    }
 
     public Patient getPatient(String id) throws Exception {
 
@@ -217,29 +229,6 @@ public class Connexion {
         return p;
     }
 
-
-    public PersonnelServiceRadio getPersonnelServiceRadio(String idMed) throws Exception {
-
-        String query = "SELECT * FROM personnelhospitalier WHERE idPersonnel='" + idMed + "'";
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery(query);
-
-        String id = "";
-        String nom = "";
-        String prenom = "";
-        Profession prof = null;
-
-        while (rs.next()) {
-            id = rs.getString("idPersonnel");
-            nom = rs.getString("nom");
-            prenom = rs.getString("prenom");
-            prof = Profession.valueOf(rs.getString("profession").toUpperCase());
-        }
-        st.close();
-        PersonnelServiceRadio p = new PersonnelServiceRadio(nom, prenom, id, prof);
-        return p;
-
-    }
 
     public void addPatient(Patient patient) throws Exception{
         String query = "insert into patient (idPR, idP, date, nom, prenom)"
@@ -276,10 +265,10 @@ public class Connexion {
 
 
 
-    public void addImage (ArrayList<Image> listImage) throws Exception{
+    public void insertImage (ArrayList<Image> listImage) throws Exception{
         PreparedStatement statement = this.con.prepareStatement("INSERT INTO image (numArchivage, numInstance, image, annotation) VALUES (?, ?, ?,?)");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         for(Image image : listImage){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             statement.setString(1, image.getNumArchivage());
             statement.setInt(2, image.getNumInstance());
             ImageIO.write(image.getImage(), "jpg", baos);
@@ -288,8 +277,8 @@ public class Connexion {
             statement.setBlob(3,  blob);
             statement.setString(4, image.getAnnotation());
             statement.execute();
+            baos.close();
         }
-        baos.close();
         statement.close();
     }
 
@@ -310,17 +299,5 @@ public class Connexion {
         }
         res.close();
         return listImage;
-    }
-
-    public void addCompteRendu(Examen e, CompteRendu cr, PersonnelServiceRadio p) throws Exception {
-        String query = " insert into compterendu (numArchivage, compteRendu)"
-                + " values (?, ?)";
-        PreparedStatement preparedStmt = con.prepareStatement(query);
-        preparedStmt.setString(1, cr.getNumArchivage());
-        preparedStmt.setString(2, cr.getCompteRendu());
-
-
-        preparedStmt.execute();
-
     }
 }

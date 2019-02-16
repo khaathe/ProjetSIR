@@ -8,19 +8,15 @@ import javax.swing.*;
 public class MainWindow extends JFrame {
     private static String title = "SIR";
     private SIR sir;
-    private String idMed;
 
 
 
     public MainWindow () throws NamingException {
         super(title);
         sir = new SIR();
-        idMed = "";
     }
 
-    public void setIdMed (String idMed){ this.idMed = idMed; }
-
-    public String getIdMed () {return  idMed; }
+    public String getIdMed () {return  sir.getPersonneConnecte().getIdMedical(); }
 
     public static void main(String[] args){
         SwingUtilities.invokeLater(new Runnable() {

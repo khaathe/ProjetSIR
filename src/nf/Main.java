@@ -46,7 +46,8 @@ public class Main {
                     patient,
                     personnelServiceRadio,
                     ServiceHosp.CARDIOLOGIE,
-                    new ArrayList<Image>()
+                    new ArrayList<Image>(),
+                    new CompteRendu("864994949"," du texte toi meme tu sais")
             );
 
            connexion.Disconnection();
