@@ -4,11 +4,13 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class ModificationImage extends JPanel {
-    public JPanel mainPanel;
+public class Image extends JPanel {
+    private JPanel mainPanel;
     private JSlider constrastSlider;
     private JSlider EcalircissementSlider;
     private JCheckBox inversionCheckBox;
@@ -39,12 +41,19 @@ public class ModificationImage extends JPanel {
         //    $$$setupUI$$$();
     }
 
-    public ModificationImage() {
-        constrastSlider.addComponentListener(new ComponentAdapter() {
+    public Image(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
+        getConstrastSlider().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
                 super.componentResized(componentEvent);
 
+            }
+        });
+        annulebutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                retourAcceuil();
             }
         });
     }
@@ -149,8 +158,193 @@ public class ModificationImage extends JPanel {
         return mainPanel;
     }
 
+    public void retourAcceuil() {
+        try {
+            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Problème d'interface");
+        }
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    public JSlider getConstrastSlider() {
+        return constrastSlider;
+    }
+
+    public void setConstrastSlider(JSlider constrastSlider) {
+        this.constrastSlider = constrastSlider;
+    }
+
+    public JSlider getEcalircissementSlider() {
+        return EcalircissementSlider;
+    }
+
+    public void setEcalircissementSlider(JSlider ecalircissementSlider) {
+        EcalircissementSlider = ecalircissementSlider;
+    }
+
+    public JCheckBox getInversionCheckBox() {
+        return inversionCheckBox;
+    }
+
+    public void setInversionCheckBox(JCheckBox inversionCheckBox) {
+        this.inversionCheckBox = inversionCheckBox;
+    }
+
+    public JCheckBox getRetournementCheckBox() {
+        return retournementCheckBox;
+    }
+
+    public void setRetournementCheckBox(JCheckBox retournementCheckBox) {
+        this.retournementCheckBox = retournementCheckBox;
+    }
+
+    public JTextArea getAnnotationTextArea() {
+        return annotationTextArea;
+    }
+
+    public void setAnnotationTextArea(JTextArea annotationTextArea) {
+        this.annotationTextArea = annotationTextArea;
+    }
+
+    public JButton getImpressionbutton() {
+        return impressionbutton;
+    }
+
+    public void setImpressionbutton(JButton impressionbutton) {
+        this.impressionbutton = impressionbutton;
+    }
+
+    public JButton getValidatebutton() {
+        return validatebutton;
+    }
+
+    public void setValidatebutton(JButton validatebutton) {
+        this.validatebutton = validatebutton;
+    }
+
+    public JButton getAnnulebutton() {
+        return annulebutton;
+    }
+
+    public void setAnnulebutton(JButton annulebutton) {
+        this.annulebutton = annulebutton;
+    }
+
+    public JPanel getHeadPanel() {
+        return headPanel;
+    }
+
+    public void setHeadPanel(JPanel headPanel) {
+        this.headPanel = headPanel;
+    }
+
+    public JLabel getNameDoctorLabel() {
+        return nameDoctorLabel;
+    }
+
+    public void setNameDoctorLabel(JLabel nameDoctorLabel) {
+        this.nameDoctorLabel = nameDoctorLabel;
+    }
+
+    public JLabel getIconeDoctorLabel() {
+        return iconeDoctorLabel;
+    }
+
+    public void setIconeDoctorLabel(JLabel iconeDoctorLabel) {
+        this.iconeDoctorLabel = iconeDoctorLabel;
+    }
+
+    public JLabel getNbImageLabel() {
+        return nbImageLabel;
+    }
+
+    public void setNbImageLabel(JLabel nbImageLabel) {
+        this.nbImageLabel = nbImageLabel;
+    }
+
+    public JPanel getWestPanel() {
+        return westPanel;
+    }
+
+    public void setWestPanel(JPanel westPanel) {
+        this.westPanel = westPanel;
+    }
+
+    public JLabel getContrasteLabel() {
+        return contrasteLabel;
+    }
+
+    public void setContrasteLabel(JLabel contrasteLabel) {
+        this.contrasteLabel = contrasteLabel;
+    }
+
+    public JLabel getEclaircissementLabel() {
+        return eclaircissementLabel;
+    }
+
+    public void setEclaircissementLabel(JLabel eclaircissementLabel) {
+        this.eclaircissementLabel = eclaircissementLabel;
+    }
+
+    public JPanel getRotationPanel() {
+        return rotationPanel;
+    }
+
+    public void setRotationPanel(JPanel rotationPanel) {
+        this.rotationPanel = rotationPanel;
+    }
+
+    public JLabel getRotationLabel() {
+        return rotationLabel;
+    }
+
+    public void setRotationLabel(JLabel rotationLabel) {
+        this.rotationLabel = rotationLabel;
+    }
+
+    public JLabel getRightRotationLabel() {
+        return rightRotationLabel;
+    }
+
+    public void setRightRotationLabel(JLabel rightRotationLabel) {
+        this.rightRotationLabel = rightRotationLabel;
+    }
+
+    public JLabel getLeftRotationLabel() {
+        return leftRotationLabel;
+    }
+
+    public void setLeftRotationLabel(JLabel leftRotationLabel) {
+        this.leftRotationLabel = leftRotationLabel;
+    }
+
+    public JLabel getImageCerveau() {
+        return imageCerveau;
+    }
+
+    public void setImageCerveau(JLabel imageCerveau) {
+        this.imageCerveau = imageCerveau;
+    }
+
+    public MainWindow getMainWindow() {
+        return mainWindow;
+    }
+
+    public void setMainWindow(MainWindow mainWindow) {
+        this.mainWindow = mainWindow;
     }
 
     /**

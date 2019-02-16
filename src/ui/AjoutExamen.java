@@ -3,9 +3,13 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import nf.Examen;
+import nf.Patient;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AjoutExamen extends JPanel {
     private JPanel generalPanel;
@@ -22,9 +26,26 @@ public class AjoutExamen extends JPanel {
     private JLabel ajoutPatientLabel;
     private JLabel imageLabel;
     private MainWindow mainWindow;
+    private Patient patient;
+    private Examen examen;
 
     public AjoutExamen(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
+        annulerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                retourAcceuil();
+            }
+        });
+    }
+
+    public void retourAcceuil() {
+        try {
+            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Problème d'interface");
+        }
     }
 
     {

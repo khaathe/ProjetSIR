@@ -2,18 +2,13 @@ package ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import nf.Connexion;
 
 import javax.swing.*;
 import java.awt.*;
-<<<<<<< HEAD
-import java.awt.event.*;
-=======
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
->>>>>>> 0879752fea80a33e84073dc32ba9a5ac4cb032a2
 
 
 public class essaisConnexion extends JPanel {
@@ -34,10 +29,12 @@ public class essaisConnexion extends JPanel {
     private JPasswordField passwordField;
     private JButton connexionButton;
     private JPanel resultPanel;
+    private String id;
 
 
     public essaisConnexion(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
+        id = mainWindow.getIdMed();
         connexionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -48,7 +45,7 @@ public class essaisConnexion extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
-                if(e.getKeyChar() == KeyEvent.VK_ENTER)
+                if (e.getKeyChar() == KeyEvent.VK_ENTER)
                     valider();
             }
         });
@@ -56,7 +53,7 @@ public class essaisConnexion extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
-                if(e.getKeyChar() == KeyEvent.VK_ENTER)
+                if (e.getKeyChar() == KeyEvent.VK_ENTER)
                     valider();
             }
         });
@@ -64,12 +61,12 @@ public class essaisConnexion extends JPanel {
 
     public void valider() {
         try {
-            String id = identifiantTextField.getText();
+            setId(identifiantTextField.getText());
             String mdp = new String(passwordField.getPassword());
             mainWindow.getSir().connection(id, mdp);
             mainWindow.setIdMed(id);
             mainWindow.setResizable(true);
-            this.mainWindow.setContentPane(new AcceuilMedecin(mainWindow).getPanel1());
+            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,6 +134,10 @@ public class essaisConnexion extends JPanel {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     {
