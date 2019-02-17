@@ -2,6 +2,7 @@ package nf;
 
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -13,6 +14,8 @@ public class Main {
         //java.sql.Date sqlDate = new java.sql.Date(calendar.getTime().getTime()); //récupére un objet date et on recupere le temps en long
         //System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
+            GregorianCalendar calendar = new GregorianCalendar(2015, 1, 30);
+            System.out.println(new SimpleDateFormat("dd-MM-YYYY").format( calendar.getTime()));
             Connexion connexion = new Connexion();
             connexion.connection("kevin","1234abcd");
             ArrayList <DMR> s = connexion.getDMR();

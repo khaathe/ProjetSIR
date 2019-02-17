@@ -1,5 +1,7 @@
 package nf;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -46,6 +48,14 @@ public class Examen {
         if (!images.contains(image)){
             images.add(image);
         }
+    }
+
+    public static String generateNumArchivage () {
+        double random = Math.random();
+        random = random * Math.pow(10, 15);
+        DecimalFormat df = new DecimalFormat("000000000000000");
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        return df.format(random);
     }
 
     public GregorianCalendar getDate() {
