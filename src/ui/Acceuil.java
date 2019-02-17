@@ -3,18 +3,19 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import nf.Connexion;
-import nf.DMR;
-import nf.Patient;
-import nf.Profession;
+import nf.*;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class Acceuil extends JPanel {
@@ -40,6 +41,7 @@ public class Acceuil extends JPanel {
     private JPanel examenPanel;
     private JLabel infoPatientLabel;
     private JTree examTree;
+    private  DefaultMutableTreeNode allExamNode;
     private JPanel menuPanel;
     private MainWindow mainWindow;
 
@@ -49,7 +51,8 @@ public class Acceuil extends JPanel {
 
         list = new JList();
         model = new DefaultListModel();
-
+        allExamNode = new DefaultMutableTreeNode("root");
+        examTree = new JTree(allExamNode);
         $$$setupUI$$$();
 
         initComponent();
@@ -67,7 +70,7 @@ public class Acceuil extends JPanel {
                 + " (" + mainWindow.getSir().getPersonneConnecte().getIdMedical() + ")"
         );
         menuPanel.setVisible(true);
-        //centrePanel.setVisible(false);
+        centrePanel.setVisible(false);
     }
 
     public void initDifferentialAccess () {
@@ -142,8 +145,27 @@ public class Acceuil extends JPanel {
     }
 
     public void displayPatient (){
-        DMR d = (DMR) list.getSelectedValue();
+        DMR dmr = (DMR) list.getSelectedValue();
+        Patient patient = dmr.getPatient();
+        infoPatientLabel.setText(patient.toString());
+        ArrayList<Examen> listeExamen = null;
+        try {
+            listeExamen = mainWindow.getSir().getConn().getExamen(patient);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if ( listeExamen.size()>0 )
+            buildExameTree(listeExamen);
         centrePanel.setVisible(true);
+    }
+
+    public void buildExameTree (ArrayList<Examen> listeExamen){
+        System.out.println("hello");
+        DefaultTreeModel model = (DefaultTreeModel) examTree.getModel();
+        for(Examen e : listeExamen){
+            DefaultMutableTreeNode examNode = new DefaultMutableTreeNode(e.toString());
+        }
+        revalidate();
     }
 
     public JPanel getMainPanel() {

@@ -44,7 +44,7 @@ public class Connexion {
             String idPR = rs.getString("idPR");
             String idP = rs.getString("idP");
             GregorianCalendar naissance = new GregorianCalendar();
-            naissance.setGregorianChange(rs.getDate("date"));
+            naissance.setTime(rs.getDate("date"));
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
             Patient p = new Patient(idPR, idP, nom, prenom, naissance);
@@ -89,78 +89,44 @@ public class Connexion {
         return personnel;
     }
 
-    /*public ArrayList<Examen> getExamens(Patient ID) throws Exception{
-        String query = "SELECT * FROM examen where idpatient="+ID;
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery(query);
-        ArrayList<Examen> array = new ArrayList<>();
-        int i = 1;
-        String s = "";
-        while (rs.next()) {
-            s = rs.getString("idexam");
-            array.add(new Examen(getExamens(Integer.toString(i)).getIdPatient(), getPatient(Integer.toString(i)).getNom(), getPatient(Integer.toString(i)).getPrenom(), getPatient(Integer.toString(i)).getNaissance(), getPatient(Integer.toString(i)).getNumSS()));
-            i++;
-
-        }
-
-
-
-        st.close();
-        return array;
-
-    }*/
-
-
-    public Examen getExamen(String idExamen) throws Exception {
-        String query = "SELECT * FROM examen WHERE idExamen=" + idExamen;
+    public ArrayList<Examen> getExamen(Patient patient) throws Exception {
+        String query = "SELECT * FROM examen natural join compterendu WHERE idPR=?";
 
         // create the java statement
-        Statement st = con.createStatement();
+        PreparedStatement st = con.prepareStatement(query);
+        st.setString(1, patient.getIdPR());
 
         // execute the query, and get a java resultset
-        ResultSet rs = st.executeQuery(query);
-        String id = "";
-        String archiv = "";
-        TypeExamen typeexam = null;
+        ResultSet rs = st.executeQuery();
 
-        GregorianCalendar date = new GregorianCalendar();
-        ServiceHosp service = null;
+        ArrayList<Examen> listeExamen = new ArrayList<>();
+
         // iterate through the java resultset
-
-        String idpr = "";
-        String nom = "";
-        String prenom = "";
-        Profession prof = null;
-
-        Examen e = null;
-
         while (rs.next()) {
-            id = rs.getString("idExamen");
-            archiv = rs.getString("numArchivage");
-            service = ServiceHosp.valueOf(rs.getString("service").toUpperCase());
-            idpr = rs.getString("idPR");
-            typeexam = TypeExamen.valueOf(rs.getString("typeExamen").toUpperCase());
+            GregorianCalendar date = new GregorianCalendar();
+            date.setTime( rs.getDate("date") );
+            String numArchivage = rs.getString("numArchivage");
+            ServiceHosp service = ServiceHosp.valueOf(rs.getString("service").toUpperCase());
+            TypeExamen typeexam = TypeExamen.valueOf(rs.getString("typeExamen").toUpperCase());
+            PersonnelServiceRadio personnel = getPersonnelServiceRadio(rs.getString("idPersonnel"));
+            ArrayList<Image> listeImage = getImage(numArchivage);
+            CompteRendu cr = new CompteRendu(numArchivage, rs.getString("compteRendu"));
 
-            //pour recup une date
-            GregorianCalendar cal = new GregorianCalendar();
-            java.sql.Date sqlDate = rs.getDate("date");
-            GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
-            cal.setTimeInMillis(sqlDate.getTime());
-            date = cal;
+            Examen examen = new Examen(
+                   date,
+                   numArchivage,
+                   typeexam,
+                   patient,
+                    personnel,
+                    service,
+                    listeImage,
+                    cr
+            );
 
-
-            //idp = rs.getString("idp");
-            //nom = rs.getString("nom");
-            //prenom = rs.getString("prenom");
-            //prof = Profession.valueOf(rs.getString("profession").toUpperCase());
-            // print the results
-            System.out.println(id + "  " + archiv + "  " + service + "  " + idpr + "   " + typeexam);
+            listeExamen.add(examen);
         }
-
         st.close();
-        PersonnelServiceRadio p = new PersonnelServiceRadio(nom, prenom, id, prof);
-
-        return e;
+        return listeExamen;
     }
 
     public void addExamen (Examen examen) throws Exception{
@@ -282,14 +248,13 @@ public class Connexion {
         statement.close();
     }
 
-    public ArrayList<Image> getImage (Examen e) throws Exception{
+    public ArrayList<Image> getImage (String numArchivage) throws Exception{
         ArrayList<Image> listImage = new ArrayList<Image>();
         String query = "select * from image where numArchivage=?";
         PreparedStatement statement = this.con.prepareStatement(query);
-        statement.setString(1, e.getNumArchivage());
-        ResultSet res = statement.executeQuery(query);
+        statement.setString(1,numArchivage);
+        ResultSet res = statement.executeQuery();
         while (res.next()){
-            String numArchivage = res.getString("numArchivage");
             int numInstance = res.getInt("numInstance");
             byte[] imageData = res.getBytes("image");
             Image image = new Image(numArchivage);

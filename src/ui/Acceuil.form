@@ -156,10 +156,12 @@
                     <children>
                       <component id="43ce7" class="javax.swing.JLabel" binding="infoPatientLabel">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="50"/>
+                          </grid>
                         </constraints>
                         <properties>
-                          <text value="Label"/>
+                          <text value=""/>
                         </properties>
                       </component>
                     </children>
@@ -169,9 +171,12 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="f04ce" class="javax.swing.JTree" binding="examTree">
+                      <component id="f04ce" class="javax.swing.JTree" binding="examTree" custom-create="true">
                         <constraints border-constraint="Center"/>
-                        <properties/>
+                        <properties>
+                          <editable value="false"/>
+                          <enabled value="true"/>
+                        </properties>
                       </component>
                     </children>
                   </grid>

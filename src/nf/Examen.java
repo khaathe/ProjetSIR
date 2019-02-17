@@ -2,6 +2,7 @@ package nf;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -24,7 +25,6 @@ public class Examen {
         typeExamen = TypeExamen.UNKNOWN;
         service = ServiceHosp.UNKNOWN;
     }
-
 
     public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, ArrayList<Image> images, CompteRendu cr){
         this.date = date;
@@ -58,6 +58,11 @@ public class Examen {
         return df.format(random);
     }
 
+    public String toString (){
+        String info = "Examen du : " + new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+        return info;
+    }
+
     public GregorianCalendar getDate() {
         return date;
     }
@@ -80,38 +85,6 @@ public class Examen {
 
     public ServiceHosp getService() {
         return service;
-    }
-
-    public void setDate(GregorianCalendar date) {
-        this.date = date;
-    }
-
-    public void setNumArchivage(String numArchivage) {
-        this.numArchivage = numArchivage;
-    }
-
-    public void setCr(CompteRendu cr) {
-        this.cr = cr;
-    }
-
-    public void setTypeExamen(TypeExamen typeExamen) {
-        this.typeExamen = typeExamen;
-    }
-
-    public void setImages(ArrayList<Image> images) {
-        this.images = images;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public void setPraticien(PersonnelServiceRadio praticien) {
-        this.praticien = praticien;
-    }
-
-    public void setService(ServiceHosp service) {
-        this.service = service;
     }
 
     public Patient getPatient() {

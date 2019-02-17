@@ -1,6 +1,7 @@
 package nf;
 
 import javax.swing.*;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 public class Patient {
@@ -46,20 +47,11 @@ public class Patient {
 
     public String getIdPR(){return idPR;}
 
-    public void setIdPR(String idPR) {
-        this.idPR = idPR;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public void setNaissance(GregorianCalendar naissance) {
-        this.naissance = naissance;
+    public String toString (){
+        String info = idPR + ", "
+                + nom + " " + prenom +", "
+                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime());
+        return info;
     }
 }
 
