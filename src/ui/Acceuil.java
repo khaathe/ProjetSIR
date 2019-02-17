@@ -35,35 +35,62 @@ public class Acceuil extends JPanel {
     private JLabel dateLabel;
     private JButton button2;
     private JButton numeriserButton;
+    private JPanel patientPanel;
+    private JPanel infoPatientPanel;
+    private JPanel examenPanel;
+    private JLabel infoPatientLabel;
+    private JTree examTree;
+    private JPanel menuPanel;
     private MainWindow mainWindow;
-    private Connexion connexion;
-
-    private String id;
-    private String nom;
-    private String prenom;
-    private GregorianCalendar daten;
-    private String numss;
-    private essaisConnexion ec;
 
 
     public Acceuil(MainWindow mainWindow) throws Exception {
         this.mainWindow = mainWindow;
-        id = "";
+
         list = new JList();
         model = new DefaultListModel();
 
-        for(DMR d : mainWindow.getSir().getListeDMR() ) {
-            model.addElement(d);
-        }
-
         $$$setupUI$$$();
 
-        list.setModel(model);
+        initComponent();
 
+        initList();
+
+        initListener();
+
+        initDifferentialAccess();
+    }
+
+    public void initComponent (){
         nameLabel.setText("Mr/Mme " + mainWindow.getSir().getPersonneConnecte().getNom()
                 + " " + mainWindow.getSir().getPersonneConnecte().getPrenom()
                 + " (" + mainWindow.getSir().getPersonneConnecte().getIdMedical() + ")"
         );
+        menuPanel.setVisible(true);
+        //centrePanel.setVisible(false);
+    }
+
+    public void initDifferentialAccess () {
+        switch ( mainWindow.getSir().getPersonneConnecte().getProfession() ) {
+            case PH:
+                admissionButton.setVisible(false);
+                button2.setVisible(false);
+                numeriserButton.setVisible(false);
+                break;
+            case MANIPULATEUR:
+                ajoutExamButton.setVisible(false);
+                CRButton.setVisible(false);
+                break;
+            case SECRETAIRE_MEDICALE:
+                ajoutExamButton.setVisible(false);
+                CRButton.setVisible(false);
+                numeriserButton.setVisible(false);
+                accesImageButton.setVisible(false);
+                break;
+        }
+    }
+
+    public void initListener(){
         ajoutExamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -85,28 +112,13 @@ public class Acceuil extends JPanel {
                 displayPatient();
             }
         });
-        initDifferentialAccess();
     }
 
-
-    public void initDifferentialAccess () {
-        switch ( mainWindow.getSir().getPersonneConnecte().getProfession() ) {
-            case PH:
-                admissionButton.setVisible(false);
-                button2.setVisible(false);
-                numeriserButton.setVisible(false);
-                break;
-            case MANIPULATEUR:
-                ajoutExamButton.setVisible(false);
-                CRButton.setVisible(false);
-                break;
-            case SECRETAIRE_MEDICALE:
-                ajoutExamButton.setVisible(false);
-                CRButton.setVisible(false);
-                numeriserButton.setVisible(false);
-                accesImageButton.setVisible(false);
-                break;
+    public void initList (){
+        for(DMR d : mainWindow.getSir().getListeDMR() ) {
+            model.addElement(d);
         }
+        list.setModel(model);
     }
 
     public void openImage() {
@@ -131,132 +143,15 @@ public class Acceuil extends JPanel {
 
     public void displayPatient (){
         DMR d = (DMR) list.getSelectedValue();
-        System.out.println("je clique sur " + d.getPatient().getNom() + " " + d.getPatient().getPrenom());
+        centrePanel.setVisible(true);
     }
 
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
-    public void setMainPanel(JPanel mainPanel) {
-        this.mainPanel = mainPanel;
-    }
-
-    public JList getList1() {
+    public JList getList() {
         return list;
-    }
-
-    public void setList1(JList list1) {
-        this.list = list1;
-
-    }
-
-    public JButton getAjoutExamButton() {
-        return ajoutExamButton;
-    }
-
-    public void setAjoutExamButton(JButton ajoutExamButton) {
-        this.ajoutExamButton = ajoutExamButton;
-    }
-
-    public JButton getAccesImageButton() {
-        return accesImageButton;
-    }
-
-    public void setAccesImageButton(JButton accesImageButton) {
-        this.accesImageButton = accesImageButton;
-    }
-
-    public JButton getCRButton() {
-        return CRButton;
-    }
-
-    public void setCRButton(JButton CRButton) {
-        this.CRButton = CRButton;
-    }
-
-    public JButton getAdmissionButton() {
-        return admissionButton;
-    }
-
-    public void setAdmissionButton(JButton admissionButton) {
-        this.admissionButton = admissionButton;
-    }
-
-    public JButton getButton5() {
-        return button5;
-    }
-
-    public void setButton5(JButton button5) {
-        this.button5 = button5;
-    }
-
-    public JPanel getNorthPanel() {
-        return northPanel;
-    }
-
-    public void setNorthPanel(JPanel northPanel) {
-        this.northPanel = northPanel;
-    }
-
-    public JPanel getWestPanel() {
-        return westPanel;
-    }
-
-    public void setWestPanel(JPanel westPanel) {
-        this.westPanel = westPanel;
-    }
-
-    public JPanel getSouthPanel() {
-        return southPanel;
-    }
-
-    public void setSouthPanel(JPanel southPanel) {
-        this.southPanel = southPanel;
-    }
-
-    public JPanel getCentrePanel() {
-        return centrePanel;
-    }
-
-    public void setCentrePanel(JPanel centrePanel) {
-        this.centrePanel = centrePanel;
-    }
-
-    public JLabel getNameLabel() {
-        return nameLabel;
-    }
-
-    public void setNameLabel(JLabel nameLabel) {
-        /*try {
-            //this.nameLabel = mainWindow.getSir().getConn().getPersonnelServiceRadio(ec.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    public JLabel getIconLabel() {
-        return iconLabel;
-    }
-
-    public void setIconLabel(JLabel iconLabel) {
-        this.iconLabel = iconLabel;
-    }
-
-    public JLabel getDateLabel() {
-        return dateLabel;
-    }
-
-    public void setDateLabel(JLabel dateLabel) {
-        this.dateLabel = dateLabel;
-    }
-
-    public MainWindow getMainWindow() {
-        return mainWindow;
-    }
-
-    public void setMainWindow(MainWindow mainWindow) {
-        this.mainWindow = mainWindow;
     }
 
     /**

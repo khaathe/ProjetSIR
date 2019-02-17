@@ -116,7 +116,7 @@ public class AjoutExamen extends JPanel {
 
         TypeExamen typeExamen = (TypeExamen) examComboBox.getSelectedItem();
         ServiceHosp serviceHosp = (ServiceHosp) serviceComboBox.getSelectedItem();
-        Patient patient = ( (DMR) accueil.getList1().getSelectedValue() ).getPatient();
+        Patient patient = ( (DMR) accueil.getList().getSelectedValue() ).getPatient();
         PersonnelServiceRadio personnelServiceRadio = mainWindow.getSir().getPersonneConnecte();
         String numArchivage = Examen.generateNumArchivage();
         ArrayList<nf.Image> listeImage = loadImage(numArchivage);
