@@ -8,8 +8,8 @@ import nf.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
@@ -30,13 +30,14 @@ public class AjoutExamen extends JPanel {
     private JButton dateButton;
     private JLabel dateLabel;
     private JLabel crLabel;
+    private JButton validateTypeExamButton;
+    private JButton validateServiceButton;
     private MainWindow mainWindow;
     private Patient patient;
     private Examen examen;
     private DefaultComboBoxModel<TypeExamen> model;
     private DefaultComboBoxModel<ServiceHosp> model2;
     GregorianCalendar cal = new GregorianCalendar();
-    GregorianCalendar calendar = (GregorianCalendar) Calendar.getInstance();
     private CompteRendu cr;
     private ArrayList<Image> li;
     private String numArchiv;
@@ -64,13 +65,13 @@ public class AjoutExamen extends JPanel {
         model = new DefaultComboBoxModel();
         comboBox4.setModel(model);
         remplissageComboTypeExam();
-        tp = (TypeExamen) comboBox4.getSelectedItem();
+        // tp = (TypeExamen) comboBox4.getSelectedItem();
 
 
         model2 = new DefaultComboBoxModel();
         comboBox5.setModel(model2);
         remplissageComboService();
-        sh = (ServiceHosp) comboBox5.getSelectedItem();
+        //sh = (ServiceHosp) comboBox5.getSelectedItem();
 
 
         annulerButton.addActionListener(new ActionListener() {
@@ -104,6 +105,7 @@ public class AjoutExamen extends JPanel {
                     mainWindow.getSir().getConn().addExamen(examen, patient);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "erreur");
                 }
             }
         });
@@ -117,11 +119,54 @@ public class AjoutExamen extends JPanel {
 
             }
         });*/
+        dateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                dateLabel = new JLabel();
+                dateLabel.setText("Date : " + LocalDate.now().toString());
+                crArea.setText(crArea.getText() + dateLabel);
+            }
+        });
+        validateTypeExamButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                // tp = TypeExamen.ANGIOGRAPHIE;
+                if (comboBox4.getSelectedItem().equals("ANGIOGRAPHIE")) {
+                    tp = TypeExamen.ANGIOGRAPHIE;
+                }
+                if (comboBox4.getSelectedItem().equals("ECHOENDOSCOPIE")) {
+                    tp = TypeExamen.ECHOENDOSCOPIE;
+                }
+                if (comboBox4.getSelectedItem().equals("ECHOGRAPHIE")) {
+                    tp = TypeExamen.ECHOGRAPHIE;
+                }
+                if (comboBox4.getSelectedItem().equals("MAMMOGRAPHIE")) {
+                    tp = TypeExamen.MAMMOGRAPHIE;
+                }
+                if (comboBox4.getSelectedItem().equals("RADIOGRAPHIE")) {
+                    tp = TypeExamen.RADIOGRAPHIE;
+                }
+            }
+        });
+        validateServiceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
+
+
+        comboBox5.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent itemEvent) {
+                sh = (ServiceHosp) comboBox5.getSelectedItem();
+            }
+        });
     }
 
 
     public void creationExam() {
-        examen = new Examen("75630202", calendar, numArchiv, idPR, tp, ps, sh);
+        examen = new Examen("75630202", cal, numArchiv, idPR, tp, ps, sh);
     }
 
     public void remplissageComboTypeExam() {
@@ -217,6 +262,9 @@ public class AjoutExamen extends JPanel {
         panel5.add(label1);
         comboBox5 = new JComboBox();
         panel5.add(comboBox5);
+        validateServiceButton = new JButton();
+        validateServiceButton.setText("OK");
+        panel5.add(validateServiceButton);
         final JPanel panel6 = new JPanel();
         panel6.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         panel2.add(panel6, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -225,6 +273,9 @@ public class AjoutExamen extends JPanel {
         panel6.add(label2);
         comboBox4 = new JComboBox();
         panel6.add(comboBox4);
+        validateTypeExamButton = new JButton();
+        validateTypeExamButton.setText("OK");
+        panel6.add(validateTypeExamButton);
         final JPanel panel7 = new JPanel();
         panel7.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel7, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

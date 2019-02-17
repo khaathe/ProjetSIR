@@ -109,6 +109,12 @@
                 <constraints/>
                 <properties/>
               </component>
+              <component id="11a3a" class="javax.swing.JButton" binding="validateServiceButton">
+                <constraints/>
+                <properties>
+                  <text value="OK"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="1097" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
@@ -127,6 +133,12 @@
               <component id="48914" class="javax.swing.JComboBox" binding="comboBox4" default-binding="true">
                 <constraints/>
                 <properties/>
+              </component>
+              <component id="428dd" class="javax.swing.JButton" binding="validateTypeExamButton">
+                <constraints/>
+                <properties>
+                  <text value="OK"/>
+                </properties>
               </component>
             </children>
           </grid>

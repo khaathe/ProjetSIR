@@ -45,7 +45,7 @@ public class Acceuil extends JPanel {
 
     public Acceuil(MainWindow mainWindow) throws Exception {
         this.mainWindow = mainWindow;
-        id = "";
+        id = mainWindow.getIdMed();
 
 
         // sir = new SIR();
@@ -53,10 +53,8 @@ public class Acceuil extends JPanel {
         $$$setupUI$$$();
 
         //model.addElement(new DMR("2", "Robert", "Amandine", new GregorianCalendar(), "17264187463"));
-        for (int i = 0; i < mainWindow.getSir().getConn().getDMR().size(); i++) {
-            model.addElement(mainWindow.getSir().getConn().getDMR().get(i).getPatient().getNom() + " " + mainWindow.getSir().getConn().getDMR().get(i).getPatient().getPrenom());
-        }
-        list1.setModel(model);
+
+
         //nameLabel.setText("Mr/Mme " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getNom() + " " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getPrenom());
         nameLabel.setText("Mr/Mme " + mainWindow.getIdMed());
         ajoutExamButton.addActionListener(new ActionListener() {
@@ -76,6 +74,8 @@ public class Acceuil extends JPanel {
         for (int i = 0; i < mainWindow.getSir().getConn().getListePersonnel().size(); i++) {
             System.out.println(mainWindow.getSir().getConn().getListePersonnel().get(i).getProfession());
         }
+        System.out.println(mainWindow.getIdMed());
+//        System.out.println(mainWindow.getSir().getConn().getPersonnelServiceRadio(id));
 
         /*switch (mainWindow.getSir().getConn().getPersonnelServiceRadio(mainWindow.getIdMed()).getProfession()) {
             case PH:
@@ -96,6 +96,13 @@ public class Acceuil extends JPanel {
         }*/
 
 
+    }
+
+    public void initialize() throws Exception {
+        for (int i = 0; i < mainWindow.getSir().getConn().getDMR().size(); i++) {
+            model.addElement(mainWindow.getSir().getConn().getDMR().get(i).getPatient().getNom() + " " + mainWindow.getSir().getConn().getDMR().get(i).getPatient().getPrenom());
+        }
+        list1.setModel(model);
     }
 
     public void openImage() {

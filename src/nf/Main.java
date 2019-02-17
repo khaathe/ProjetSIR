@@ -22,11 +22,12 @@ public class Main {
                     Profession.PH
                     );
 */
+           String idMed="93547369";
             PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
-                    "8278375",
-                    "Trouillet",
-                    "Juliette",
-                    Profession.MANIPULATEUR
+                    "93547369",
+                    "Dupont",
+                    "Marise",
+                    Profession.SECRETAIRE
             );
             Patient patient = new Patient (
                     "56",
@@ -53,7 +54,13 @@ public class Main {
                     personnelServiceRadio,
                     ServiceHosp.CARDIOLOGIE
             );
-            connexion.addExamen(e,patient);
+
+            System.out.println(
+                    connexion.getPersonnelServiceRadio("93547369"));
+                    //+connexion.getPersonnelServiceRadio("93547369").getIdMedical()+" "
+                    //+connexion.getPersonnelServiceRadio("93547369").getNom()+" "
+            //connexion.getPersonnelServiceRadio("93547369").getProfession());
+            //connexion.addExamen(e,patient);
            //connexion.addPersonnelServiceRadio(personnelServiceRadio);
            //connexion.addPersonnelServiceRadio(personnelServiceRadio2);
 
