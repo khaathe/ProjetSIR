@@ -21,6 +21,11 @@ public class PersonnelServiceRadio {
         this.profession = profession;
     }
 
+    public String toString (){
+        String info = "Dr " + nom + " " + prenom;
+        return info;
+    }
+
     public String getNom() {
         return nom;
     }

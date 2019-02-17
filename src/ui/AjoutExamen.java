@@ -32,6 +32,7 @@ public class AjoutExamen extends JPanel {
     private JLabel imageLabel;
     private JLabel dateLabel;
     private JLabel crLabel;
+    private JLabel imageChoisieLabel;
     private MainWindow mainWindow;
     private DefaultComboBoxModel<TypeExamen> examModel;
     private DefaultComboBoxModel<ServiceHosp> serviceModel;
@@ -135,8 +136,10 @@ public class AjoutExamen extends JPanel {
         JFileChooser jFileChooser =new JFileChooser();
         jFileChooser.setMultiSelectionEnabled(true);
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        if(jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+        if(jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             listeFichierImage = jFileChooser.getSelectedFiles();
+            imageChoisieLabel.setText("Image choisie");
+        }
     }
 
     public ArrayList<nf.Image> loadImage (String numArchivage) {

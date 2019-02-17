@@ -3,12 +3,13 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import jdk.nashorn.internal.scripts.JO;
 import nf.*;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,11 +18,12 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 public class Acceuil extends JPanel {
     public JPanel mainPanel;
     private JList list;
-    private DefaultListModel model;
+    private DefaultListModel listModel;
     private JButton ajoutExamButton;
     private JButton accesImageButton;
     private JButton CRButton;
@@ -41,18 +43,19 @@ public class Acceuil extends JPanel {
     private JPanel examenPanel;
     private JLabel infoPatientLabel;
     private JTree examTree;
-    private  DefaultMutableTreeNode allExamNode;
     private JPanel menuPanel;
     private MainWindow mainWindow;
+    private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
 
 
     public Acceuil(MainWindow mainWindow) throws Exception {
         this.mainWindow = mainWindow;
 
         list = new JList();
-        model = new DefaultListModel();
-        allExamNode = new DefaultMutableTreeNode("root");
-        examTree = new JTree(allExamNode);
+        listModel = new DefaultListModel();
+        examTree = new JTree();
+        examTree.setRootVisible(false);
+
         $$$setupUI$$$();
 
         initComponent();
@@ -119,18 +122,22 @@ public class Acceuil extends JPanel {
 
     public void initList (){
         for(DMR d : mainWindow.getSir().getListeDMR() ) {
-            model.addElement(d);
+            listModel.addElement(d);
         }
-        list.setModel(model);
+        list.setModel(listModel);
     }
 
     public void openImage() {
         try {
-            this.mainWindow.setContentPane(new Image(mainWindow, this).getMainPanel());
+            Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
+            if (examen == null)
+                throw  new NullPointerException("Veuilez choisir un examen");
+            else if (examen.getImages().size() == 0)
+                throw  new Exception("Aucune image pour cet examen");
+            this.mainWindow.setContentPane(new Image(mainWindow, this, examen.getImages()).getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Problème d'interface");
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
 
@@ -156,15 +163,25 @@ public class Acceuil extends JPanel {
         }
         if ( listeExamen.size()>0 )
             buildExameTree(listeExamen);
+        else
+            examTree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode()));
         centrePanel.setVisible(true);
     }
 
     public void buildExameTree (ArrayList<Examen> listeExamen){
-        System.out.println("hello");
-        DefaultTreeModel model = (DefaultTreeModel) examTree.getModel();
+        DefaultMutableTreeNode allExamn = new DefaultMutableTreeNode();
+        DefaultTreeModel model = new DefaultTreeModel(allExamn);
+        nodeToExam = new HashMap<>();
         for(Examen e : listeExamen){
-            DefaultMutableTreeNode examNode = new DefaultMutableTreeNode(e.toString());
+            DefaultMutableTreeNode examNode = new DefaultMutableTreeNode(e);
+            examNode.add(new DefaultMutableTreeNode("numArchivage : " + e.getNumArchivage()));
+            examNode.add(new DefaultMutableTreeNode("type : " + e.getTypeExamen()));
+            examNode.add(new DefaultMutableTreeNode("Fait par " + e.getPraticien()));
+            examNode.add(new DefaultMutableTreeNode("Service " + e.getService()));
+            model.insertNodeInto(examNode, (MutableTreeNode) model.getRoot(), 0);
+            nodeToExam.put(examNode, e);
         }
+        examTree.setModel(model);
         revalidate();
     }
 

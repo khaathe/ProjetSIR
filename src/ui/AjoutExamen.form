@@ -90,6 +90,12 @@
                   <text value="Choisir image"/>
                 </properties>
               </component>
+              <component id="51387" class="javax.swing.JLabel" binding="imageChoisieLabel">
+                <constraints/>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="fcde" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
