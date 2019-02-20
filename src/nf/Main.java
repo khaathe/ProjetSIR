@@ -15,17 +15,14 @@ public class Main {
         //System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
             Connexion connexion = new Connexion();
-            connexion.connection("kevin","1234abcd");
+            connexion.connection("rupy","rupy123");
             ArrayList <DMR> s = connexion.getDMR();
             ArrayList <PersonnelServiceRadio> psr;
 
-            PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
-                    "8278375",
-                    "Trouillet",
-                    "Juliette",
-                    Profession.MANIPULATEUR
-            );
-            Patient claire = new Patient (
+            PersonnelServiceRadio p=connexion.getPersonnelServiceRadio("2");
+
+            System.out.println(p.getProfession());
+            /*Patient claire = new Patient (
                     "983250865",
                     "565694949",
                     "Heissler",
@@ -42,7 +39,7 @@ public class Main {
                     System.out.println(p.getNom() + " a eu un exam le : "+ listeExamen.get(0));
             }
             connexion.Disconnection();
-
+*/
         } catch (Exception e){
             e.printStackTrace();
         }

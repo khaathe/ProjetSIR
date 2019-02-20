@@ -82,7 +82,15 @@ public class Connexion {
             String idPersonnel = rs.getString("idPersonnel");
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
-            Profession profession = Profession.valueOf(rs.getString("profession").toUpperCase());
+            Profession profession;
+
+            if(rs.getString("profession").toUpperCase().equals("SECRETAIRE")){
+                profession=Profession.SECRETAIRE_MEDICALE;
+            }
+            else {
+               // profession = Profession.valueOf(rs.getString("profession").toUpperCase());
+                profession=Profession.PH;
+            }
             personnel = new PersonnelServiceRadio(idPersonnel, nom, prenom, profession);
         }
         statement.close();
@@ -223,7 +231,7 @@ public class Connexion {
         preparedStmt.setString(1, personnel.getIdMedical());
         preparedStmt.setString(2, personnel.getNom());
         preparedStmt.setString(3, personnel.getPrenom());
-        preparedStmt.setString(4, personnel.getProfession().toString());
+        preparedStmt.setString(4, personnel.getProfessionString());
 
         // execute the preparedstatement
         preparedStmt.execute();
