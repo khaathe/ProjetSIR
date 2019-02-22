@@ -169,7 +169,7 @@ public class AjoutExamen extends JPanel {
 
     public boolean isAllFIeldValid() {
         boolean valid = false;
-        if (checkDate() && !(crArea.getText().equals(null)) && listeFichierImage != null)
+        if (checkDate() && !(crArea.getText().equals("")) && listeFichierImage != null)
             valid = true;
         else
             JOptionPane.showMessageDialog(this, "Erreur, remplissez tous les champs svp", "Erreur de champs", JOptionPane.ERROR_MESSAGE);
@@ -177,16 +177,18 @@ public class AjoutExamen extends JPanel {
 
     }
 
+
     public boolean checkDate() {
-        boolean check = false;
+        boolean check = true;
         int day = (int) dayComboBox.getSelectedItem();
         int month = (int) monthComboBox.getSelectedItem();
-        if (month == 2 && day <= 28)
-            check = true;
-        else if (month < 8 && month % 2 == 0 && day <= 30)
-            check = true;
-        else if (month > 8 && month % 2 == 1 && day <= 30)
-            check = true;
+        if (month == 2 && day > 28)
+            check = false;
+        else if (month < 8 && month % 2 == 0 && day > 30)
+            check = false;
+        else if (month > 8 && month % 2 == 1 && day > 30)
+            check = false;
+
         return check;
     }
 

@@ -1,7 +1,8 @@
 package nf;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class Main {
 
@@ -11,9 +12,10 @@ public class Main {
         //System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
             Connexion connexion = new Connexion();
+
             connexion.connection("robert","joke");
-            ArrayList <DMR> s = connexion.getDMR();
-            ArrayList <PersonnelServiceRadio> psr;
+            ArrayList <DMR> s1 = connexion.getDMR();
+            ArrayList <PersonnelServiceRadio> psr1;
 
 
            PersonnelServiceRadio personnelServiceRadio1 = new PersonnelServiceRadio(
@@ -24,7 +26,7 @@ public class Main {
                     );
 
            String idMed="93547369";
-           connexion.addPersonnelServiceRadio(personnelServiceRadio1);
+          // connexion.addPersonnelServiceRadio(personnelServiceRadio1);
 
             PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
                     "93547369",
@@ -32,7 +34,35 @@ public class Main {
                     "Marise",
                     Profession.SECRETAIRE_MEDICALE
             );
-            Patient claire = new Patient (
+
+
+
+            //ArrayList <DMR> s = connexion.getDMR();
+            //ArrayList <PersonnelServiceRadio> psr;
+
+            //PersonnelServiceRadio p=connexion.getPersonnelServiceRadio("2");
+
+            //System.out.println(p.getProfession());
+
+            ArrayList<Image> listImage = new ArrayList<>();
+
+            Image i = new Image("08470296");
+            Image i2 = new Image("864994949");
+            Image i3 = new Image("13156212564829");
+
+            i.setImage(ImageIO.read(new File("C:\\Users\\amanr\\Pictures\\jpg\\brain\\brain1_0000.jpg")));
+            i2.setImage(ImageIO.read(new File("C:\\Users\\amanr\\Pictures\\jpg\\brain\\brain1_0008.jpg")));
+            i3.setImage(ImageIO.read(new File("C:\\Users\\amanr\\Pictures\\jpg\\abdomen\\cor494-i387.jpg")));
+
+            listImage.add(i);
+            listImage.add(i2);
+            listImage.add(i3);
+
+            connexion.insertImage(listImage);
+
+
+            /*Patient claire = new Patient (
+
                     "983250865",
                     "565694949",
                     "Heissler",
@@ -84,7 +114,7 @@ public class Main {
                     System.out.println(p.getNom() + " a eu un exam le : "+ listeExamen.get(0));
             }
             connexion.Disconnection();
-
+*/
         } catch (Exception e){
             e.printStackTrace();
         }

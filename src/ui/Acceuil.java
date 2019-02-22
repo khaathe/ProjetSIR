@@ -3,13 +3,14 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import jdk.nashorn.internal.scripts.JO;
-import nf.*;
+import nf.DMR;
+import nf.Examen;
+import nf.Patient;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +18,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 public class Acceuil extends JPanel {
@@ -150,6 +150,13 @@ public class Acceuil extends JPanel {
                 displayPatient();
             }
         });
+
+        CRButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+            openCR();
+            }
+        });
     }
 
     public void initList() {
@@ -165,6 +172,19 @@ public class Acceuil extends JPanel {
         }
         list1.setModel(model);
     }*/
+
+    public void openCR() {
+        try {
+            Examen exam = nodeToExam.get(examTree.getLastSelectedPathComponent());
+            if (exam == null) {
+                throw new NullPointerException("Veuilez choisir un examen");
+            } else {
+                JOptionPane.showMessageDialog(this, exam.getCr().toString());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
 
     public void openImage() {
         try {

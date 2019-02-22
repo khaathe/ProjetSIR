@@ -53,7 +53,16 @@ public class PersonnelServiceRadio {
     public Profession getProfession() {
         return profession;
     }
-
+    public String getProfessionString(){
+        Profession p;
+        String s;
+        p=getProfession();
+        if (p.toString()=="SECRETAIRE_MEDICALE"){
+            s="secretaire";
+        }
+        else{s=p.toString();}
+        return s;
+    }
     public void setProfession(Profession profession) {
         this.profession = profession;
     }

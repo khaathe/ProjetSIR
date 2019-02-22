@@ -28,7 +28,6 @@ public class MainWindow extends JFrame {
                 } catch (NamingException e) {
                     e.printStackTrace();
                 }
-                System.out.println("test");
                 window.setContentPane(new essaisConnexion(window).getConnexionPanel());
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 window.pack();
@@ -36,7 +35,6 @@ public class MainWindow extends JFrame {
                 window.setResizable(false);
             }
         });
-
     }
 
     public SIR getSir() {
