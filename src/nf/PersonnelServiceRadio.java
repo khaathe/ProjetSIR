@@ -6,22 +6,25 @@ public class PersonnelServiceRadio {
     private String idMedical;
     private Profession profession;
 
+    public PersonnelServiceRadio (){
+        nom = "";
+        prenom = "";
+        idMedical = "";
+        profession = Profession.UNKNOWN;
+    }
+
 
     public PersonnelServiceRadio(String idMedical, String nom, String prenom, Profession profession) {
-        this.setNom(nom);
-        this.setPrenom(prenom);
-        this.setIdMedical(idMedical);
-        this.setProfession(profession);
+        this.idMedical = idMedical;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.profession = profession;
     }
 
-    // constructeur pour initialiser le professionel correspondant à un examen, l'identifiant n'est pas nécessaire
-   public PersonnelServiceRadio(String nom, String prenom, Profession profession) {
-        this.setNom(nom);
-        this.setPrenom(prenom);
-        this.setProfession(profession);
+    public String toString (){
+        String info = "Dr " + nom + " " + prenom;
+        return info;
     }
-
-
 
     public String getNom() {
         return nom;
@@ -55,23 +58,4 @@ public class PersonnelServiceRadio {
         this.profession = profession;
     }
 
-        /*
-        // constructeur de base, initialisant tous les attributs
-        public PersonnelServiceRadio(String nom, String prenom, String idMedical, Profession profession) {
-            this.nom = nom;
-            this.prenom = prenom;
-            this.idMedical = idMedical;
-            this.profession = profession;
-        }
-
-        // constructeur pour initialiser le professionel correspondant à un examen, l'identifiant n'est pas nécessaire
-    public PersonnelServiceRadio(String nom, String prenom, Profession profession) {
-            this.nom = nom;
-            this.prenom = prenom;
-            this.profession = profession;
-        }
-
-
-    }
-    */
 }

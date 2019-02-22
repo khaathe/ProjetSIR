@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 public class Image extends JPanel {
     private JPanel mainPanel;
@@ -32,7 +33,8 @@ public class Image extends JPanel {
     private JLabel leftRotationLabel;
     private JLabel imageCerveau;
     private MainWindow mainWindow;
-    private nf.Image picture;
+    private ArrayList<nf.Image> picture;
+    private Acceuil acceuil;
 
 
     {
@@ -42,9 +44,10 @@ public class Image extends JPanel {
         //    $$$setupUI$$$();
     }
 
-    public Image(MainWindow mainWindow) {
+    public Image(MainWindow mainWindow, Acceuil acceuil, ArrayList<nf.Image> picture) {
         this.mainWindow = mainWindow;
-
+        this.acceuil = acceuil;
+        this.picture = picture;
         nameDoctorLabel.setText("Mr/Mme " + mainWindow.getIdMed());
         getConstrastSlider().addComponentListener(new ComponentAdapter() {
             @Override
@@ -57,7 +60,7 @@ public class Image extends JPanel {
         annulebutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                retourAcceuil();
+                retourAccueil();
             }
         });
     }
@@ -160,9 +163,9 @@ public class Image extends JPanel {
         return mainPanel;
     }
 
-    public void retourAcceuil() {
+    public void retourAccueil() {
         try {
-            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+            this.mainWindow.setContentPane(acceuil.getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
             e.printStackTrace();

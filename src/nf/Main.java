@@ -12,104 +12,82 @@ public class Main {
         try {
             Connexion connexion = new Connexion();
             connexion.connection("robert","joke");
-            ArrayList <DMR> s;
+            ArrayList <DMR> s = connexion.getDMR();
             ArrayList <PersonnelServiceRadio> psr;
 
-           /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+
+           PersonnelServiceRadio personnelServiceRadio1 = new PersonnelServiceRadio(
                     "57",
                     "Trouillet",
                     "Juliette",
                     Profession.PH
                     );
-*/
+
            String idMed="93547369";
+           connexion.addPersonnelServiceRadio(personnelServiceRadio1);
+
             PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
                     "93547369",
                     "Dupont",
                     "Marise",
-                    Profession.SECRETAIRE
+                    Profession.SECRETAIRE_MEDICALE
             );
-            Patient patient = new Patient (
-                    "56",
+            Patient claire = new Patient (
+                    "983250865",
+                    "565694949",
                     "Heissler",
                     "Claire",
-                    new GregorianCalendar(1997, 10,7),
-                    "983250865"
+
+                    new GregorianCalendar(1997, 10,7)
+
             );
             Patient patient3 = new Patient (
                     "6",
+                    "9283Y59156906",
                     "Mottin",
                     "Laurence",
-                    new GregorianCalendar(1968, 9,4),
-                    "87695286"
+                    new GregorianCalendar(1968, 9,4)
+
             );
+            //connexion.addPatient(claire);
             //connexion.addPatient(patient3);
-            System.out.println(patient3);
+            //System.out.println(patient3);
             Examen e=new Examen(
-                    "08470296",
                     new GregorianCalendar(),
-                    "86",
-                    "983250865",
-                    TypeExamen.IRM,
-                    personnelServiceRadio,
-                    ServiceHosp.CARDIOLOGIE
+                    "08470296",
+                    TypeExamen.SCANNER,
+                    patient3,
+                    personnelServiceRadio1,
+                    ServiceHosp.PNEUMOLOGIE
             );
 
-            System.out.println(
-                    connexion.getPersonnelServiceRadio("93547369"));
+            //System.out.println(connexion.getPersonnelServiceRadio("93547369"));
                     //+connexion.getPersonnelServiceRadio("93547369").getIdMedical()+" "
                     //+connexion.getPersonnelServiceRadio("93547369").getNom()+" "
             //connexion.getPersonnelServiceRadio("93547369").getProfession());
-            //connexion.addExamen(e,patient);
+            connexion.insertExamen(e);
            //connexion.addPersonnelServiceRadio(personnelServiceRadio);
            //connexion.addPersonnelServiceRadio(personnelServiceRadio2);
 
             //psr = connexion.getListePersonnel();
             //s=connexion.getDMR();
 
-            /*for (int i=0; i<s.size();i++){
-                System.out.println(s.get(i).getPatient().getPrenom());
-            }
 
-            //System.out.println(psr);
-            for(int i =0; i<psr.size();i++){
-                System.out.println(psr.get(i).getNom());
-            }*/
+
+
+            ArrayList<Examen> lesExamsDeClaire = connexion.getExamen(claire);
+            System.out.println(lesExamsDeClaire.size());
+            for(DMR dmr : s){
+                Patient p = dmr.getPatient();
+                ArrayList<Examen> listeExamen = connexion.getExamen(p);
+                if (listeExamen.size() > 0)
+                    System.out.println(p.getNom() + " a eu un exam le : "+ listeExamen.get(0));
+            }
+            connexion.Disconnection();
 
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
-                "57",
-                "Trouillet",
-                "Juliette",
-                Profession.PH
-        );*/
-
-
-
-
-
-        /*Patient p = new Patient();
-        p.setIdPatient("2");
-        Examen ex = new Examen(
-                "32765026587469",
-                new GregorianCalendar(2018, 2, 5),
-                "879880983",
-                TypeExamen.SCANNER,
-                new PersonnelServiceRadio("Spinicci", "Kevin", "7274289", Profession.PH),
-                ServiceHosp.NEUROLOGIE
-        );
-
-        Connexion c = new Connexion();
-        try {
-            c.Connection();
-            c.addExamen(ex, p);
-            c.Disconnection();
-        } catch (Exception e){
-            e.printStackTrace();
-        }*/
     }
 
 }

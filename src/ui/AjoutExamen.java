@@ -5,11 +5,15 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import nf.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.time.LocalDate;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
@@ -18,16 +22,15 @@ public class AjoutExamen extends JPanel {
     private JButton annulerButton;
     private JButton ajouterButton;
     private JButton choisirImageButton;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
-    private JComboBox comboBox3;
-    private JComboBox comboBox4;
-    private JComboBox comboBox5;
+    private JComboBox dayComboBox;
+    private JComboBox monthComboBox;
+    private JComboBox yearComboBox;
+    private JComboBox examComboBox;
+    private JComboBox serviceComboBox;
     private JTextArea ajoutDExamenTextArea;
     private JTextArea crArea;
     private JLabel ajoutPatientLabel;
     private JLabel imageLabel;
-    private JButton dateButton;
     private JLabel dateLabel;
     private JLabel crLabel;
     private JButton validateTypeExamButton;
@@ -35,71 +38,66 @@ public class AjoutExamen extends JPanel {
     private MainWindow mainWindow;
     private Patient patient;
     private Examen examen;
-    private DefaultComboBoxModel<TypeExamen> model;
-    private DefaultComboBoxModel<ServiceHosp> model2;
+    //private DefaultComboBoxModel<TypeExamen> model;
+    //private DefaultComboBoxModel<ServiceHosp> model2;
+    private DefaultComboBoxModel<TypeExamen> examModel;
+    private DefaultComboBoxModel<ServiceHosp> serviceModel;
     GregorianCalendar cal = new GregorianCalendar();
     private CompteRendu cr;
-    private ArrayList<Image> li;
+    // private ArrayList<Image> li;
     private String numArchiv;
     private String idPersonnel;
     private String idPR;
     private PersonnelServiceRadio ps;
     private TypeExamen tp;
     private ServiceHosp sh;
+    private JLabel imageChoisieLabel;
+    private Acceuil accueil;
+    private File[] listeFichierImage;
 
 
-    public AjoutExamen(MainWindow mainWindow) {
+    public AjoutExamen(MainWindow mainWindow, Acceuil acceuil) {
         this.mainWindow = mainWindow;
+        this.accueil = acceuil;
+        listeFichierImage = null;
 
 
-        li = null;
-        numArchiv = "957635";
-        //idPersonnel= "0917983967";
-        idPR = "08719859265";
-        Patient patient = new Patient(idPR);
+        examModel = new DefaultComboBoxModel();
+        examComboBox.setModel(examModel);
+        //remplissageComboTypeExam();
 
-        //examen.setNumArchivage(numArchiv);
-
-        ps = new PersonnelServiceRadio(mainWindow.getIdMed(), "Robert", "Amandine", Profession.PH);
-        //examen.setPraticien(ps);
-        model = new DefaultComboBoxModel();
-        comboBox4.setModel(model);
-        remplissageComboTypeExam();
         // tp = (TypeExamen) comboBox4.getSelectedItem();
 
 
-        model2 = new DefaultComboBoxModel();
-        comboBox5.setModel(model2);
-        remplissageComboService();
+        serviceModel = new DefaultComboBoxModel();
+        serviceComboBox.setModel(serviceModel);
+        //remplissageComboService();
+
         //sh = (ServiceHosp) comboBox5.getSelectedItem();
 
+
+        initDayComboBox();
+        initMonthComboBox();
+        initYearComoBox();
+
+        choisirImageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choisirImage();
+            }
+        });
 
         annulerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                retourAcceuil();
+                retourAccueil();
             }
         });
 
-
-        crArea.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent componentEvent) {
-                super.componentResized(componentEvent);
-                String contenu = crArea.getText();
-                //cr.setCompteRendu(contenu);
-                //cr.setIdExam("984368");
-                // examen.setIdExam(cr.getIdExam());
-                cr = new CompteRendu(contenu, "75630202");
-
-            }
-        });
-
-
-        creationExam();
-        ajouterButton.addActionListener(new ActionListener() {
+        /*ajouterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+
                 try {
                     //mainWindow.getSir().getConn().addCompteRendu(examen, cr, ps);
                     mainWindow.getSir().getConn().addExamen(examen, patient);
@@ -107,19 +105,19 @@ public class AjoutExamen extends JPanel {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "erreur");
                 }
-            }
-        });
 
-        //essai pour choisir un type d'examen, mais fait planter l'ajout d'examen à cause d'un conflit avec la méthode de Connexion
-        /*comboBox4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                comboBox4 = (JComboBox) actionEvent.getSource();
-                tp = (TypeExamen) comboBox4.getSelectedItem();
+                ajouter();
 
             }
         });*/
-        dateButton.addActionListener(new ActionListener() {
+    }
+
+
+
+
+
+
+       /* dateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 dateLabel = new JLabel();
@@ -127,6 +125,7 @@ public class AjoutExamen extends JPanel {
                 crArea.setText(crArea.getText() + dateLabel);
             }
         });
+
         validateTypeExamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -161,44 +160,124 @@ public class AjoutExamen extends JPanel {
             public void itemStateChanged(ItemEvent itemEvent) {
                 sh = (ServiceHosp) comboBox5.getSelectedItem();
             }
-        });
+        }); */
+
+    public void ajouter() {
+        if (isAllFIeldValid())
+            creationExam();
     }
 
+    public boolean isAllFIeldValid() {
+        boolean valid = false;
+        if (checkDate() && !(crArea.getText().equals(null)) && listeFichierImage != null)
+            valid = true;
+        else
+            JOptionPane.showMessageDialog(this, "Erreur, remplissez tous les champs svp", "Erreur de champs", JOptionPane.ERROR_MESSAGE);
+        return valid;
+
+    }
+
+    public boolean checkDate() {
+        boolean check = false;
+        int day = (int) dayComboBox.getSelectedItem();
+        int month = (int) monthComboBox.getSelectedItem();
+        if (month == 2 && day <= 28)
+            check = true;
+        else if (month < 8 && month % 2 == 0 && day <= 30)
+            check = true;
+        else if (month > 8 && month % 2 == 1 && day <= 30)
+            check = true;
+        return check;
+    }
 
     public void creationExam() {
-        examen = new Examen("75630202", cal, numArchiv, idPR, tp, ps, sh);
+
+        // examen = new Examen("75630202", cal, numArchiv, idPR, tp, ps, sh );
+
+        GregorianCalendar date = new GregorianCalendar();
+        date.set(GregorianCalendar.DAY_OF_MONTH, (int) dayComboBox.getSelectedItem());
+        date.set(GregorianCalendar.MONTH, (int) monthComboBox.getSelectedItem() - 1);
+        date.set(GregorianCalendar.YEAR, (int) yearComboBox.getSelectedItem());
+
+        TypeExamen typeExamen = (TypeExamen) examComboBox.getSelectedItem();
+        ServiceHosp serviceHosp = (ServiceHosp) serviceComboBox.getSelectedItem();
+        Patient patient = ((DMR) accueil.getList().getSelectedValue()).getPatient();
+        PersonnelServiceRadio personnelServiceRadio = mainWindow.getSir().getPersonneConnecte();
+        String numArchivage = Examen.generateNumArchivage();
+        ArrayList<nf.Image> listeImage = loadImage(numArchivage);
+        CompteRendu cr = new CompteRendu(numArchivage, crArea.getText());
+        Examen examen = new Examen(date, numArchivage, typeExamen, patient, personnelServiceRadio, serviceHosp, listeImage, cr);
+        try {
+            mainWindow.getSir().getConn().addExamen(examen);
+            retourAccueil();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
+    }
+
+    public void choisirImage() {
+        JFileChooser jFileChooser = new JFileChooser();
+        jFileChooser.setMultiSelectionEnabled(true);
+        jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            listeFichierImage = jFileChooser.getSelectedFiles();
+            imageChoisieLabel.setText("Image choisie");
+        }
+    }
+
+    public ArrayList<nf.Image> loadImage(String numArchivage) {
+        ArrayList<nf.Image> listeImage = new ArrayList<>();
+        for (File f : listeFichierImage) {
+            nf.Image image = new nf.Image(numArchivage);
+            try {
+                image.setImage(ImageIO.read(f));
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            listeImage.add(image);
+        }
+        return listeImage;
     }
 
     public void remplissageComboTypeExam() {
-
-        model.addElement(TypeExamen.ANGIOGRAPHIE);
-        model.addElement(TypeExamen.ECHOENDOSCOPIE);
-        model.addElement(TypeExamen.ECHOGRAPHIE);
-        model.addElement(TypeExamen.MAMMOGRAPHIE);
-        model.addElement(TypeExamen.RADIOGRAPHIE);
+        for (TypeExamen typeExamen : TypeExamen.values()) {
+            if (!typeExamen.equals(TypeExamen.UNKNOWN))
+                examModel.addElement(typeExamen);
+        }
     }
 
 
     public void remplissageComboService() {
-
-        model2.addElement(ServiceHosp.CARDIOLOGIE);
-        model2.addElement(ServiceHosp.DERMATOLOGIE);
-        model2.addElement(ServiceHosp.NEUROLOGIE);
-        model2.addElement(ServiceHosp.PNEUMOLOGIE);
-        model2.addElement(ServiceHosp.PSYCHIATRIE);
-        model2.addElement(ServiceHosp.UROLOGIE);
-        model2.addElement(ServiceHosp.GENICO_OBSTETRIE);
+        for (ServiceHosp serviceHosp : ServiceHosp.values()) {
+            if (!serviceHosp.equals(ServiceHosp.UNKNOWN))
+                serviceModel.addElement(serviceHosp);
+        }
     }
 
-
-    public void retourAcceuil() {
-        try {
-            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
-            this.mainWindow.revalidate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Problème d'interface");
+    public void initDayComboBox() {
+        for (int i = 1; i <= 31; i++) {
+            dayComboBox.addItem(i);
         }
+    }
+
+    public void initMonthComboBox() {
+        for (int i = 1; i <= 12; i++) {
+            monthComboBox.addItem(i);
+        }
+    }
+
+    public void initYearComoBox() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int end = 1950;
+        for (int i = currentYear; i >= end; i--) {
+            yearComboBox.addItem(i);
+        }
+    }
+
+    public void retourAccueil() {
+        this.mainWindow.setContentPane(accueil.getMainPanel());
     }
 
     {
@@ -254,14 +333,17 @@ public class AjoutExamen extends JPanel {
         choisirImageButton = new JButton();
         choisirImageButton.setText("Choisir image");
         panel4.add(choisirImageButton);
+        imageChoisieLabel = new JLabel();
+        imageChoisieLabel.setText("");
+        panel4.add(imageChoisieLabel);
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         panel2.add(panel5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Service hospitalier : ");
         panel5.add(label1);
-        comboBox5 = new JComboBox();
-        panel5.add(comboBox5);
+        serviceComboBox = new JComboBox();
+        panel5.add(serviceComboBox);
         validateServiceButton = new JButton();
         validateServiceButton.setText("OK");
         panel5.add(validateServiceButton);
@@ -271,20 +353,31 @@ public class AjoutExamen extends JPanel {
         final JLabel label2 = new JLabel();
         label2.setText("Type d'examen : ");
         panel6.add(label2);
-        comboBox4 = new JComboBox();
-        panel6.add(comboBox4);
+        examComboBox = new JComboBox();
+        panel6.add(examComboBox);
         validateTypeExamButton = new JButton();
         validateTypeExamButton.setText("OK");
         panel6.add(validateTypeExamButton);
         final JPanel panel7 = new JPanel();
-        panel7.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel7.setLayout(new GridLayoutManager(1, 8, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel7, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        dateButton = new JButton();
-        dateButton.setText("Ajouter la date");
-        panel7.add(dateButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         dateLabel = new JLabel();
         dateLabel.setText("Date");
         panel7.add(dateLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        dayComboBox = new JComboBox();
+        panel7.add(dayComboBox, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        monthComboBox = new JComboBox();
+        panel7.add(monthComboBox, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        yearComboBox = new JComboBox();
+        panel7.add(yearComboBox, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        panel7.add(spacer2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        panel7.add(spacer3, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer4 = new Spacer();
+        panel7.add(spacer4, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer5 = new Spacer();
+        panel7.add(spacer5, new GridConstraints(0, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
     }
 
     /**
@@ -326,44 +419,44 @@ public class AjoutExamen extends JPanel {
         this.choisirImageButton = choisirImageButton;
     }
 
-    public JComboBox getComboBox1() {
-        return comboBox1;
+    public JComboBox getDayComboBox() {
+        return dayComboBox;
     }
 
-    public void setComboBox1(JComboBox comboBox1) {
-        this.comboBox1 = comboBox1;
+    public void setDayComboBox(JComboBox dayComboBox) {
+        this.dayComboBox = dayComboBox;
     }
 
-    public JComboBox getComboBox2() {
-        return comboBox2;
+    public JComboBox getMonthComboBox() {
+        return monthComboBox;
     }
 
-    public void setComboBox2(JComboBox comboBox2) {
-        this.comboBox2 = comboBox2;
+    public void setMonthComboBox(JComboBox monthComboBox) {
+        this.monthComboBox = monthComboBox;
     }
 
-    public JComboBox getComboBox3() {
-        return comboBox3;
+    public JComboBox getYearComboBox() {
+        return yearComboBox;
     }
 
-    public void setComboBox3(JComboBox comboBox3) {
-        this.comboBox3 = comboBox3;
+    public void setYearComboBox(JComboBox yearComboBox) {
+        this.yearComboBox = yearComboBox;
     }
 
-    public JComboBox getComboBox4() {
-        return comboBox4;
+    public JComboBox getExamComboBox() {
+        return examComboBox;
     }
 
-    public void setComboBox4(JComboBox comboBox4) {
-        this.comboBox4 = comboBox4;
+    public void setExamComboBox(JComboBox examComboBox) {
+        this.examComboBox = examComboBox;
     }
 
-    public JComboBox getComboBox5() {
-        return comboBox5;
+    public JComboBox getServiceComboBox() {
+        return serviceComboBox;
     }
 
-    public void setComboBox5(JComboBox comboBox5) {
-        this.comboBox5 = comboBox5;
+    public void setServiceComboBox(JComboBox serviceComboBox) {
+        this.serviceComboBox = serviceComboBox;
     }
 
     public JTextArea getAjoutDExamenTextArea() {
