@@ -3,12 +3,9 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import jdk.nashorn.internal.scripts.JO;
 import nf.*;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,10 +14,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-public class Acceuil extends JPanel {
+public class Accueil extends JPanel {
     public JPanel mainPanel;
     private JList list;
     private DefaultListModel listModel;
@@ -36,7 +32,7 @@ public class Acceuil extends JPanel {
     private JLabel nameLabel;
     private JLabel iconLabel;
     private JLabel dateLabel;
-    private JButton button2;
+    private JButton trieButton;
     private JButton numeriserButton;
     private JPanel patientPanel;
     private JPanel infoPatientPanel;
@@ -44,17 +40,20 @@ public class Acceuil extends JPanel {
     private JLabel infoPatientLabel;
     private JTree examTree;
     private JPanel menuPanel;
+    private JButton deconnexion;
     private MainWindow mainWindow;
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
 
 
-    public Acceuil(MainWindow mainWindow) throws Exception {
+    public Accueil(MainWindow mainWindow) throws Exception {
         this.mainWindow = mainWindow;
 
         list = new JList();
         listModel = new DefaultListModel();
         examTree = new JTree();
         examTree.setRootVisible(false);
+        iconLabel = new JLabel();
+        dateLabel = new JLabel();
 
         $$$setupUI$$$();
 
@@ -72,6 +71,9 @@ public class Acceuil extends JPanel {
                 + " " + mainWindow.getSir().getPersonneConnecte().getPrenom()
                 + " (" + mainWindow.getSir().getPersonneConnecte().getIdMedical() + ")"
         );
+
+        dateLabel.setText("Date : " + LocalDate.now().toString());
+
         menuPanel.setVisible(true);
         centrePanel.setVisible(false);
     }
@@ -80,20 +82,24 @@ public class Acceuil extends JPanel {
         switch ( mainWindow.getSir().getPersonneConnecte().getProfession() ) {
             case PH:
                 admissionButton.setVisible(false);
-                button2.setVisible(false);
+                trieButton.setVisible(false);
                 numeriserButton.setVisible(false);
+                iconLabel.setIcon(new ImageIcon("resources/iconeMedecin.png"));
                 break;
             case MANIPULATEUR:
                 ajoutExamButton.setVisible(false);
                 CRButton.setVisible(false);
+                iconLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
                 break;
             case SECRETAIRE_MEDICALE:
                 ajoutExamButton.setVisible(false);
                 CRButton.setVisible(false);
                 numeriserButton.setVisible(false);
                 accesImageButton.setVisible(false);
+                iconLabel.setIcon(new ImageIcon("resources/iconeSecretaireMed.png"));
                 break;
         }
+        mainWindow.revalidate();
     }
 
     public void initListener(){
@@ -118,6 +124,13 @@ public class Acceuil extends JPanel {
                 displayPatient();
             }
         });
+
+        deconnexion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deconnection();
+            }
+        });
     }
 
     public void initList (){
@@ -127,6 +140,21 @@ public class Acceuil extends JPanel {
         list.setModel(listModel);
     }
 
+    public void deconnection (){
+        int res = JOptionPane.showConfirmDialog(null, "Etes vous sur de vouloir vous deconnecter ?", "Confirmer deconnexion", JOptionPane.OK_CANCEL_OPTION);
+        if (res == JOptionPane.OK_OPTION) {
+            try {
+                this.mainWindow.getSir().deconnection();
+                this.mainWindow.setContentPane(new Authentification(this.mainWindow).getConnexionPanel());
+                this.mainWindow.pack();
+                this.mainWindow.setResizable(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Echec de la deconnection", "Error deconnection", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     public void openImage() {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
@@ -134,7 +162,7 @@ public class Acceuil extends JPanel {
                 throw  new NullPointerException("Veuilez choisir un examen");
             else if (examen.getImages().size() == 0)
                 throw  new Exception("Aucune image pour cet examen");
-            this.mainWindow.setContentPane(new Image(mainWindow, this, examen.getImages()).getMainPanel());
+            this.mainWindow.setContentPane(new VisualisationImage(mainWindow, this, examen.getImages()).getGeneralPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -212,7 +240,7 @@ public class Acceuil extends JPanel {
         nameLabel.setText("");
         northPanel.add(nameLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         iconLabel = new JLabel();
-        iconLabel.setIcon(new ImageIcon(getClass().getResource("/icone medecin.png")));
+        iconLabel.setIcon(new ImageIcon(getClass().getResource("/iconeMedecin.png")));
         iconLabel.setText("");
         northPanel.add(iconLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         northPanel.add(dateLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -225,9 +253,9 @@ public class Acceuil extends JPanel {
         panel1.add(admissionButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        button2 = new JButton();
-        button2.setText("Button");
-        panel1.add(button2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        trieButton = new JButton();
+        trieButton.setText("Button");
+        panel1.add(trieButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         westPanel = new JPanel();
         westPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(westPanel, BorderLayout.WEST);
@@ -266,7 +294,5 @@ public class Acceuil extends JPanel {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        dateLabel = new JLabel();
-        dateLabel.setText("Date : " + LocalDate.now().toString());
     }
 }

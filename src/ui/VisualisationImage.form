@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ui.Image">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ui.VisualisationImage">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="538" height="590"/>
@@ -28,7 +28,7 @@
             <properties>
               <horizontalAlignment value="11"/>
               <horizontalTextPosition value="11"/>
-              <icon value="icone medecin.png"/>
+              <icon value="iconeMedecin.png"/>
               <labelFor value=""/>
               <text value=""/>
             </properties>

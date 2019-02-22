@@ -36,13 +36,13 @@ public class AjoutExamen extends JPanel {
     private MainWindow mainWindow;
     private DefaultComboBoxModel<TypeExamen> examModel;
     private DefaultComboBoxModel<ServiceHosp> serviceModel;
-    private Acceuil accueil;
+    private Accueil accueil;
     private File[] listeFichierImage;
 
 
-    public AjoutExamen(MainWindow mainWindow, Acceuil acceuil) {
+    public AjoutExamen(MainWindow mainWindow, Accueil accueil) {
         this.mainWindow = mainWindow;
-        this.accueil = acceuil;
+        this.accueil = accueil;
         listeFichierImage = null;
 
 
@@ -138,7 +138,7 @@ public class AjoutExamen extends JPanel {
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if(jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             listeFichierImage = jFileChooser.getSelectedFiles();
-            imageChoisieLabel.setText("Image choisie");
+            imageChoisieLabel.setText("VisualisationImage choisie");
         }
     }
 
@@ -243,7 +243,7 @@ public class AjoutExamen extends JPanel {
         panel4.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         panel2.add(panel4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         imageLabel = new JLabel();
-        imageLabel.setText("Image :");
+        imageLabel.setText("VisualisationImage :");
         panel4.add(imageLabel);
         choisirImageButton = new JButton();
         choisirImageButton.setText("Choisir image");

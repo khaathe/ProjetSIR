@@ -27,7 +27,7 @@ public class Connexion {
         con = DriverManager.getConnection(url+argument, user, mdp);
     }
 
-    public void Disconnection() throws Exception {
+    public void disconnection() throws Exception {
         con.close();
     }
 

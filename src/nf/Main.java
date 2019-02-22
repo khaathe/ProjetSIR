@@ -1,7 +1,11 @@
 package nf;
 
+import ui.ImagePanel;
+
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,6 +47,16 @@ public class Main {
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        JFrame frame = new JFrame();
+        try {
+            ImagePanel img = new ImagePanel(ImageIO.read(new File("D:\\image\\cecd818ee636be1e9e531bef6f255b55.jpg")));
+            frame.setContentPane(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
 }
