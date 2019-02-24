@@ -74,6 +74,7 @@ public class VisualisationImage extends JPanel {
 
         annotationTextArea.addComponentListener(new ComponentAdapter() {
         });
+
     }
 
 
@@ -136,6 +137,19 @@ public class VisualisationImage extends JPanel {
     }
 
     public void initListener() {
+
+        validatebutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String annotation = annotationTextArea.getText();
+                picture.get(pictureSlider.getValue()).setAnnotation(annotation);
+                try {
+                    mainWindow.getSir().getConn().insertImage(picture);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         retournementCheckBox.addActionListener(new ActionListener() {
             @Override
