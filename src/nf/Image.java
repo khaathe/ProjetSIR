@@ -13,8 +13,8 @@ public class Image {
     protected String annotation;
     protected BufferedImage image;
     protected int numInstance;
-    protected int rotation;
-    protected int contraste;
+    private int rotation;
+    private int contraste;
     protected int luminosite;
     protected boolean inverser,  retourner;
 
@@ -28,10 +28,10 @@ public class Image {
             numInstance = 1;
         nbInstanceParNumArchivage.put(numArchivage, numInstance);
         this.image = null;
-        rotation = NO_ROTATE;
+        setRotation(NO_ROTATE);
         inverser = false;
         retourner = false;
-        contraste = 1;
+        setContraste(1);
         luminosite = 0;
         annotation = "";
     }
@@ -46,10 +46,10 @@ public class Image {
         this.image = image;
     }
 
-    protected BufferedImage rotation (BufferedImage src){
+    public BufferedImage rotation (BufferedImage src){
         int w = src.getWidth(), h = src.getHeight(), type = src.getType();
         double anchorx = 0, anchory = 0;
-        if(this.rotation == ROTATE_RIGHT) {
+        if(this.getRotation() == ROTATE_RIGHT) {
             anchorx = (double) h / 2.0;
             anchory = (double) h / 2.0;
         } else {
@@ -58,15 +58,15 @@ public class Image {
         }
         BufferedImage dst = new BufferedImage(h, w, type);
         AffineTransform transform = new AffineTransform();
-        transform.quadrantRotate(this.rotation, anchorx, anchory);
+        transform.quadrantRotate(this.getRotation(), anchorx, anchory);
         AffineTransformOp operation = new AffineTransformOp(transform, AffineTransformOp.TYPE_BICUBIC);
         operation.filter(src, dst);
         return dst;
     }
 
-    protected BufferedImage contraste(BufferedImage src) {
+    public BufferedImage contraste(BufferedImage src) {
         BufferedImage dst = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
-        float coeff = (float) this.contraste;
+        float coeff = (float) this.getContraste();
         int w=src.getWidth(), h=src.getHeight();
         float[] accentuation = {
                 0f, 0f, 0f,
@@ -78,7 +78,7 @@ public class Image {
         return  dst;
     }
 
-    protected BufferedImage eclaircissement(BufferedImage src) {
+    public BufferedImage eclaircissement(BufferedImage src) {
         BufferedImage dst = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
         float scale = 1.0f + ( (float) luminosite/100.0f);
         RescaleOp op = new RescaleOp(scale, 0.0f, null);
@@ -86,7 +86,7 @@ public class Image {
         return dst;
     }
 
-    protected BufferedImage inversion(BufferedImage src) {
+    public BufferedImage inversion(BufferedImage src) {
         BufferedImage inverser = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
         byte[] data = new byte[256];
         for(int i=0; i<256; i++){data[i] = (byte) (255-i);}
@@ -96,7 +96,7 @@ public class Image {
         return inverser;
     }
 
-    protected BufferedImage retournementVertical(BufferedImage src) {
+    public BufferedImage retournementVertical(BufferedImage src) {
         int w = src.getWidth(), h = src.getHeight();
         BufferedImage retourner = new BufferedImage(w, h, image.getType());
         for(int i = 0; i<h; i++){
@@ -107,7 +107,7 @@ public class Image {
         return retourner;
     }
 
-    protected BufferedImage retournementHorizontal (BufferedImage src) {
+    public BufferedImage retournementHorizontal (BufferedImage src) {
         int w = src.getWidth(), h = src.getHeight();
         BufferedImage retourner = new BufferedImage(w, h, image.getType());
         for(int i = 0; i<h; i++){
@@ -157,9 +157,9 @@ public class Image {
 
     public void setAnnotation (String annotation) { this.annotation = annotation; }
 
-    protected BufferedImage getImage (){
+    public BufferedImage getImage (){
         BufferedImage newImage = this.image;
-        if(this.rotation != NO_ROTATE)
+        if(this.getRotation() != NO_ROTATE)
             newImage = rotation(newImage);
         newImage = eclaircissement(newImage);
         newImage = contraste(newImage);
@@ -183,4 +183,13 @@ public class Image {
     public String getAnnotation() {
         return annotation;
     }
+
+    public int getRotation() {
+        return rotation;
+    }
+
+    public int getContraste() {
+        return contraste;
+    }
+    public boolean getRetourner(){ return retourner; }
 }

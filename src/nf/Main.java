@@ -1,7 +1,14 @@
 package nf;
 
+import ui.ImagePanel;
+
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.io.File;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -26,16 +33,16 @@ public class Main {
                     );
 
            String idMed="93547369";
-          // connexion.addPersonnelServiceRadio(personnelServiceRadio1);
+
 
             PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
-                    "93547369",
-                    "Dupont",
-                    "Marise",
-                    Profession.SECRETAIRE_MEDICALE
+                    "rupy",
+                    "Andrews",
+                    "Rupy",
+                    Profession.SECRETAIRE
             );
 
-
+            //connexion.addPersonnelServiceRadio(personnelServiceRadio);
 
             //ArrayList <DMR> s = connexion.getDMR();
             //ArrayList <PersonnelServiceRadio> psr;
@@ -58,7 +65,7 @@ public class Main {
             listImage.add(i2);
             listImage.add(i3);
 
-            connexion.insertImage(listImage);
+           // connexion.insertImage(listImage);
 
 
             /*Patient claire = new Patient (
@@ -118,6 +125,16 @@ public class Main {
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        JFrame frame = new JFrame();
+        try {
+            ImagePanel img = new ImagePanel(ImageIO.read(new File("D:\\image\\cecd818ee636be1e9e531bef6f255b55.jpg")));
+            frame.setContentPane(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
 }

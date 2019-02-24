@@ -11,7 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 
-public class essaisConnexion extends JPanel {
+public class Authentification extends JPanel {
 
     private MainWindow mainWindow;
     private JPanel connexionPanel;
@@ -30,7 +30,7 @@ public class essaisConnexion extends JPanel {
     private JPanel resultPanel;
 
 
-    public essaisConnexion(MainWindow mainWindow) {
+    public Authentification(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         connexionButton.addActionListener(new ActionListener() {
             @Override
@@ -62,7 +62,7 @@ public class essaisConnexion extends JPanel {
             String mdp = new String(passwordField.getPassword());
             mainWindow.getSir().connection(id, mdp);
             mainWindow.setResizable(true);
-            this.mainWindow.setContentPane(new Acceuil(mainWindow).getMainPanel());
+            this.mainWindow.setContentPane(new Accueil(mainWindow).getMainPanel());
             this.mainWindow.pack();
         } catch (Exception e) {
             e.printStackTrace();

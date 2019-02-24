@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import nf.*;
+import nf.Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -42,7 +43,8 @@ public class AjoutExamen extends JPanel {
     //private DefaultComboBoxModel<ServiceHosp> model2;
     private DefaultComboBoxModel<TypeExamen> examModel;
     private DefaultComboBoxModel<ServiceHosp> serviceModel;
-    GregorianCalendar cal = new GregorianCalendar();
+
+    /*GregorianCalendar cal = new GregorianCalendar();
     private CompteRendu cr;
     // private ArrayList<Image> li;
     private String numArchiv;
@@ -51,14 +53,17 @@ public class AjoutExamen extends JPanel {
     private PersonnelServiceRadio ps;
     private TypeExamen tp;
     private ServiceHosp sh;
-    private JLabel imageChoisieLabel;
-    private Acceuil accueil;
+
+    private Acceuil accueil;*/
+
+    private Accueil accueil;
     private File[] listeFichierImage;
+    private JLabel imageChoisieLabel;
 
 
-    public AjoutExamen(MainWindow mainWindow, Acceuil acceuil) {
+    public AjoutExamen(MainWindow mainWindow, Accueil accueil) {
         this.mainWindow = mainWindow;
-        this.accueil = acceuil;
+        this.accueil = accueil;
         listeFichierImage = null;
 
 
@@ -206,7 +211,7 @@ public class AjoutExamen extends JPanel {
         Patient patient = ((DMR) accueil.getList().getSelectedValue()).getPatient();
         PersonnelServiceRadio personnelServiceRadio = mainWindow.getSir().getPersonneConnecte();
         String numArchivage = Examen.generateNumArchivage();
-        ArrayList<nf.Image> listeImage = loadImage(numArchivage);
+        ArrayList<Image> listeImage = loadImage(numArchivage);
         CompteRendu cr = new CompteRendu(numArchivage, crArea.getText());
         Examen examen = new Examen(date, numArchivage, typeExamen, patient, personnelServiceRadio, serviceHosp, listeImage, cr);
         try {
@@ -225,14 +230,14 @@ public class AjoutExamen extends JPanel {
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if (jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             listeFichierImage = jFileChooser.getSelectedFiles();
-            imageChoisieLabel.setText("Image choisie");
+            imageChoisieLabel.setText("VisualisationImage choisie");
         }
     }
 
-    public ArrayList<nf.Image> loadImage(String numArchivage) {
-        ArrayList<nf.Image> listeImage = new ArrayList<>();
+    public ArrayList<Image> loadImage(String numArchivage) {
+        ArrayList<Image> listeImage = new ArrayList<>();
         for (File f : listeFichierImage) {
-            nf.Image image = new nf.Image(numArchivage);
+            Image image = new Image(numArchivage);
             try {
                 image.setImage(ImageIO.read(f));
             } catch (IOException e) {

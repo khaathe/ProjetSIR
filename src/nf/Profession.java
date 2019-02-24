@@ -1,7 +1,5 @@
 package nf;
 
-import java.sql.PreparedStatement;
-
 public enum Profession {
     /*PH,
     MANIPULATEUR,
@@ -10,7 +8,7 @@ public enum Profession {
     UNKNOWN("inconu"),
     PH("Practicien Hospitalier"),
     MANIPULATEUR("Manipulateur"),
-    SECRETAIRE_MEDICALE("Secretaire medicale");
+    SECRETAIRE("Secretaire");
 
 
     private String nom;

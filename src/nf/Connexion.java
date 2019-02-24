@@ -26,7 +26,7 @@ public class Connexion {
         con = DriverManager.getConnection(url+argument, user, mdp);
     }
 
-    public void Disconnection() throws Exception {
+    public void disconnection() throws Exception {
         con.close();
     }
 
@@ -81,15 +81,18 @@ public class Connexion {
             String idPersonnel = rs.getString("idPersonnel");
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
-            Profession profession;
+            Profession profession = Profession.valueOf(rs.getString("profession").toUpperCase());
 
-            if(rs.getString("profession").toUpperCase().equals("SECRETAIRE")){
+            /*if(rs.getString("profession").toUpperCase().equals("SECRETAIRE")){
                 profession=Profession.SECRETAIRE_MEDICALE;
             }
-            else {
+            else if (rs.getString("profession").toUpperCase().equals("PH")){
                // profession = Profession.valueOf(rs.getString("profession").toUpperCase());
                 profession=Profession.PH;
             }
+            else{
+                profession=Profession.MANIPULATEUR;
+            }*/
             personnel = new PersonnelServiceRadio(idPersonnel, nom, prenom, profession);
         }
         statement.close();
