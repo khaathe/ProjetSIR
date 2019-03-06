@@ -1,8 +1,8 @@
 package nf;
 
 import library.interfaces.ClientHL7;
-import library.interfaces.Patient;
 import library.interfaces.ServeurHL7;
+import library.interfaces.Patient;
 
 public class HL7 {
     private static int portSeveur = 82;

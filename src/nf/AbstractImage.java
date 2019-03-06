@@ -16,8 +16,9 @@ public abstract class AbstractImage {
     protected int numInstance;
     private int rotation;
     private int contraste;
-    protected int luminosite;
-    protected boolean inverser,  retourner;
+    private int luminosite;
+    private boolean inverser;
+    private boolean retourner;
 
 
     public abstract void setImage (File file) throws Exception;
@@ -83,7 +84,7 @@ public abstract class AbstractImage {
 
     public BufferedImage eclaircissement(BufferedImage src) {
         BufferedImage dst = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
-        float scale = 1.0f + ( (float) luminosite/100.0f);
+        float scale = 1.0f + ( (float) getLuminosite() /100.0f);
         RescaleOp op = new RescaleOp(scale, 0.0f, null);
         op.filter(src, dst);
         return dst;
@@ -124,17 +125,17 @@ public abstract class AbstractImage {
     public void setRotation (int sens){
         switch (sens){
             case ROTATE_LEFT :
-                if(this.rotation == ROTATE_LEFT)
+                if(this.getRotation() == ROTATE_LEFT)
                     this.rotation = ROTATE_LEFT;
-                else if(this.rotation == ROTATE_RIGHT)
+                else if(this.getRotation() == ROTATE_RIGHT)
                     this.rotation = NO_ROTATE;
                 else
                     this.rotation = sens;
                 break;
             case ROTATE_RIGHT :
-                if(this.rotation == ROTATE_LEFT)
+                if(this.getRotation() == ROTATE_LEFT)
                     this.rotation = NO_ROTATE;
-                else if(this.rotation == ROTATE_RIGHT)
+                else if(this.getRotation() == ROTATE_RIGHT)
                     this.rotation = ROTATE_RIGHT;
                 else
                     this.rotation = sens;
@@ -151,11 +152,11 @@ public abstract class AbstractImage {
     }
 
     public void setInverser (){
-        this.inverser = !(this.inverser);
+        this.inverser = !(this.isInverser());
     }
 
     public void setRetourner (){
-        this.retourner = !(this.retourner);
+        this.retourner = !(this.isRetourner());
     }
 
     public void setAnnotation (String annotation) { this.annotation = annotation; }
@@ -166,9 +167,9 @@ public abstract class AbstractImage {
             newImage = rotation(newImage);
         newImage = eclaircissement(newImage);
         newImage = contraste(newImage);
-        if(this.inverser)
+        if(this.isInverser())
             newImage = inversion(newImage);
-        if(retourner)
+        if(isRetourner())
             newImage = retournementHorizontal(newImage);
         return newImage;
     }
@@ -194,5 +195,17 @@ public abstract class AbstractImage {
     public int getContraste() {
         return contraste;
     }
-    public boolean getRetourner(){ return retourner; }
+    public boolean getRetourner(){ return isRetourner(); }
+
+    public int getLuminosite() {
+        return luminosite;
+    }
+
+    public boolean isInverser() {
+        return inverser;
+    }
+
+    public boolean isRetourner() {
+        return retourner;
+    }
 }

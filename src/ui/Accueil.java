@@ -231,11 +231,11 @@ public class Accueil extends JPanel {
             if (examen == null)
                 throw new NullPointerException("Veuilez choisir un examen");
             else if (examen.getImages().size() == 0)
-
                 throw new Exception("Aucune image pour cet examen");
             this.mainWindow.setContentPane(new VisualisationImage(mainWindow, this, examen.getImages()).getGeneralPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
@@ -255,15 +255,14 @@ public class Accueil extends JPanel {
         Patient patient = dmr.getPatient();
         infoPatientLabel.setText(patient.toString());
         ArrayList<Examen> listeExamen = null;
-        if (dmr.getListeExamen().size() == 0){
+        if (dmr.getListeExamen().size() == 0) {
             try {
                 listeExamen = mainWindow.getSir().getConn().getExamen(patient);
                 dmr.setListeExamen(listeExamen);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else
+        } else
             listeExamen = dmr.getListeExamen();
         if (listeExamen.size() > 0)
             buildExameTree(listeExamen);
@@ -290,7 +289,7 @@ public class Accueil extends JPanel {
         revalidate();
     }
 
-    public void numeriser (){
+    public void numeriser() {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
@@ -305,14 +304,14 @@ public class Accueil extends JPanel {
         }
     }
 
-    public void imprimer (){
+    public void imprimer() {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
                 throw new NullPointerException("Veuilez choisir un examen");
             PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable( new ExamenPrinter(examen));
-            if ( job.printDialog()){
+            job.setPrintable(new ExamenPrinter(examen));
+            if (job.printDialog()) {
                 job.print();
             }
             this.mainWindow.revalidate();
@@ -321,7 +320,7 @@ public class Accueil extends JPanel {
         }
     }
 
-    public void admission (){
+    public void admission() {
 
     }
 
@@ -384,7 +383,7 @@ public class Accueil extends JPanel {
         centrePanel.setLayout(new BorderLayout(0, 0));
         mainPanel.add(centrePanel, BorderLayout.CENTER);
         southPanel = new JPanel();
-        southPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
+        southPanel.setLayout(new GridLayoutManager(1, 5, new Insets(0, 0, 0, 0), -1, -1));
         centrePanel.add(southPanel, BorderLayout.SOUTH);
         accesImageButton = new JButton();
         accesImageButton.setText("Accès images");
@@ -397,7 +396,10 @@ public class Accueil extends JPanel {
         southPanel.add(ajoutExamButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         numeriserButton = new JButton();
         numeriserButton.setText("Numeriser");
-        southPanel.add(numeriserButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        southPanel.add(numeriserButton, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        imprimerButton = new JButton();
+        imprimerButton.setText("imprimer");
+        southPanel.add(imprimerButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane2 = new JScrollPane();
         centrePanel.add(scrollPane2, BorderLayout.CENTER);
         patientPanel = new JPanel();
