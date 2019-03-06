@@ -15,7 +15,7 @@ public class Main {
         //System.out.println(calendar.get(GregorianCalendar.MONTH)+1);
         try {
             Connexion connexion = new Connexion();
-            connexion.connection("rupy","rupy123");
+            connexion.connection("3","123");
             ArrayList <DMR> s = connexion.getDMR();
             ArrayList <PersonnelServiceRadio> psr;
 
