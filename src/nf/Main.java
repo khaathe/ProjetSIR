@@ -1,19 +1,16 @@
 package nf;
 
-import ui.ImagePanel;
-import ui.Numeriseur;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.awt.print.PrinterJob;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+        PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
             "rupy",
             "Andrews",
             "Rupy",
@@ -35,6 +32,13 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
         listImage.add(i);
 
         String cr = "";
@@ -66,8 +70,8 @@ public class Main {
             } catch (Exception e){
                 e.printStackTrace();
             }
-        }*/
-        JFrame frame = new JFrame();
+        }
+        /*JFrame frame = new JFrame();
         JPanel main = new JPanel();
         JPanel south = new JPanel();
         AbstractImage image = new PGM (Examen.generateNumArchivage());
@@ -114,7 +118,7 @@ public class Main {
         frame.setContentPane(main);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,500);
-        frame.setVisible(true);
+        frame.setVisible(true);*/
     }
 
 }

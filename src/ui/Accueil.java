@@ -202,7 +202,7 @@ public class Accueil extends JPanel {
             if (exam == null) {
                 throw new NullPointerException("Veuilez choisir un examen");
             } else {
-                JOptionPane.showMessageDialog(this, exam.getCr().toString());
+                JOptionPane.showMessageDialog(this, exam.getCr().getCompteRendu());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
