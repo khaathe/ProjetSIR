@@ -2,9 +2,10 @@ package nf;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
+import java.io.File;
 import java.util.HashMap;
 
-public class Image {
+public abstract class AbstractImage {
     public static final int ROTATE_LEFT = -1;
     public static final int ROTATE_RIGHT = 1;
     public static final int NO_ROTATE = 0;
@@ -19,8 +20,10 @@ public class Image {
     protected boolean inverser,  retourner;
 
 
+    public abstract void setImage (File file) throws Exception;
 
-    public Image (String numArchivage){
+
+    public AbstractImage(String numArchivage){
         this.numArchivage = numArchivage;
         if (nbInstanceParNumArchivage.containsKey(numArchivage))
             numInstance = nbInstanceParNumArchivage.get(numArchivage)+1;

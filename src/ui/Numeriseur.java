@@ -1,9 +1,11 @@
-package nf;
+package ui;
 
 import eu.gnome.morena.Device;
 import eu.gnome.morena.Manager;
 import eu.gnome.morena.TransferListener;
-import ui.ImagePanel;
+import nf.AbstractImage;
+import nf.Image;
+import nf.PGM;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +23,11 @@ public class Numeriseur extends JDialog implements TransferListener {
     Manager manager;
     Device device;
     AbstractImage image;
+    String numArchivage;
 
-    public Numeriseur() {
+    public Numeriseur(String numArchivage) {
+        this.numArchivage = numArchivage;
+
         initComponent();
 
         initListener();
@@ -147,10 +152,10 @@ public class Numeriseur extends JDialog implements TransferListener {
     public void transferDone(File file) {
         try {
             if (file.getName().matches(".pgm")) {
-                image = new PGM(Examen.generateNumArchivage());
+                image = new PGM(numArchivage);
                 image.setImage(file);
             } else {
-                image = new Image(Examen.generateNumArchivage());
+                image = new Image(numArchivage);
                 image.setImage(file);
             }
             imagePanel.setImg(image.getImage());

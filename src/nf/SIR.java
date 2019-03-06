@@ -8,7 +8,7 @@ public class SIR {
 
 
     private ArrayList<DMR> listeDMR;
-    Connexion conn;
+    private Connexion conn;
     private PersonnelServiceRadio personneConnecte;
 
 
@@ -45,5 +45,12 @@ public class SIR {
     }
 
     public PersonnelServiceRadio getPersonneConnecte (){ return personneConnecte; }
+
+    public void addImageToExam (Examen examen, AbstractImage image) throws Exception {
+        examen.addImage(image);
+        ArrayList<AbstractImage> list = new ArrayList<>();
+        list.add(image);
+        conn.insertImage( list );
+    }
 
 }
