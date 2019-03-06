@@ -245,11 +245,11 @@ public class Accueil extends JPanel {
             if (examen == null)
                 throw new NullPointerException("Veuilez choisir un examen");
             else if (examen.getImages().size() == 0)
-
                 throw new Exception("Aucune image pour cet examen");
             this.mainWindow.setContentPane(new VisualisationImage(mainWindow, this, examen.getImages()).getGeneralPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
