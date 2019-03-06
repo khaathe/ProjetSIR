@@ -54,7 +54,7 @@ public class Main {
 
             ArrayList<Image> listImage = new ArrayList<>();
 
-            Image i = new Image("08470296");
+            /*Image i = new Image("08470296");
             Image i2 = new Image("864994949");
             Image i3 = new Image("13156212564829");
 
