@@ -7,7 +7,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Connexion {
@@ -27,7 +26,7 @@ public class Connexion {
         con = DriverManager.getConnection(url+argument, user, mdp);
     }
 
-    public void Disconnection() throws Exception {
+    public void disconnection() throws Exception {
         con.close();
     }
 
@@ -82,15 +81,18 @@ public class Connexion {
             String idPersonnel = rs.getString("idPersonnel");
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
-            Profession profession;
+            Profession profession = Profession.valueOf(rs.getString("profession").toUpperCase());
 
-            if(rs.getString("profession").toUpperCase().equals("SECRETAIRE")){
+            /*if(rs.getString("profession").toUpperCase().equals("SECRETAIRE")){
                 profession=Profession.SECRETAIRE_MEDICALE;
             }
-            else {
+            else if (rs.getString("profession").toUpperCase().equals("PH")){
                // profession = Profession.valueOf(rs.getString("profession").toUpperCase());
                 profession=Profession.PH;
             }
+            else{
+                profession=Profession.MANIPULATEUR;
+            }*/
             personnel = new PersonnelServiceRadio(idPersonnel, nom, prenom, profession);
         }
         statement.close();
@@ -143,7 +145,7 @@ public class Connexion {
         insertImage(examen.getImages());
     }
 
-    private void insertExamen (Examen exam) throws Exception {
+    public void insertExamen (Examen exam) throws Exception {
         String query = "INSERT INTO examen (date, idPR, idPersonnel, numArchivage, typeExamen, service) VALUES (?, ?, ?, ?, ?, ?)";
 
         // create the mysql insert preparedstatement

@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class Examen {
     private GregorianCalendar date;
@@ -26,6 +25,8 @@ public class Examen {
         service = ServiceHosp.UNKNOWN;
     }
 
+
+
     public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, ArrayList<Image> images, CompteRendu cr){
         this.date = date;
         this.numArchivage = numArchivage;
@@ -35,6 +36,15 @@ public class Examen {
         this.service = service;
         this.images = images;
         this.cr = cr;
+    }
+
+    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service){
+        this.date = date;
+        this.numArchivage = numArchivage;
+        this.typeExamen = typeExamen;
+        this.patient = patient;
+        this.praticien = praticien;
+        this.service = service;
     }
 
     public void imprimerCR(){

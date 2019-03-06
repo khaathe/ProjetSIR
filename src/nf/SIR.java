@@ -25,7 +25,7 @@ public class SIR {
     }
 
     public void deconnection () throws Exception{
-        conn.Disconnection();
+        conn.disconnection();
         listeDMR = null;
         personneConnecte = null;
     }
