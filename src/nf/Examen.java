@@ -11,12 +11,12 @@ public class Examen {
     private String numArchivage;
     private CompteRendu cr;
     private TypeExamen typeExamen;
-    private ArrayList<Image> images;
-    private  Patient patient;
+    private ArrayList<AbstractImage> images;
+    private Patient patient;
     private PersonnelServiceRadio praticien;
     private ServiceHosp service;
 
-    public Examen () {
+    public Examen() {
         date = new GregorianCalendar();
         numArchivage = "";
         patient = new Patient();
@@ -26,8 +26,7 @@ public class Examen {
     }
 
 
-
-    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, ArrayList<Image> images, CompteRendu cr){
+    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, ArrayList<AbstractImage> images, CompteRendu cr) {
         this.date = date;
         this.numArchivage = numArchivage;
         this.typeExamen = typeExamen;
@@ -38,7 +37,7 @@ public class Examen {
         this.cr = cr;
     }
 
-    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service){
+    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service) {
         this.date = date;
         this.numArchivage = numArchivage;
         this.typeExamen = typeExamen;
@@ -47,20 +46,13 @@ public class Examen {
         this.service = service;
     }
 
-    public void imprimerCR(){
-
-    }
-
-    public void imprimerImage(){
-
-    }
-    public void ajouterImage(Image image){
-        if (!images.contains(image)){
+    public void ajouterImage(AbstractImage image) {
+        if (!images.contains(image)) {
             images.add(image);
         }
     }
 
-    public static String generateNumArchivage () {
+    public static String generateNumArchivage() {
         double random = Math.random();
         random = random * Math.pow(10, 15);
         DecimalFormat df = new DecimalFormat("000000000000000");
@@ -68,7 +60,7 @@ public class Examen {
         return df.format(random);
     }
 
-    public String toString (){
+    public String toString() {
         String info = "Examen du : " + new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
         return info;
     }
@@ -101,7 +93,12 @@ public class Examen {
         return patient;
     }
 
-    public ArrayList<Image> getImages() {
+    public ArrayList<AbstractImage> getImages() {
         return images;
     }
+
+    public void addImage(AbstractImage image) {
+        images.add(image);
+    }
+
 }

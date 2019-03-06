@@ -1,8 +1,6 @@
 package nf;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 public class DMR {
     private Patient patient;
@@ -28,7 +26,7 @@ public class DMR {
         this.patient = patient;
     }
 
-    public List<Examen> getListeExamen() {
+    public ArrayList<Examen> getListeExamen() {
         return listeExamen;
     }
 

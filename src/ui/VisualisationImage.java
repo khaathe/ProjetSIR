@@ -2,6 +2,8 @@ package  ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
+import nf.AbstractImage;
 import nf.Examen;
 import nf.Image;
 
@@ -47,7 +49,7 @@ public class VisualisationImage extends JPanel {
     private JLabel progressionContrasteLabel;
     private JPanel picturePanel;
     private MainWindow mainWindow;
-    private ArrayList<Image> picture;
+    private ArrayList<AbstractImage> picture;
     private Accueil accueil;
     static final int CONTRASTE_MIN = 1;
     static final int CONTRASTE_MAX = 50;
@@ -60,7 +62,7 @@ public class VisualisationImage extends JPanel {
     private ImageIcon imageIcon;
 
 
-    public VisualisationImage(MainWindow mainWindow, Accueil accueil, ArrayList<Image> picture) {
+    public VisualisationImage(MainWindow mainWindow, Accueil accueil, ArrayList<AbstractImage> picture) {
         this.mainWindow = mainWindow;
         this.accueil = accueil;
         this.picture = picture;
@@ -103,15 +105,14 @@ public class VisualisationImage extends JPanel {
         picture = examSelect.getImages();
         nbImageLabel.setText("Numéro d'archivage : " + accueil.getNodeToExam().get(accueil.getExamTree().getLastSelectedPathComponent()).getNumArchivage());
 
-        int i = 0;
         try {
             imgPanel = new ImagePanel(picture.get(pictureSlider.getValue()).getImage());
-            picturePanel.add(imgPanel);
             picturePanel.add(imgPanel, BorderLayout.CENTER);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Problème de détection d'image", "Error accès image", JOptionPane.ERROR_MESSAGE);
         }
+        revalidate();
     }
 
     public void initListener() {
@@ -326,7 +327,7 @@ public class VisualisationImage extends JPanel {
         int i = pictureSlider.getValue();
         if (constrastSlider.getValueIsAdjusting()) {
             try {
-                Image ig = picture.get(i);
+                AbstractImage ig = picture.get(i);
                 ig.setContraste(constrastSlider.getValue());
                 BufferedImage imageModif = ig.getImage();
                 imgPanel.setImg(imageModif);
@@ -342,7 +343,7 @@ public class VisualisationImage extends JPanel {
         int i = pictureSlider.getValue();
         if (ecalircissementSlider.getValueIsAdjusting()) {
             try {
-                Image ig = picture.get(i);
+                AbstractImage ig = picture.get(i);
                 BufferedImage imageModif = ig.getImage();
                 ig.setLuminosite(ecalircissementSlider.getValue());
                 imgPanel.setImg(imageModif);
@@ -362,7 +363,7 @@ public class VisualisationImage extends JPanel {
         else if (e.getSource().equals(buttonRight))
             rotation = Image.ROTATE_LEFT;
         try {
-            Image ig = picture.get(i);
+            AbstractImage ig = picture.get(i);
             ig.setRotation(rotation);
             BufferedImage imageModif = ig.getImage();
             imgPanel.setImg(imageModif);
@@ -376,7 +377,7 @@ public class VisualisationImage extends JPanel {
     public void inversion() {
         int i = pictureSlider.getValue();
         try {
-            Image ig = picture.get(i);
+            AbstractImage ig = picture.get(i);
             ig.setInverser();
             BufferedImage imageModif = ig.getImage();
             imgPanel.setImg(imageModif);
@@ -394,7 +395,7 @@ public class VisualisationImage extends JPanel {
     public void retournement() {
         int i = pictureSlider.getValue();
         try {
-            Image ig = picture.get(i);
+            AbstractImage ig = picture.get(i);
             ig.setRetourner();
             BufferedImage imageModif = ig.getImage();
             imgPanel.setImg(imageModif);
@@ -414,10 +415,18 @@ public class VisualisationImage extends JPanel {
                 imgPanel.setImg(imageModif);
                 imgPanel.repaint();
                 constrastSlider.setValue(picture.get(i).getContraste());
+
+
             } catch (Exception e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Problème de détection d'image", "Images introuvables", JOptionPane.ERROR_MESSAGE);
             }
+
+        constrastSlider.setValue(picture.get(pictureSlider.getValue()).getContraste());
+        ecalircissementSlider.setValue(picture.get(pictureSlider.getValue()).getLuminosite());
+        inversionCheckBox.setSelected(picture.get(pictureSlider.getValue()).isInverser());
+        retournementCheckBox.setSelected(picture.get(pictureSlider.getValue()).isRetourner());
+        revalidate();
     }
 
     public void validation() {
@@ -426,6 +435,11 @@ public class VisualisationImage extends JPanel {
         newImg.setNumInstance(picture.get(pictureSlider.getValue()).getNumInstance() + 10);
         newImg.setAnnotation(annotation);
         picture.add(newImg);
+        constrastSlider.setValue(picture.get(pictureSlider.getValue()).getContraste());
+        ecalircissementSlider.setValue(picture.get(pictureSlider.getValue()).getLuminosite());
+        inversionCheckBox.setSelected(picture.get(pictureSlider.getValue()).isInverser());
+        retournementCheckBox.setSelected(picture.get(pictureSlider.getValue()).isRetourner());
+        revalidate();
         try {
             mainWindow.getSir().getConn().insertImage(picture);
         } catch (Exception e) {

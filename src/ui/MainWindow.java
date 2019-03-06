@@ -26,7 +26,10 @@ public class MainWindow extends JFrame {
                     try {
                         sir.deconnection();
                         System.exit(0);
-                    } catch (Exception e1) {
+                    } catch (NullPointerException e1){
+                        System.exit(0);
+                    }
+                    catch (Exception e2) {
                         JOptionPane.showMessageDialog(null, "Erreur impossible de vous deconnecter", "Erreur fermeture", JOptionPane.ERROR_MESSAGE);
                     }
                 }

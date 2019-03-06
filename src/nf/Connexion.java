@@ -82,19 +82,10 @@ public class Connexion {
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
             Profession profession = Profession.valueOf(rs.getString("profession").toUpperCase());
-
-            /*if(rs.getString("profession").toUpperCase().equals("SECRETAIRE")){
-                profession=Profession.SECRETAIRE_MEDICALE;
-            }
-            else if (rs.getString("profession").toUpperCase().equals("PH")){
-               // profession = Profession.valueOf(rs.getString("profession").toUpperCase());
-                profession=Profession.PH;
-            }
-            else{
-                profession=Profession.MANIPULATEUR;
-            }*/
             personnel = new PersonnelServiceRadio(idPersonnel, nom, prenom, profession);
         }
+        if (personnel == null)
+            throw new NullPointerException("Aucun professionnel avec l'id : " + id + " n'a ete trouve");
         statement.close();
         return personnel;
     }
@@ -119,7 +110,7 @@ public class Connexion {
             ServiceHosp service = ServiceHosp.valueOf(rs.getString("service").toUpperCase());
             TypeExamen typeexam = TypeExamen.valueOf(rs.getString("typeExamen").toUpperCase());
             PersonnelServiceRadio personnel = getPersonnelServiceRadio(rs.getString("idPersonnel"));
-            ArrayList<Image> listeImage = getImage(numArchivage);
+            ArrayList<AbstractImage> listeImage = getImage(numArchivage);
             CompteRendu cr = new CompteRendu(numArchivage, rs.getString("compteRendu"));
 
             Examen examen = new Examen(
@@ -241,9 +232,9 @@ public class Connexion {
 
 
 
-    public void insertImage (ArrayList<Image> listImage) throws Exception{
+    public void insertImage (ArrayList<AbstractImage> listImage) throws Exception{
         PreparedStatement statement = this.con.prepareStatement("INSERT INTO image (numArchivage, numInstance, image, annotation) VALUES (?, ?, ?,?)");
-        for(Image image : listImage){
+        for(AbstractImage image : listImage){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             statement.setString(1, image.getNumArchivage());
             statement.setInt(2, image.getNumInstance());
@@ -258,8 +249,8 @@ public class Connexion {
         statement.close();
     }
 
-    public ArrayList<Image> getImage (String numArchivage) throws Exception{
-        ArrayList<Image> listImage = new ArrayList<Image>();
+    public ArrayList<AbstractImage> getImage (String numArchivage) throws Exception{
+        ArrayList<AbstractImage> listImage = new ArrayList<AbstractImage>();
         String query = "select * from image where numArchivage=?";
         PreparedStatement statement = this.con.prepareStatement(query);
         statement.setString(1,numArchivage);
