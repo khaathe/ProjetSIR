@@ -3,15 +3,15 @@ package nf;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Examen {
     private GregorianCalendar date;
     private String numArchivage;
     private CompteRendu cr;
     private TypeExamen typeExamen;
-    private ArrayList<AbstractImage> images;
+    private List<AbstractImage> images;
     private Patient patient;
     private PersonnelServiceRadio praticien;
     private ServiceHosp service;
@@ -26,7 +26,7 @@ public class Examen {
     }
 
 
-    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, ArrayList<AbstractImage> images, CompteRendu cr) {
+    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, List<AbstractImage> images, CompteRendu cr) {
         this.date = date;
         this.numArchivage = numArchivage;
         this.typeExamen = typeExamen;
@@ -93,7 +93,7 @@ public class Examen {
         return patient;
     }
 
-    public ArrayList<AbstractImage> getImages() {
+    public List<AbstractImage> getImages() {
         return images;
     }
 

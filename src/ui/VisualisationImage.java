@@ -2,7 +2,6 @@ package  ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import nf.AbstractImage;
 import nf.Examen;
 import nf.Image;
@@ -16,8 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.image.BufferedImage;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class VisualisationImage extends JPanel {
     private JPanel mainPanel;
@@ -49,10 +48,10 @@ public class VisualisationImage extends JPanel {
     private JLabel progressionContrasteLabel;
     private JPanel picturePanel;
     private MainWindow mainWindow;
-    private ArrayList<AbstractImage> picture;
+    private List<AbstractImage> picture;
     private Accueil accueil;
     static final int CONTRASTE_MIN = 1;
-    static final int CONTRASTE_MAX = 50;
+    static final int CONTRASTE_MAX = 5;
     static final int CONTRASTE_INIT = 1;
     static final int LUMINOSITE_MIN = -100;
     static final int LUMINOSITE_MAX = 100;
@@ -62,7 +61,7 @@ public class VisualisationImage extends JPanel {
     private ImageIcon imageIcon;
 
 
-    public VisualisationImage(MainWindow mainWindow, Accueil accueil, ArrayList<AbstractImage> picture) {
+    public VisualisationImage(MainWindow mainWindow, Accueil accueil, java.util.List<AbstractImage> picture) {
         this.mainWindow = mainWindow;
         this.accueil = accueil;
         this.picture = picture;

@@ -20,7 +20,7 @@ public class ExamenPrinter implements Printable {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
     private boolean crImprimer;
     private int oldPageIndex;
-    private ArrayList<AbstractImage> listeImage;
+    private List<AbstractImage> listeImage;
     private static int margeX;
     private static int margeY;
     private static final Font titleFont = new Font("Serif", Font.PLAIN, 24);

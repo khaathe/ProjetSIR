@@ -70,13 +70,19 @@ public abstract class AbstractImage {
 
     public BufferedImage contraste(BufferedImage src) {
         BufferedImage dst = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
-        float coeff = (float) this.getContraste();
-        int w=src.getWidth(), h=src.getHeight();
+        float coeff = (float) contraste;
         float[] accentuation = {
-                0f, 0f, 0f,
-                0.0f, coeff, 0.0f,
-                0f, 0f, 0f
+                0.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 0.0f
         };
+        if (contraste > 1){
+            accentuation = new float[] {
+                    0.0f, -1.0f*coeff, 0.0f,
+                    -1.0f*coeff, 5.0f*coeff, -1.0f*coeff,
+                    0.0f, -1.0f*coeff, 0.0f
+            };
+        }
         ConvolveOp cop = new ConvolveOp(new Kernel(3,3, accentuation));
         cop.filter(src, dst);
         return  dst;
