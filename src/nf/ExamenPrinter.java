@@ -7,6 +7,8 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class ExamenPrinter implements Printable {
     private Examen examen;
@@ -53,13 +55,13 @@ public class ExamenPrinter implements Printable {
         if (pageIndex == 0) {
             y = printInfoPatientPracticien(g2, y, w, h);
             indexCr = 0;
-            printCR(g2, y, w, h);
+            printCR(g2, y, w, h, indexCr);
             lastPage = pageIndex + 1 + listeImage.size();
             oldPageIndex = pageIndex;
             res = Printable.PAGE_EXISTS;
         }
         else if ( !crImprimer ){
-            printCR(g2, y, w, h);
+            indexCr = printCR(g2, y, w, h, indexCr);
             lastPage = pageIndex +1 + listeImage.size();
             oldPageIndex = pageIndex;
             res = Printable.PAGE_EXISTS;
@@ -120,7 +122,7 @@ public class ExamenPrinter implements Printable {
         return y;
     }
 
-    public void printCR (Graphics2D g2, int y, int w, int h){
+    public int printCR (Graphics2D g2, int y, int w, int h, int indexCr){
         g2.setFont(subTitleFont);
         FontMetrics metrics = g2.getFontMetrics();
         int lineHeigth = metrics.getHeight();
@@ -134,21 +136,27 @@ public class ExamenPrinter implements Printable {
         int numberOfLine = h/lineHeigth;
         String[] words = examen.getCr().getCompteRendu().split("\\s");
 
-        int i =indexCr;
-        while(i < words.length && y + lineHeigth < h - margeY ){
-            int x = margeX + metrics.stringWidth(words[i] + " ");
-            String s = "";
-            while( i<words.length-1 && x + metrics.stringWidth(words[i+1] + " ") < w-margeX && !words[i].equals("")  ){
-                x += metrics.stringWidth(words[i+1] + " ");
-                s += words[i] + " ";
+        List<String> allLines = new ArrayList<String>();
+        for(int i=0; i<words.length; i++){
+            int x=margeX + metrics.stringWidth(words[i]);
+            String oneLine="";
+            while( i<words.length && x < w-(2*margeX) ){
+                if (i<words.length-1)
+                    x += metrics.stringWidth(words[i+1]+" ");
+                oneLine += words[i]+" ";
                 i++;
             }
+            allLines.add(oneLine);
             i++;
-            y += lineHeigth;
-            g2.drawString(s, margeX, y);
         }
-        indexCr = i;
-        crImprimer = (indexCr >= words.length);
+
+        while (indexCr<allLines.size() && y + lineHeigth < h - margeY) {
+            g2.drawString(allLines.get(indexCr).toString(), margeX, y);
+            y += lineHeigth;
+            indexCr++;
+        }
+        crImprimer=(indexCr>=allLines.size());
+        return indexCr;
     }
 
     public void printImage (Graphics2D g2, int y, int w, int h){

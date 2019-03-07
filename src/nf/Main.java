@@ -1,9 +1,18 @@
 package nf;
 
+
+import java.awt.print.PrinterJob;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.Scanner;
+
+
 public class Main {
 
     public static void main(String[] args) {
-        /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+       /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
             "rupy",
             "Andrews",
             "Rupy",
@@ -25,6 +34,13 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
+        listImage.add(i);
         listImage.add(i);
 
         String cr = "";
@@ -56,7 +72,11 @@ public class Main {
             } catch (Exception e){
                 e.printStackTrace();
             }
+
         }*/
+
+        }
+
         /*JFrame frame = new JFrame();
         JPanel main = new JPanel();
         JPanel south = new JPanel();
@@ -105,11 +125,11 @@ public class Main {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,500);
         frame.setVisible(true);
-        */
 
-      
+        frame.setVisible(true);*/
+
     }
 
 
-}
+
 
