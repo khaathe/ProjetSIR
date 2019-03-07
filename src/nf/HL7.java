@@ -19,6 +19,9 @@ public class HL7 {
     public void connection() {
         serveurHL7.connection(portSeveur);
         serveurHL7.ecoute();
+        String messageHL7 = serveurHL7.protocole();
+        System.out.println(messageHL7);
+
     }
 
     public void deconnection() {

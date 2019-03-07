@@ -1,15 +1,5 @@
 package nf;
 
-import ui.ImagePanel;
-import ui.Numeriseur;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -67,7 +57,7 @@ public class Main {
                 e.printStackTrace();
             }
         }*/
-        JFrame frame = new JFrame();
+        /*JFrame frame = new JFrame();
         JPanel main = new JPanel();
         JPanel south = new JPanel();
         AbstractImage image = new PGM (Examen.generateNumArchivage());
@@ -115,7 +105,11 @@ public class Main {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,500);
         frame.setVisible(true);
+        */
+
+      
     }
+
 
 }
 
