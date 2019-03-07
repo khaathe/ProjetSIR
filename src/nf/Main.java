@@ -1,16 +1,13 @@
 package nf;
 
-import java.awt.print.PrinterJob;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
-        PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+        HL7 hl7 = new HL7();
+        hl7.connection();
+        hl7.sendMessage();
+        System.out.println("Hello World");
+        /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
             "rupy",
             "Andrews",
             "Rupy",
@@ -70,7 +67,7 @@ public class Main {
             } catch (Exception e){
                 e.printStackTrace();
             }
-        }
+        }*/
         /*JFrame frame = new JFrame();
         JPanel main = new JPanel();
         JPanel south = new JPanel();
