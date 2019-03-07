@@ -54,8 +54,13 @@ public class SIR {
 
     public ArrayList<DMR> rechercheDMR(String p) throws Exception {
         ArrayList<DMR> dmr = new ArrayList<DMR>();
+
         for(int i=0; i<this.listeDMR.size();i++){
+            String np = this.listeDMR.get(i).getPatient().getNom()+ " "+this.listeDMR.get(i).getPatient().getPrenom();
             if(this.listeDMR.get(i).getPatient().getNom().equals(p) || this.listeDMR.get(i).getPatient().getPrenom().equals(p) || this.listeDMR.get(i).getPatient().getIdPR().equals(p) || this.listeDMR.get(i).getPatient().getIdPatient().equals(p)){
+                    dmr.add(listeDMR.get(i));
+            }
+            else if (np.equals(p)){
                 dmr.add(listeDMR.get(i));
             }
         }
