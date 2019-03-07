@@ -1,14 +1,6 @@
 package nf;
 
 
-import java.awt.print.PrinterJob;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Scanner;
-
-
 public class Main {
 
     public static void main(String[] args) {
@@ -75,6 +67,16 @@ public class Main {
 
         }*/
 
+        SIR sir= new SIR();
+        try {
+            sir.connection("robert", "joke");
+            sir.rechercheDMR("649849949");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
         }
 
         /*JFrame frame = new JFrame();
@@ -128,7 +130,7 @@ public class Main {
 
         frame.setVisible(true);*/
 
-    }
+}
 
 
 

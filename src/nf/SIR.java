@@ -3,7 +3,6 @@ package nf;
 import java.util.ArrayList;
 
 
-
 public class SIR {
 
 
@@ -52,5 +51,33 @@ public class SIR {
         list.add(image);
         conn.insertImage( list );
     }
+
+    public ArrayList<DMR> rechercheDMR(String p) throws Exception {
+        ArrayList<DMR> dmr = new ArrayList<DMR>();
+        for(int i=0; i<this.listeDMR.size();i++){
+            if(this.listeDMR.get(i).getPatient().getNom().equals(p) || this.listeDMR.get(i).getPatient().getPrenom().equals(p) || this.listeDMR.get(i).getPatient().getIdPR().equals(p) || this.listeDMR.get(i).getPatient().getIdPatient().equals(p)){
+                dmr.add(listeDMR.get(i));
+            }
+        }
+       return dmr;
+    }
+
+    /*public List<DMR> rechercheParId (String id){
+
+        return null;
+    }
+
+    public List<DMR> rechercheParNom (String nom){
+        return null;
+    }
+
+    public List<DMR> recherche (String s){
+        if (s.matches("\\d+")){
+            rechercheParId(s);
+        }
+        else rechercheParNom(s);
+        return null;
+    }*/
+
 
 }

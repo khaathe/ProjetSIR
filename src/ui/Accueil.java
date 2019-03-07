@@ -42,7 +42,7 @@ public class Accueil extends JPanel {
     private JLabel nameLabel;
     private JLabel iconLabel;
     private JLabel dateLabel;
-    private JButton trieButton;
+    // private JButton trieButton;
     private JButton numeriserButton;
     private JPanel patientPanel;
     private JPanel infoPatientPanel;
@@ -52,6 +52,9 @@ public class Accueil extends JPanel {
     private JPanel menuPanel;
     private JButton deconnexion;
     private JButton imprimerButton;
+    private JTextField searchDMRtextField;
+    private JButton searchMagnifierLabel;
+    private JLabel searchLabel;
     private MainWindow mainWindow;
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
 
@@ -97,7 +100,9 @@ public class Accueil extends JPanel {
 
             case PH:
                 admissionButton.setVisible(false);
-                trieButton.setVisible(false);
+                searchLabel.setVisible(false);
+                searchDMRtextField.setVisible(false);
+                searchMagnifierLabel.setVisible(false);
                 numeriserButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeMedecin.png"));
                 break;
@@ -107,6 +112,7 @@ public class Accueil extends JPanel {
                 CRButton.setVisible(false);
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
+                searchMagnifierLabel.setIcon(new ImageIcon("resources/searchmagnifierIcon.png"));
                 break;
 
             case SECRETAIRE:
@@ -116,6 +122,7 @@ public class Accueil extends JPanel {
                 accesImageButton.setVisible(false);
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeSecretaireMed.png"));
+                searchMagnifierLabel.setIcon(new ImageIcon("resources/searchmagnifierIcon.png"));
                 break;
         }
         mainWindow.revalidate();
@@ -187,6 +194,40 @@ public class Accueil extends JPanel {
                 imprimer();
             }
         });
+
+        searchMagnifierLabel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    nouvelleList();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        searchDMRtextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    try {
+                        nouvelleList();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public void nouvelleList() throws Exception {
+        listModel.clear();
+        for (DMR d : mainWindow.getSir().rechercheDMR(searchDMRtextField.getText())) {
+            listModel.addElement(d);
+        }
+        list.setModel(listModel);
+
+
     }
 
     public void initList() {
@@ -208,6 +249,7 @@ public class Accueil extends JPanel {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
+
 
     public void deconnection() {
         int res = JOptionPane.showConfirmDialog(null, "Etes vous sur de vouloir vous deconnecter ?", "Confirmer deconnexion", JOptionPane.OK_CANCEL_OPTION);
@@ -353,25 +395,32 @@ public class Accueil extends JPanel {
         iconLabel.setText("");
         northPanel.add(iconLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         menuPanel = new JPanel();
-        menuPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
+        menuPanel.setLayout(new GridLayoutManager(1, 6, new Insets(0, 0, 0, 0), -1, -1));
         northPanel.add(menuPanel, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         admissionButton = new JButton();
         admissionButton.setLabel("Admission Patient");
         admissionButton.setText("Admission Patient");
-        menuPanel.add(admissionButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        menuPanel.add(admissionButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        searchLabel = new JLabel();
+        searchLabel.setText("Recherche DMR :");
+        menuPanel.add(searchLabel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        searchDMRtextField = new JTextField();
+        menuPanel.add(searchDMRtextField, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        searchMagnifierLabel = new JButton();
+        searchMagnifierLabel.setText("");
+        menuPanel.add(searchMagnifierLabel, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        menuPanel.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        trieButton = new JButton();
-        trieButton.setText("trier Patient");
-        menuPanel.add(trieButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        menuPanel.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        menuPanel.add(spacer2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         dateLabel = new JLabel();
         dateLabel.setText("");
         northPanel.add(dateLabel, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         deconnexion = new JButton();
         deconnexion.setText("Deconnexion");
         northPanel.add(deconnexion, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer2 = new Spacer();
-        northPanel.add(spacer2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        northPanel.add(spacer3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         westPanel = new JPanel();
         westPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(westPanel, BorderLayout.WEST);
@@ -429,7 +478,10 @@ public class Accueil extends JPanel {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+
+
     }
+
 
     public JTree getExamTree() {
         return examTree;

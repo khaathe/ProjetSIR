@@ -6,7 +6,7 @@ import library.interfaces.Patient;
 
 public class HL7 {
     private static int portSeveur = 82;
-    private static int portClient = 83;
+    private static int portClient = 4444;
     private static String host = "localhost";
     private ServeurHL7 serveurHL7;
     private ClientHL7 clientHL7;
@@ -29,11 +29,14 @@ public class HL7 {
     }
 
     public void sendMessage() {
-        clientHL7.connexion(host, portClient);
+
         Patient patient = new Patient(1488488, "Track", 'N');
-		patient.setFirstName("Toto");
+        clientHL7.connexion(host, portClient);
+       /* clientHL7.admit(patient);
+        System.out.println(clientHL7.admit(patient));
+        patient.setFirstName("Toto");
 		clientHL7.endPat(patient);
-        clientHL7.close();
+        clientHL7.close();*/
     }
 }
 
