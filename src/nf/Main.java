@@ -9,19 +9,18 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
-        Patient patient = new Patient (
-            "",
-            "565694949",
-            "Heissler",
-            "Claire",
-            new GregorianCalendar(1997, 10,7)
-         );
+        Patient patient = new Patient(
+                "",
+                "565694949",
+                "Heissler",
+                "Claire",
+                new GregorianCalendar(1997, 10, 7)
+        );
 
-        MainWindow window= null;
+        MainWindow window = null;
         try {
             window = new MainWindow();
             window.setContentPane(new Authentification(window).getConnexionPanel());
@@ -33,7 +32,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+       /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
             "rupy",
             "Andrews",
             "Rupy",
@@ -138,8 +137,12 @@ public class Main {
         frame.setContentPane(main);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,500);
+        frame.setVisible(true);
+
         frame.setVisible(true);*/
     }
-
 }
+
+
+
 
