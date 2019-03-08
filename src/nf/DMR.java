@@ -1,10 +1,11 @@
 package nf;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DMR {
     private Patient patient;
-    private ArrayList<Examen> listeExamen ;
+    private List<Examen> listeExamen ;
 
     public DMR(Patient patient){
         this.patient = patient;
@@ -26,11 +27,11 @@ public class DMR {
         this.patient = patient;
     }
 
-    public ArrayList<Examen> getListeExamen() {
+    public List<Examen> getListeExamen() {
         return listeExamen;
     }
 
-    public void setListeExamen(ArrayList<Examen> listeExamen) {
+    public void setListeExamen(List<Examen> listeExamen) {
         this.listeExamen = listeExamen;
     }
 }

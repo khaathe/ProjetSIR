@@ -67,9 +67,10 @@
           </component>
           <component id="14f3a" class="javax.swing.JSlider" binding="constrastSlider" custom-create="true">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="1" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <inverted value="false"/>
               <maximum value="5"/>
               <minimum value="1"/>
               <paintLabels value="true"/>
@@ -94,6 +95,7 @@
               <doubleBuffered value="false"/>
               <inheritsPopupMenu value="false"/>
               <inverted value="false"/>
+              <maximum value="100"/>
               <minimum value="-100"/>
               <opaque value="true"/>
               <paintLabels value="true"/>

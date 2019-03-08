@@ -3,27 +3,27 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-
 import nf.*;
 
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.print.PrinterJob;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 
 //import javax.swing.*;
 /*import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;*/
 
-
-import javax.swing.*;
-import javax.swing.tree.*;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.print.PrinterJob;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-public class Accueil extends JPanel {
+public class Accueil extends JPanel implements PropertyChangeListener {
     private JPanel mainPanel;
     private JList list;
     private DefaultListModel listModel;
@@ -61,12 +61,11 @@ public class Accueil extends JPanel {
 
     public Accueil(MainWindow mainWindow) throws Exception {
         this.mainWindow = mainWindow;
-
-        list = new JList();
-        listModel = new DefaultListModel();
         examTree = new JTree();
         iconLabel = new JLabel();
         dateLabel = new JLabel();
+        list = new JList();
+        listModel = new DefaultListModel();
 
 
         $$$setupUI$$$();
@@ -93,6 +92,7 @@ public class Accueil extends JPanel {
 
         menuPanel.setVisible(true);
         centrePanel.setVisible(false);
+        mainWindow.getSir().getHl7().addPropertyChangeListener(this);
     }
 
     public void initDifferentialAccess() {
@@ -231,6 +231,7 @@ public class Accueil extends JPanel {
     }
 
     public void initList() {
+        listModel = new DefaultListModel();
         for (DMR d : mainWindow.getSir().getListeDMR()) {
             listModel.addElement(d);
         }
@@ -296,7 +297,7 @@ public class Accueil extends JPanel {
         DMR dmr = (DMR) list.getSelectedValue();
         Patient patient = dmr.getPatient();
         infoPatientLabel.setText(patient.toString());
-        ArrayList<Examen> listeExamen = null;
+        List<Examen> listeExamen = null;
         if (dmr.getListeExamen().size() == 0) {
             try {
                 listeExamen = mainWindow.getSir().getConn().getExamen(patient);
@@ -313,7 +314,7 @@ public class Accueil extends JPanel {
         centrePanel.setVisible(true);
     }
 
-    public void buildExameTree(ArrayList<Examen> listeExamen) {
+    public void buildExameTree(List<Examen> listeExamen) {
         DefaultMutableTreeNode allExamn = new DefaultMutableTreeNode();
         DefaultTreeModel model = new DefaultTreeModel(allExamn);
         nodeToExam = new HashMap<>();
@@ -363,6 +364,19 @@ public class Accueil extends JPanel {
     }
 
     public void admission() {
+        try {
+            mainWindow.getSir().admitPatient();
+            initList();
+            admissionButton.setForeground(Color.blue);
+            mainWindow.getSir().getHl7().ecoute();
+        } catch (NullPointerException npe){
+            npe.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Aucun patient a admettre", "Erreur admission", JOptionPane.ERROR_MESSAGE);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur admission", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 
@@ -489,5 +503,10 @@ public class Accueil extends JPanel {
 
     public HashMap<DefaultMutableTreeNode, Examen> getNodeToExam() {
         return nodeToExam;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        admissionButton.setForeground(Color.red);
     }
 }

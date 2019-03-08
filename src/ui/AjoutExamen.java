@@ -128,6 +128,7 @@ public class AjoutExamen extends JPanel {
             mainWindow.getSir().getConn().addExamen(examen);
             DMR dmr = (DMR) accueil.getList().getSelectedValue();
             dmr.ajouterExamen(examen);
+            mainWindow.getSir().getHl7().sendMessage(examen, HL7.END_PAT);
             accueil.displayPatient();
             retourAccueil();
         } catch (Exception e) {
