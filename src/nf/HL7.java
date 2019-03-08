@@ -37,7 +37,8 @@ public class HL7 {
                 serveurHL7.connection(portServeur);
                 serveurHL7.ecoute();
                 serveurHL7.protocole();
-                library.interfaces.Patient p = serveurHL7.getPatient();GregorianCalendar dateNaissance = new GregorianCalendar();
+                library.interfaces.Patient p = serveurHL7.getPatient();
+                GregorianCalendar dateNaissance = new GregorianCalendar();
                 dateNaissance.setTime(p.getBirth());
                 patient = new Patient(Patient.generateIdPR(), p.getID().toString(), p.getFamillyName(), p.getFirstName(), dateNaissance);
                 Message message = serveurHL7.getMessage();

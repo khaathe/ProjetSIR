@@ -1,14 +1,8 @@
 package nf;
 
-import ui.Authentification;
-import ui.MainWindow;
+import library.interfaces.ClientHL7;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
@@ -20,17 +14,13 @@ public class Main {
                 new GregorianCalendar(1997, 10, 7)
         );
 
-        MainWindow window = null;
-        try {
-            window = new MainWindow();
-            window.setContentPane(new Authentification(window).getConnexionPanel());
-            window.getSir().getHl7().setPortSeveur(6517);
-            window.pack();
-            window.setVisible(true);
-            window.setResizable(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ClientHL7 clientHL7 = new ClientHL7();
+        clientHL7.connexion("130.190.72.43", 50000);
+        library.interfaces.Patient p = new library.interfaces.Patient(Integer.parseInt(patient.getIdPatient()), patient.getNom(), 'N');
+        p.setFirstName(patient.getPrenom());
+        p.setBirth(patient.getNaissance().getTime());
+        clientHL7.admit(p);
+        clientHL7.close();
 
        /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
             "rupy",
