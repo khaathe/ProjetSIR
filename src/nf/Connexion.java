@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Connexion {
 
@@ -90,7 +91,7 @@ public class Connexion {
         return personnel;
     }
 
-    public ArrayList<Examen> getExamen(Patient patient) throws Exception {
+    public List<Examen> getExamen(Patient patient) throws Exception {
         String query = "SELECT * FROM examen natural join compterendu WHERE idPR=?";
 
         // create the java statement
@@ -110,7 +111,7 @@ public class Connexion {
             ServiceHosp service = ServiceHosp.valueOf(rs.getString("service").toUpperCase());
             TypeExamen typeexam = TypeExamen.valueOf(rs.getString("typeExamen").toUpperCase());
             PersonnelServiceRadio personnel = getPersonnelServiceRadio(rs.getString("idPersonnel"));
-            ArrayList<AbstractImage> listeImage = getImage(numArchivage);
+            List<AbstractImage> listeImage = getImage(numArchivage);
             CompteRendu cr = new CompteRendu(numArchivage, rs.getString("compteRendu"));
 
             Examen examen = new Examen(
@@ -232,7 +233,7 @@ public class Connexion {
 
 
 
-    public void insertImage (ArrayList<AbstractImage> listImage) throws Exception{
+    public void insertImage (List<AbstractImage> listImage) throws Exception{
         PreparedStatement statement = this.con.prepareStatement("INSERT INTO image (numArchivage, numInstance, image, annotation) VALUES (?, ?, ?,?)");
         for(AbstractImage image : listImage){
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -249,7 +250,7 @@ public class Connexion {
         statement.close();
     }
 
-    public ArrayList<AbstractImage> getImage (String numArchivage) throws Exception{
+    public List<AbstractImage> getImage (String numArchivage) throws Exception{
         ArrayList<AbstractImage> listImage = new ArrayList<AbstractImage>();
         String query = "select * from image where numArchivage=?";
         PreparedStatement statement = this.con.prepareStatement(query);

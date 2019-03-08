@@ -3,27 +3,27 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-
 import nf.*;
 
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.print.PrinterJob;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 
 //import javax.swing.*;
 /*import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;*/
 
-
-import javax.swing.*;
-import javax.swing.tree.*;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.print.PrinterJob;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-public class Accueil extends JPanel {
+public class Accueil extends JPanel implements PropertyChangeListener {
     private JPanel mainPanel;
     private JList list;
     private DefaultListModel listModel;
@@ -42,7 +42,7 @@ public class Accueil extends JPanel {
     private JLabel nameLabel;
     private JLabel iconLabel;
     private JLabel dateLabel;
-    private JButton trieButton;
+    // private JButton trieButton;
     private JButton numeriserButton;
     private JPanel patientPanel;
     private JPanel infoPatientPanel;
@@ -52,18 +52,20 @@ public class Accueil extends JPanel {
     private JPanel menuPanel;
     private JButton deconnexion;
     private JButton imprimerButton;
+    private JTextField searchDMRtextField;
+    private JButton searchMagnifierLabel;
+    private JLabel searchLabel;
     private MainWindow mainWindow;
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
 
 
     public Accueil(MainWindow mainWindow) throws Exception {
         this.mainWindow = mainWindow;
-
-        list = new JList();
-        listModel = new DefaultListModel();
         examTree = new JTree();
         iconLabel = new JLabel();
         dateLabel = new JLabel();
+        list = new JList();
+        listModel = new DefaultListModel();
 
 
         $$$setupUI$$$();
@@ -90,6 +92,7 @@ public class Accueil extends JPanel {
 
         menuPanel.setVisible(true);
         centrePanel.setVisible(false);
+        mainWindow.getSir().getHl7().addPropertyChangeListener(this);
     }
 
     public void initDifferentialAccess() {
@@ -97,7 +100,9 @@ public class Accueil extends JPanel {
 
             case PH:
                 admissionButton.setVisible(false);
-                trieButton.setVisible(false);
+                searchLabel.setVisible(false);
+                searchDMRtextField.setVisible(false);
+                searchMagnifierLabel.setVisible(false);
                 numeriserButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeMedecin.png"));
                 break;
@@ -107,6 +112,7 @@ public class Accueil extends JPanel {
                 CRButton.setVisible(false);
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
+                searchMagnifierLabel.setIcon(new ImageIcon("resources/searchmagnifierIcon.png"));
                 break;
 
             case SECRETAIRE:
@@ -116,6 +122,7 @@ public class Accueil extends JPanel {
                 accesImageButton.setVisible(false);
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeSecretaireMed.png"));
+                searchMagnifierLabel.setIcon(new ImageIcon("resources/searchmagnifierIcon.png"));
                 break;
         }
         mainWindow.revalidate();
@@ -187,9 +194,44 @@ public class Accueil extends JPanel {
                 imprimer();
             }
         });
+
+        searchMagnifierLabel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    nouvelleList();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        searchDMRtextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    try {
+                        nouvelleList();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    public void nouvelleList() throws Exception {
+        listModel.clear();
+        for (DMR d : mainWindow.getSir().rechercheDMR(searchDMRtextField.getText())) {
+            listModel.addElement(d);
+        }
+        list.setModel(listModel);
+
+
     }
 
     public void initList() {
+        listModel = new DefaultListModel();
         for (DMR d : mainWindow.getSir().getListeDMR()) {
             listModel.addElement(d);
         }
@@ -208,6 +250,7 @@ public class Accueil extends JPanel {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
+
 
     public void deconnection() {
         int res = JOptionPane.showConfirmDialog(null, "Etes vous sur de vouloir vous deconnecter ?", "Confirmer deconnexion", JOptionPane.OK_CANCEL_OPTION);
@@ -231,11 +274,11 @@ public class Accueil extends JPanel {
             if (examen == null)
                 throw new NullPointerException("Veuilez choisir un examen");
             else if (examen.getImages().size() == 0)
-
                 throw new Exception("Aucune image pour cet examen");
             this.mainWindow.setContentPane(new VisualisationImage(mainWindow, this, examen.getImages()).getGeneralPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
@@ -254,16 +297,15 @@ public class Accueil extends JPanel {
         DMR dmr = (DMR) list.getSelectedValue();
         Patient patient = dmr.getPatient();
         infoPatientLabel.setText(patient.toString());
-        ArrayList<Examen> listeExamen = null;
-        if (dmr.getListeExamen().size() == 0){
+        List<Examen> listeExamen = null;
+        if (dmr.getListeExamen().size() == 0) {
             try {
                 listeExamen = mainWindow.getSir().getConn().getExamen(patient);
                 dmr.setListeExamen(listeExamen);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else
+        } else
             listeExamen = dmr.getListeExamen();
         if (listeExamen.size() > 0)
             buildExameTree(listeExamen);
@@ -272,7 +314,7 @@ public class Accueil extends JPanel {
         centrePanel.setVisible(true);
     }
 
-    public void buildExameTree(ArrayList<Examen> listeExamen) {
+    public void buildExameTree(List<Examen> listeExamen) {
         DefaultMutableTreeNode allExamn = new DefaultMutableTreeNode();
         DefaultTreeModel model = new DefaultTreeModel(allExamn);
         nodeToExam = new HashMap<>();
@@ -290,7 +332,7 @@ public class Accueil extends JPanel {
         revalidate();
     }
 
-    public void numeriser (){
+    public void numeriser() {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
@@ -305,14 +347,14 @@ public class Accueil extends JPanel {
         }
     }
 
-    public void imprimer (){
+    public void imprimer() {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
                 throw new NullPointerException("Veuilez choisir un examen");
             PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable( new ExamenPrinter(examen));
-            if ( job.printDialog()){
+            job.setPrintable(new ExamenPrinter(examen));
+            if (job.printDialog()) {
                 job.print();
             }
             this.mainWindow.revalidate();
@@ -321,7 +363,20 @@ public class Accueil extends JPanel {
         }
     }
 
-    public void admission (){
+    public void admission() {
+        try {
+            mainWindow.getSir().admitPatient();
+            initList();
+            admissionButton.setForeground(Color.blue);
+            mainWindow.getSir().getHl7().ecoute();
+        } catch (NullPointerException npe){
+            npe.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Aucun patient a admettre", "Erreur admission", JOptionPane.ERROR_MESSAGE);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur admission", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 
@@ -354,25 +409,32 @@ public class Accueil extends JPanel {
         iconLabel.setText("");
         northPanel.add(iconLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         menuPanel = new JPanel();
-        menuPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
+        menuPanel.setLayout(new GridLayoutManager(1, 6, new Insets(0, 0, 0, 0), -1, -1));
         northPanel.add(menuPanel, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         admissionButton = new JButton();
         admissionButton.setLabel("Admission Patient");
         admissionButton.setText("Admission Patient");
-        menuPanel.add(admissionButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        menuPanel.add(admissionButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        searchLabel = new JLabel();
+        searchLabel.setText("Recherche DMR :");
+        menuPanel.add(searchLabel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        searchDMRtextField = new JTextField();
+        menuPanel.add(searchDMRtextField, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        searchMagnifierLabel = new JButton();
+        searchMagnifierLabel.setText("");
+        menuPanel.add(searchMagnifierLabel, new GridConstraints(0, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        menuPanel.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        trieButton = new JButton();
-        trieButton.setText("trier Patient");
-        menuPanel.add(trieButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        menuPanel.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        menuPanel.add(spacer2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         dateLabel = new JLabel();
         dateLabel.setText("");
         northPanel.add(dateLabel, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_NORTHEAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         deconnexion = new JButton();
         deconnexion.setText("Deconnexion");
         northPanel.add(deconnexion, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer2 = new Spacer();
-        northPanel.add(spacer2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        northPanel.add(spacer3, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         westPanel = new JPanel();
         westPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(westPanel, BorderLayout.WEST);
@@ -384,7 +446,7 @@ public class Accueil extends JPanel {
         centrePanel.setLayout(new BorderLayout(0, 0));
         mainPanel.add(centrePanel, BorderLayout.CENTER);
         southPanel = new JPanel();
-        southPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
+        southPanel.setLayout(new GridLayoutManager(1, 5, new Insets(0, 0, 0, 0), -1, -1));
         centrePanel.add(southPanel, BorderLayout.SOUTH);
         accesImageButton = new JButton();
         accesImageButton.setText("Accès images");
@@ -397,7 +459,10 @@ public class Accueil extends JPanel {
         southPanel.add(ajoutExamButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         numeriserButton = new JButton();
         numeriserButton.setText("Numeriser");
-        southPanel.add(numeriserButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        southPanel.add(numeriserButton, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        imprimerButton = new JButton();
+        imprimerButton.setText("imprimer");
+        southPanel.add(imprimerButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane2 = new JScrollPane();
         centrePanel.add(scrollPane2, BorderLayout.CENTER);
         patientPanel = new JPanel();
@@ -427,7 +492,10 @@ public class Accueil extends JPanel {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
+
+
     }
+
 
     public JTree getExamTree() {
         return examTree;
@@ -435,5 +503,10 @@ public class Accueil extends JPanel {
 
     public HashMap<DefaultMutableTreeNode, Examen> getNodeToExam() {
         return nodeToExam;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        admissionButton.setForeground(Color.red);
     }
 }

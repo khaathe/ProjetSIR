@@ -1,5 +1,7 @@
 package nf;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
@@ -51,6 +53,14 @@ public class Patient {
                 + nom + " " + prenom +", "
                 + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime());
         return info;
+    }
+
+    public static String generateIdPR () {
+        double random = Math.random();
+        random = random * Math.pow(10, 15);
+        DecimalFormat df = new DecimalFormat("000000000000000");
+        df.setRoundingMode(RoundingMode.HALF_UP);
+        return df.format(random);
     }
 }
 

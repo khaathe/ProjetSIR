@@ -1,35 +1,23 @@
 package nf;
 
-import ui.ImagePanel;
-import ui.Numeriseur;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Scanner;
 public class Main {
+
 
     public static void main(String[] args) throws Exception {
         /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
-            "rupy",
+
             "Andrews",
             "Rupy",
             Profession.SECRETAIRE
         );
 
-        Patient patient = new Patient (
-                "983250865",
-                "565694949",
-                "Heissler",
-                "Claire",
-                new GregorianCalendar(1997, 10,7)
-        );
-
-        ArrayList<AbstractImage> listImage = new ArrayList<>();
+        List<AbstractImage> listImage = new ArrayList<>();
         Image i = new Image("08470296");
         try {
 */
@@ -41,7 +29,7 @@ public class Main {
         ArrayList<DMR> dmr= connexion.getDMR();
         System.out.println(dmr.size());
         Patient p=dmr.get(0).getPatient();
-        ArrayList<Examen> e=connexion.getExamen(p);
+       List<Examen> e=connexion.getExamen(p);
         System.out.println(e.get(0).getCr().getCompteRendu());
         String[] words = e.get(0).getCr().getCompteRendu().split("\\s");
         System.out.println(words.length);
@@ -135,13 +123,6 @@ public class Main {
 
 
 
-=======
-            i.setImage(new File( "D:\\ProjetSIR\\ProjetTIS4\\jpg\\brain\\brain1_0000.jpg"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        listImage.add(i);
->>>>>>> 30a6185d4ba38ac46cf74e9ec4034f063019b624
 
         String cr = "";
         try {
@@ -164,7 +145,12 @@ public class Main {
                 compteRendu
         );
 
-        PrinterJob job = PrinterJob.getPrinterJob();
+        Scanner scan = new Scanner(System.in);
+        while ( !scan.nextLine().equals("-") ) { }
+        HL7 hl7 = new HL7();
+        hl7.sendMessage(examen, HL7.ADMIT_PATIENT);
+
+        /*PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(new ExamenPrinter(examen));
         if (job.printDialog()){
             try {
@@ -221,7 +207,12 @@ public class Main {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,500);
         frame.setVisible(true);
+
     }*/
 
 }}
+
+
+
+
 
