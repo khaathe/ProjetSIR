@@ -60,7 +60,7 @@ public class HL7 {
     public Patient getPatient () { return this.patient; }
 
     public void sendMessage(Examen examen, int type) {
-        clientHL7.connexion(examen.getService().getHost(), examen.getService().getPort());
+        clientHL7.connexion("130.190.114.137", 6516);
         Patient patient = examen.getPatient();
         library.interfaces.Patient p = new library.interfaces.Patient(Integer.parseInt(patient.getIdPatient()), patient.getNom(), 'N');
 		p.setFirstName(patient.getPrenom());

@@ -1,5 +1,21 @@
 package nf;
 
+
+import ui.ImagePanel;
+import ui.Numeriseur;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+
+import ui.Authentification;
+import ui.MainWindow;
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,6 +28,30 @@ public class Main {
     public static void main(String[] args) throws Exception {
         /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
+    public static void main(String[] args) {
+        Patient patient = new Patient(
+                "",
+                "565694949",
+                "Heissler",
+                "Claire",
+                new GregorianCalendar(1997, 10, 7)
+        );
+
+        MainWindow window = null;
+        try {
+            window = new MainWindow();
+            window.setContentPane(new Authentification(window).getConnexionPanel());
+            window.getSir().getHl7().setPortSeveur(6517);
+            window.pack();
+            window.setVisible(true);
+            window.setResizable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+       /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+
+            "rupy",
             "Andrews",
             "Rupy",
             Profession.SECRETAIRE
@@ -29,100 +69,12 @@ public class Main {
         ArrayList<DMR> dmr= connexion.getDMR();
         System.out.println(dmr.size());
         Patient p=dmr.get(0).getPatient();
-       List<Examen> e=connexion.getExamen(p);
+        List<Examen> e=connexion.getExamen(p);
         System.out.println(e.get(0).getCr().getCompteRendu());
         String[] words = e.get(0).getCr().getCompteRendu().split("\\s");
         System.out.println(words.length);
 
-
 /*
-
-           PersonnelServiceRadio personnelServiceRadio1 = new PersonnelServiceRadio(
-                    "57",
-                    "Trouillet",
-                    "Juliette",
-                    Profession.PH
-                    );
-
-           String idMed="93547369";
-
-
-            PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
-                    "rupy",
-                    "Andrews",
-                    "Rupy",
-                    Profession.SECRETAIRE
-            );
-
-            //connexion.addPersonnelServiceRadio(personnelServiceRadio);
-
-            //ArrayList <DMR> s = connexion.getDMR();
-            //ArrayList <PersonnelServiceRadio> psr;
-
-            //PersonnelServiceRadio p=connexion.getPersonnelServiceRadio("2");
-
-            //System.out.println(p.getProfession());
-
-            ArrayList<Image> listImage = new ArrayList<>();
-
-            /*Image i = new Image("08470296");
-            Image i2 = new Image("864994949");
-            Image i3 = new Image("13156212564829");
-
-            i.setImage(ImageIO.read(new File("C:\\Users\\amanr\\Pictures\\jpg\\brain\\brain1_0000.jpg")));
-            i2.setImage(ImageIO.read(new File("C:\\Users\\amanr\\Pictures\\jpg\\brain\\brain1_0008.jpg")));
-            i3.setImage(ImageIO.read(new File("C:\\Users\\amanr\\Pictures\\jpg\\abdomen\\cor494-i387.jpg")));
-
-            listImage.add(i);
-            listImage.add(i2);
-            listImage.add(i3);
-
-           // connexion.insertImage(listImage);
-
-
-            /*Patient claire = new Patient (
-
-                    "983250865",
-                    "565694949",
-                    "Heissler",
-                    "Claire",
-
-                    new GregorianCalendar(1997, 10,7)
-
-            );
-            Patient patient3 = new Patient (
-                    "6",
-                    "9283Y59156906",
-                    "Mottin",
-                    "Laurence",
-                    new GregorianCalendar(1968, 9,4)
-
-            );
-            //connexion.addPatient(claire);
-            //connexion.addPatient(patient3);
-            //System.out.println(patient3);
-            Examen e=new Examen(
-                    new GregorianCalendar(),
-                    "08470296",
-                    TypeExamen.SCANNER,
-                    patient3,
-                    personnelServiceRadio1,
-                    ServiceHosp.PNEUMOLOGIE
-            );
-
-            //System.out.println(connexion.getPersonnelServiceRadio("93547369"));
-                    //+connexion.getPersonnelServiceRadio("93547369").getIdMedical()+" "
-                    //+connexion.getPersonnelServiceRadio("93547369").getNom()+" "
-            //connexion.getPersonnelServiceRadio("93547369").getProfession());
-            connexion.insertExamen(e);
-           //connexion.addPersonnelServiceRadio(personnelServiceRadio);
-           //connexion.addPersonnelServiceRadio(personnelServiceRadio2);
-
-            //psr = connexion.getListePersonnel();
-            //s=connexion.getDMR();
-
-
-
 
         String cr = "";
         try {
@@ -208,11 +160,5 @@ public class Main {
         frame.setSize(500,500);
         frame.setVisible(true);
 
-    }*/
-
+*/
 }}
-
-
-
-
-
