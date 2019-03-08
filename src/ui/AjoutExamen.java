@@ -36,13 +36,13 @@ public class AjoutExamen extends JPanel {
     private MainWindow mainWindow;
     private DefaultComboBoxModel<TypeExamen> examModel;
     private DefaultComboBoxModel<ServiceHosp> serviceModel;
-    private Acceuil accueil;
+    private Accueil accueil;
     private File[] listeFichierImage;
 
 
-    public AjoutExamen(MainWindow mainWindow, Acceuil acceuil) {
+    public AjoutExamen(MainWindow mainWindow, Accueil accueil) {
         this.mainWindow = mainWindow;
-        this.accueil = acceuil;
+        this.accueil = accueil;
         listeFichierImage = null;
 
 
@@ -120,11 +120,14 @@ public class AjoutExamen extends JPanel {
         Patient patient = ( (DMR) accueil.getList().getSelectedValue() ).getPatient();
         PersonnelServiceRadio personnelServiceRadio = mainWindow.getSir().getPersonneConnecte();
         String numArchivage = Examen.generateNumArchivage();
-        ArrayList<nf.Image> listeImage = loadImage(numArchivage);
+        ArrayList<AbstractImage> listeImage = loadImage(numArchivage);
         CompteRendu cr = new CompteRendu(numArchivage, crArea.getText());
         Examen examen = new Examen(date, numArchivage, typeExamen, patient, personnelServiceRadio, serviceHosp, listeImage, cr);
         try {
             mainWindow.getSir().getConn().addExamen(examen);
+            DMR dmr = (DMR) accueil.getList().getSelectedValue();
+            dmr.ajouterExamen(examen);
+            accueil.displayPatient();
             retourAccueil();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -142,8 +145,8 @@ public class AjoutExamen extends JPanel {
         }
     }
 
-    public ArrayList<nf.Image> loadImage (String numArchivage) {
-        ArrayList<nf.Image> listeImage = new ArrayList<>();
+    public ArrayList<AbstractImage> loadImage (String numArchivage) {
+        ArrayList<AbstractImage> listeImage = new ArrayList<>();
         for( File f : listeFichierImage ){
             nf.Image image = new nf.Image(numArchivage);
             try {
@@ -283,103 +286,4 @@ public class AjoutExamen extends JPanel {
         return generalPanel;
     }
 
-    public void setGeneralPanel(JPanel generalPanel) {
-        this.generalPanel = generalPanel;
-    }
-
-    public JButton getAnnulerButton() {
-        return annulerButton;
-    }
-
-    public void setAnnulerButton(JButton annulerButton) {
-        this.annulerButton = annulerButton;
-    }
-
-    public JButton getAjouterButton() {
-        return ajouterButton;
-    }
-
-    public void setAjouterButton(JButton ajouterButton) {
-        this.ajouterButton = ajouterButton;
-    }
-
-    public JButton getChoisirImageButton() {
-        return choisirImageButton;
-    }
-
-    public void setChoisirImageButton(JButton choisirImageButton) {
-        this.choisirImageButton = choisirImageButton;
-    }
-
-    public JComboBox getDayComboBox() {
-        return dayComboBox;
-    }
-
-    public void setDayComboBox(JComboBox dayComboBox) {
-        this.dayComboBox = dayComboBox;
-    }
-
-    public JComboBox getMonthComboBox() {
-        return monthComboBox;
-    }
-
-    public void setMonthComboBox(JComboBox monthComboBox) {
-        this.monthComboBox = monthComboBox;
-    }
-
-    public JComboBox getYearComboBox() {
-        return yearComboBox;
-    }
-
-    public void setYearComboBox(JComboBox yearComboBox) {
-        this.yearComboBox = yearComboBox;
-    }
-
-    public JComboBox getExamComboBox() {
-        return examComboBox;
-    }
-
-    public void setExamComboBox(JComboBox examComboBox) {
-        this.examComboBox = examComboBox;
-    }
-
-    public JComboBox getServiceComboBox() {
-        return serviceComboBox;
-    }
-
-    public void setServiceComboBox(JComboBox serviceComboBox) {
-        this.serviceComboBox = serviceComboBox;
-    }
-
-    public JTextArea getAjoutDExamenTextArea() {
-        return ajoutDExamenTextArea;
-    }
-
-    public void setAjoutDExamenTextArea(JTextArea ajoutDExamenTextArea) {
-        this.ajoutDExamenTextArea = ajoutDExamenTextArea;
-    }
-
-    public JTextArea getCrArea() {
-        return crArea;
-    }
-
-    public void setCrArea(JTextArea crArea) {
-        this.crArea = crArea;
-    }
-
-    public JLabel getAjoutPatientLabel() {
-        return ajoutPatientLabel;
-    }
-
-    public void setAjoutPatientLabel(JLabel ajoutPatientLabel) {
-        this.ajoutPatientLabel = ajoutPatientLabel;
-    }
-
-    public JLabel getImageLabel() {
-        return imageLabel;
-    }
-
-    public void setImageLabel(JLabel imageLabel) {
-        this.imageLabel = imageLabel;
-    }
 }

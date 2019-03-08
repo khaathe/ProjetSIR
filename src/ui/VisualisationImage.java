@@ -3,8 +3,8 @@ package  ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import nf.AbstractImage;
 import nf.Examen;
-import nf.Image;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -48,7 +48,7 @@ public class VisualisationImage extends JPanel {
     private JLabel pictureLabel;
     private JLabel progressionContrasteLabel;
     private MainWindow mainWindow;
-    private ArrayList<Image> picture;
+    private ArrayList<AbstractImage> picture;
     private Accueil accueil;
     static final int CONTRASTE_MIN = 1;
     static final int CONTRASTE_MAX = 50;
@@ -61,7 +61,7 @@ public class VisualisationImage extends JPanel {
     private ImageIcon imageIcon;
 
 
-    public VisualisationImage(MainWindow mainWindow, Accueil accueil, ArrayList<Image> picture) {
+    public VisualisationImage(MainWindow mainWindow, Accueil accueil, ArrayList<AbstractImage> picture) {
         this.mainWindow = mainWindow;
         this.accueil = accueil;
         this.picture = picture;
@@ -158,7 +158,7 @@ public class VisualisationImage extends JPanel {
                 try {
 
                     //picture.get(i).rotation(picture.get(i).getImage());
-                    Image ig = picture.get(i);
+                    AbstractImage ig = picture.get(i);
                     BufferedImage imageModif = ig.retournementHorizontal(ig.getImage());
                     ig.setRetourner();
                     imageIcon = new ImageIcon(new ImageIcon(imageModif).getImage().getScaledInstance(300, 400, java.awt.Image.SCALE_DEFAULT));
@@ -181,7 +181,7 @@ public class VisualisationImage extends JPanel {
                 try {
 
                     //picture.get(i).rotation(picture.get(i).getImage());
-                    Image ig = picture.get(i);
+                    AbstractImage ig = picture.get(i);
                     BufferedImage imageModif = ig.inversion(ig.getImage());
                     ig.setInverser();
 
@@ -203,10 +203,10 @@ public class VisualisationImage extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 int i = pictureSlider.getValue();
                 try {
-                    //picture.get(i).setRotation(Image.ROTATE_RIGHT);
+                    //picture.get(i).setRotation(AbstractImage.ROTATE_RIGHT);
                     //picture.get(i).rotation(picture.get(i).getImage());
-                    Image ig = picture.get(i);
-                    ig.setRotation(Image.ROTATE_RIGHT);
+                    AbstractImage ig = picture.get(i);
+                    ig.setRotation(AbstractImage.ROTATE_RIGHT);
                     BufferedImage imageModif = ig.rotation(ig.getImage());
 
                     imageIcon = new ImageIcon(new ImageIcon(imageModif).getImage().getScaledInstance(300, 400, java.awt.Image.SCALE_DEFAULT));
@@ -228,10 +228,10 @@ public class VisualisationImage extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 int i = pictureSlider.getValue();
                 try {
-                    //picture.get(i).setRotation(Image.ROTATE_RIGHT);
+                    //picture.get(i).setRotation(AbstractImage.ROTATE_RIGHT);
                     //picture.get(i).rotation(picture.get(i).getImage());
-                    Image ig = picture.get(i);
-                    ig.setRotation(Image.ROTATE_LEFT);
+                    AbstractImage ig = picture.get(i);
+                    ig.setRotation(AbstractImage.ROTATE_LEFT);
                     BufferedImage imageModif = ig.rotation(ig.getImage());
 
                     imageIcon = new ImageIcon(new ImageIcon(imageModif).getImage().getScaledInstance(300, 400, java.awt.Image.SCALE_DEFAULT));
@@ -264,7 +264,7 @@ public class VisualisationImage extends JPanel {
                 int vlrLum = ((JSlider) changeEvent.getSource()).getValue();
                 if (ecalircissementSlider.getValueIsAdjusting()) {
                     try {
-                        Image ig = picture.get(i);
+                        AbstractImage ig = picture.get(i);
 
                         BufferedImage imageModif = ig.eclaircissement(ig.getImage());
                         ig.setLuminosite(vlrLum);
@@ -320,7 +320,7 @@ public class VisualisationImage extends JPanel {
                 JSlider slider = (JSlider) changeEvent.getSource();
                 if (slider.getValueIsAdjusting()) {
                     try {
-                        Image ig = picture.get(i);
+                        AbstractImage ig = picture.get(i);
                         ig.setContraste(slider.getValue());
                         BufferedImage imageModif = ig.contraste(ig.getImage());
 //                        imgPanel.setImg(imageModif);
@@ -339,7 +339,6 @@ public class VisualisationImage extends JPanel {
 
                 /*BufferedImage imageModif = picture.get(i).getImage();
                 imgPanel = new ImagePanel(imageModif);
-
                 pictureLabel.setIcon(new ImageIcon(imgPanel.getImg()));
                 pictureLabel.repaint();*/
             }

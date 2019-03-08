@@ -17,10 +17,8 @@ import javax.swing.*;
 import javax.swing.tree.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.awt.print.PrinterJob;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,61 +51,27 @@ public class Accueil extends JPanel {
     private JTree examTree;
     private JPanel menuPanel;
     private JButton deconnexion;
+    private JButton imprimerButton;
     private MainWindow mainWindow;
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
-    private String id;
 
 
     public Accueil(MainWindow mainWindow) throws Exception {
         this.mainWindow = mainWindow;
 
-
-        // id = mainWindow.getSir().getPersonneConnecte().getIdMedical();
-
-
-        // setList(new JList());
         list = new JList();
         listModel = new DefaultListModel();
-        setExamTree(new JTree());
-        getExamTree().setRootVisible(false);
+        examTree = new JTree();
         iconLabel = new JLabel();
         dateLabel = new JLabel();
 
 
         $$$setupUI$$$();
 
-
-        //model.addElement(new DMR("2", "Robert", "Amandine", new GregorianCalendar(), "17264187463"));
-
-
-        //nameLabel.setText("Mr/Mme " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getNom() + " " + mainWindow.getSir().getConn().getPersonnelServiceRadio(id).getPrenom());
-        //nameLabel.setText("Mr/Mme " + mainWindow.getIdMed());
-        /*ajoutExamButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                //openAjouterPatient();
-            }
-        });*/
-
         initComponent();
-
 
         initList();
 
-
-        /*accesImageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                openImage();
-            }
-        });
-        for (int i = 0; i < mainWindow.getSir().getConn().getListePersonnel().size(); i++) {
-            System.out.println(mainWindow.getSir().getConn().getListePersonnel().get(i).getProfession());
-        }
-        System.out.println(mainWindow.getIdMed());
-//        System.out.println(mainWindow.getSir().getConn().getPersonnelServiceRadio(id));
-
-*/
         initListener();
 
         initDifferentialAccess();
@@ -129,7 +93,6 @@ public class Accueil extends JPanel {
     }
 
     public void initDifferentialAccess() {
-        System.out.println(mainWindow.getSir().getPersonneConnecte().getProfession());
         switch (mainWindow.getSir().getPersonneConnecte().getProfession()) {
 
             case PH:
@@ -142,6 +105,7 @@ public class Accueil extends JPanel {
             case MANIPULATEUR:
                 ajoutExamButton.setVisible(false);
                 CRButton.setVisible(false);
+                imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
                 break;
 
@@ -150,6 +114,7 @@ public class Accueil extends JPanel {
                 CRButton.setVisible(false);
                 numeriserButton.setVisible(false);
                 accesImageButton.setVisible(false);
+                imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeSecretaireMed.png"));
                 break;
         }
@@ -157,21 +122,21 @@ public class Accueil extends JPanel {
     }
 
     public void initListener() {
-        getAjoutExamButton().addActionListener(new ActionListener() {
+        ajoutExamButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 openAjouterExam();
             }
         });
 
-        getAccesImageButton().addActionListener(new ActionListener() {
+        accesImageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 openImage();
             }
         });
 
-        getList().addMouseListener(new MouseAdapter() {
+        list.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -179,18 +144,47 @@ public class Accueil extends JPanel {
             }
         });
 
+        list.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyTyped(e);
+                displayPatient();
+            }
+        });
 
-        getCRButton().addActionListener(new ActionListener() {
+
+        CRButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 openCR();
             }
         });
+
         deconnexion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deconnection();
+            }
+        });
 
+        numeriserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                numeriser();
+            }
+        });
+
+        admissionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                admission();
+            }
+        });
+
+        imprimerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                imprimer();
             }
         });
     }
@@ -202,21 +196,13 @@ public class Accueil extends JPanel {
         list.setModel(listModel);
     }
 
-
-    /*public void initialize() throws Exception {
-        for (int i = 0; i < mainWindow.getSir().getConn().getDMR().size(); i++) {
-            model.addElement(mainWindow.getSir().getConn().getDMR().get(i).getPatient().getNom() + " " + mainWindow.getSir().getConn().getDMR().get(i).getPatient().getPrenom());
-        }
-        list1.setModel(model);
-    }*/
-
     public void openCR() {
         try {
-            Examen exam = getNodeToExam().get(getExamTree().getLastSelectedPathComponent());
+            Examen exam = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (exam == null) {
                 throw new NullPointerException("Veuilez choisir un examen");
             } else {
-                JOptionPane.showMessageDialog(this, exam.getCr().toString());
+                JOptionPane.showMessageDialog(this, exam.getCr().getCompteRendu());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -241,7 +227,7 @@ public class Accueil extends JPanel {
 
     public void openImage() {
         try {
-            Examen examen = getNodeToExam().get(getExamTree().getLastSelectedPathComponent());
+            Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
                 throw new NullPointerException("Veuilez choisir un examen");
             else if (examen.getImages().size() == 0)
@@ -269,11 +255,16 @@ public class Accueil extends JPanel {
         Patient patient = dmr.getPatient();
         infoPatientLabel.setText(patient.toString());
         ArrayList<Examen> listeExamen = null;
-        try {
-            listeExamen = mainWindow.getSir().getConn().getExamen(patient);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (dmr.getListeExamen().size() == 0){
+            try {
+                listeExamen = mainWindow.getSir().getConn().getExamen(patient);
+                dmr.setListeExamen(listeExamen);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        else
+            listeExamen = dmr.getListeExamen();
         if (listeExamen.size() > 0)
             buildExameTree(listeExamen);
         else
@@ -284,7 +275,7 @@ public class Accueil extends JPanel {
     public void buildExameTree(ArrayList<Examen> listeExamen) {
         DefaultMutableTreeNode allExamn = new DefaultMutableTreeNode();
         DefaultTreeModel model = new DefaultTreeModel(allExamn);
-        setNodeToExam(new HashMap<>());
+        nodeToExam = new HashMap<>();
         for (Examen e : listeExamen) {
             DefaultMutableTreeNode examNode = new DefaultMutableTreeNode(e);
             examNode.add(new DefaultMutableTreeNode("numArchivage : " + e.getNumArchivage()));
@@ -292,10 +283,46 @@ public class Accueil extends JPanel {
             examNode.add(new DefaultMutableTreeNode("Fait par " + e.getPraticien()));
             examNode.add(new DefaultMutableTreeNode("Service " + e.getService()));
             model.insertNodeInto(examNode, (MutableTreeNode) model.getRoot(), 0);
-            getNodeToExam().put(examNode, e);
+            nodeToExam.put(examNode, e);
         }
-        getExamTree().setModel(model);
+        examTree.setModel(model);
+        examTree.setRootVisible(false);
         revalidate();
+    }
+
+    public void numeriser (){
+        try {
+            Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
+            if (examen == null)
+                throw new NullPointerException("Veuilez choisir un examen");
+            AbstractImage image = new Numeriseur(examen.getNumArchivage()).run();
+            if (image != null) {
+                mainWindow.getSir().addImageToExam(examen, image);
+            }
+            this.mainWindow.revalidate();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    public void imprimer (){
+        try {
+            Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
+            if (examen == null)
+                throw new NullPointerException("Veuilez choisir un examen");
+            PrinterJob job = PrinterJob.getPrinterJob();
+            job.setPrintable( new ExamenPrinter(examen));
+            if ( job.printDialog()){
+                job.print();
+            }
+            this.mainWindow.revalidate();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    public void admission (){
+
     }
 
     public JPanel getMainPanel() {
@@ -305,15 +332,6 @@ public class Accueil extends JPanel {
     public JList getList() {
         return list;
     }
-
-    public void setMainPanel(JPanel mainPanel) {
-        this.mainPanel = mainPanel;
-    }
-
-    public void setList(JList list) {
-        this.list = list;
-    }
-
 
     /**
      * Method generated by IntelliJ IDEA GUI Designer
@@ -411,68 +429,11 @@ public class Accueil extends JPanel {
         // TODO: place custom component creation code here
     }
 
-
-    public JButton getAjoutExamButton() {
-        return ajoutExamButton;
-    }
-
-    public void setAjoutExamButton(JButton ajoutExamButton) {
-        this.ajoutExamButton = ajoutExamButton;
-    }
-
-    public JButton getAccesImageButton() {
-        return accesImageButton;
-    }
-
-    public void setAccesImageButton(JButton accesImageButton) {
-        this.accesImageButton = accesImageButton;
-    }
-
-    public JButton getCRButton() {
-        return CRButton;
-    }
-
-    public void setCRButton(JButton CRButton) {
-        this.CRButton = CRButton;
-    }
-
-    public JButton getAdmissionButton() {
-        return admissionButton;
-    }
-
-    public void setAdmissionButton(JButton admissionButton) {
-        this.admissionButton = admissionButton;
-    }
-
-    public JButton getTrieButton() {
-        return trieButton;
-    }
-
-    public void setTrieButton(JButton trieButton) {
-        this.trieButton = trieButton;
-    }
-
-    public JButton getNumeriserButton() {
-        return numeriserButton;
-    }
-
-    public void setNumeriserButton(JButton numeriserButton) {
-        this.numeriserButton = numeriserButton;
-    }
-
     public JTree getExamTree() {
         return examTree;
     }
 
-    public void setExamTree(JTree examTree) {
-        this.examTree = examTree;
-    }
-
     public HashMap<DefaultMutableTreeNode, Examen> getNodeToExam() {
         return nodeToExam;
-    }
-
-    public void setNodeToExam(HashMap<DefaultMutableTreeNode, Examen> nodeToExam) {
-        this.nodeToExam = nodeToExam;
     }
 }
