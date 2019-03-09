@@ -5,7 +5,6 @@ import ui.ImagePanel;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-
 public class Main {
 
     public static void main(String[] args) {
