@@ -268,8 +268,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             listModel.addElement(d);
         }
         list.setModel(listModel);
-
-
     }
 
     public void initList() {

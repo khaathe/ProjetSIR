@@ -1,12 +1,49 @@
 package nf;
 
-import library.interfaces.ClientHL7;
+import ui.ImagePanel;
 
-import java.util.GregorianCalendar;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
-        Patient patient = new Patient(
+        File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000050.dcm");
+        String numArchivage = Examen.generateNumArchivage();
+        String[] regrex = f.getName().split("\\.");
+        String extension = regrex[regrex.length-1].toUpperCase();
+        AbstractImage image=null;
+        switch (extension){
+            case "PGM" :
+                image = new PGM(numArchivage);
+                break;
+            case "DCM" :
+                image = new Dicom(numArchivage);
+                break;
+            default :
+                image = new Image(numArchivage);
+                break;
+        }
+        try {
+            image.setImage(f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JLabel label = new JLabel(String.valueOf(image.getNumInstance()));
+        JFrame frame = new JFrame();
+        ImagePanel img = new ImagePanel(image.getImage());
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(img, BorderLayout.CENTER);
+        frame.getContentPane().add(label, BorderLayout.SOUTH);
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Rectangle bound = graphicsEnvironment.getMaximumWindowBounds();
+        Dimension d = frame.getToolkit().getScreenSize();
+        frame.setPreferredSize(new Dimension(bound.width, bound.height));
+        //frame.setPreferredSize(d);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        /*Patient patient = new Patient(
                 "",
                 "565694949",
                 "Heissler",
@@ -15,12 +52,12 @@ public class Main {
         );
 
         ClientHL7 clientHL7 = new ClientHL7();
-        clientHL7.connexion("130.190.72.43", 50000);
+        clientHL7.connexion("130.190.114.137", 6516);
         library.interfaces.Patient p = new library.interfaces.Patient(Integer.parseInt(patient.getIdPatient()), patient.getNom(), 'N');
         p.setFirstName(patient.getPrenom());
         p.setBirth(patient.getNaissance().getTime());
         clientHL7.admit(p);
-        clientHL7.close();
+        clientHL7.close();*/
 
        /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
             "rupy",
