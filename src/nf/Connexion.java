@@ -260,7 +260,7 @@ public class Connexion {
             int numInstance = res.getInt("numInstance");
             byte[] imageData = res.getBytes("image");
             Image image = new Image(numArchivage);
-            image.setImage( ImageIO.read(new ByteArrayInputStream(imageData)) );
+            image.setImage( ImageIO.read(new ByteArrayInputStream(imageData))  );
             String annotation = res.getString("annotation");
             listImage.add(image);
         }

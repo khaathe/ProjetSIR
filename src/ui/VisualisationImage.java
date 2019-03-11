@@ -408,25 +408,14 @@ public class VisualisationImage extends JPanel {
     }
 
     public void pictureChanged() {
-        if (pictureSlider.getValueIsAdjusting())
-            try {
-                int i = pictureSlider.getValue();
-                picture.get(i).getImage();
-                BufferedImage imageModif = picture.get(i).getImage();
-                imgPanel.setImg(imageModif);
-                imgPanel.repaint();
-                constrastSlider.setValue(picture.get(i).getContraste());
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Problème de détection d'image", "Images introuvables", JOptionPane.ERROR_MESSAGE);
-            }
-
-        constrastSlider.setValue(picture.get(pictureSlider.getValue()).getContraste());
-        ecalircissementSlider.setValue(picture.get(pictureSlider.getValue()).getLuminosite());
-        inversionCheckBox.setSelected(picture.get(pictureSlider.getValue()).isInverser());
-        retournementCheckBox.setSelected(picture.get(pictureSlider.getValue()).isRetourner());
+        int i = pictureSlider.getValue();
+        BufferedImage imageModif = picture.get(i).getImage();
+        imgPanel.setImg(imageModif);
+        imgPanel.repaint();
+        constrastSlider.setValue(picture.get(i).getContraste());
+        ecalircissementSlider.setValue(picture.get(i).getLuminosite());
+        inversionCheckBox.setSelected(picture.get(i).isInverser());
+        retournementCheckBox.setSelected(picture.get(i).isRetourner());
         revalidate();
     }
 

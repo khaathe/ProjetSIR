@@ -8,7 +8,8 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
-        File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000050.dcm");
+        File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000001.dcm");
+        //File f = new File("D:\\ProjetSIR\\ProjetTIS4\\jpg\\brain\\brain1_0000.jpg");
         String numArchivage = Examen.generateNumArchivage();
         String[] regrex = f.getName().split("\\.");
         String extension = regrex[regrex.length-1].toUpperCase();
