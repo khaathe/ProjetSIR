@@ -313,30 +313,13 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
 
         try {
-
-        } catch (Exception e) {
-
-        }
-
-        try {
-            DMR dmr = (DMR) list.getSelectedValue();
-            String num = dmr.getPatient().getIdPR();
-            Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
-
-
-            if (num.equals(examen.getPatient().getIdPR())) { //essais de récupérer l'idPR du patient selectionné dans la liste de patients, et le compare à celui de l'examen selectionné
-                //si idPR égaux, il s'agit du même patient, alors affichage normal. Sinon, au changement de patient, le crPanel doit se
-                //réinitialiser pour être vide à l'ouverture du nouveau DMR et non garder en mémoire le CR du dernier exam sélectionné (puisqu'il
-                //s'agit même d'un autre patient)
+            if (mainWindow.getSir().getPersonneConnecte().getProfession() == Profession.PH) {
+                Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
                 crTextArea.setText(examen.getCr().getCompteRendu());
                 crTextArea.setLineWrap(true);
                 crPanel.setVisible(true);
                 revalidate();
-
-            } else {
-                crPanel.setVisible(false);
             }
-
         } catch (NullPointerException npe) {
             JOptionPane.showMessageDialog(this, "Erreur examen ou CR vide");
         } catch (Exception e) {
@@ -356,6 +339,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     public void displayPatient() {
+        crPanel.setVisible(false);
         DMR dmr = (DMR) list.getSelectedValue();
         Patient patient = dmr.getPatient();
         infoPatientLabel.setText(patient.toString());
@@ -386,7 +370,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             examNode.add(new DefaultMutableTreeNode("type : " + e.getTypeExamen()));
             examNode.add(new DefaultMutableTreeNode("Fait par " + e.getPraticien()));
             examNode.add(new DefaultMutableTreeNode("Service " + e.getService()));
-            examNode.add(new DefaultMutableTreeNode("Compte-rendu " + e.getCr()));
             model.insertNodeInto(examNode, (MutableTreeNode) model.getRoot(), 0);
             nodeToExam.put(examNode, e);
         }
@@ -540,6 +523,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         crPanel = new JPanel();
         crPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         examenPanel.add(crPanel, BorderLayout.EAST);
+        crPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), null));
         closePanel = new JPanel();
         closePanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         crPanel.add(closePanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));

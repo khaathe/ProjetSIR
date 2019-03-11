@@ -150,16 +150,16 @@ public class AjoutExamen extends JPanel {
         ArrayList<AbstractImage> listeImage = new ArrayList<>();
         for (File f : listeFichierImage) {
             String[] regrex = f.getName().split("\\.");
-            String extension = regrex[regrex.length-1].toUpperCase();
-            AbstractImage image=null;
-            switch (extension){
-                case "PGM" :
+            String extension = regrex[regrex.length - 1].toUpperCase();
+            AbstractImage image = null;
+            switch (extension) {
+                case "PGM":
                     image = new PGM(numArchivage);
                     break;
-                case "DCM" :
+                case "DCM":
                     image = new Dicom(numArchivage);
                     break;
-                default :
+                default:
                     image = new Image(numArchivage);
                     break;
             }
