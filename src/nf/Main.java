@@ -1,14 +1,5 @@
 package nf;
 
-import com.pixelmed.dicom.DicomException;
-import com.pixelmed.display.SourceImage;
-import org.apache.log4j.BasicConfigurator;
-import ui.ImagePanel;
-
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -34,7 +25,7 @@ public class Main {
             e.printStackTrace();
         }
 */
-        ImagePanel ip = null;
+        /*ImagePanel ip = null;
         try {
             BasicConfigurator.configure();
             SourceImage dimg = new SourceImage("C:\\Users\\amanr\\Desktop\\case1\\case1\\case1_008.dcm");
@@ -49,7 +40,7 @@ public class Main {
         frame.setContentPane(ip);
         frame.setVisible(true);
         frame.pack();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);*/
 
         /*JLabel label = new JLabel(String.valueOf(image.getNumInstance()));
         JFrame frame = new JFrame();
