@@ -166,7 +166,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             public void mouseClicked(MouseEvent mouseEvent) {
                 super.mouseClicked(mouseEvent);
                 affichageCR();
-
+                
             }
         });
 
@@ -318,9 +318,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
 
             if (num.equals(examen.getPatient().getIdPR())) { //essais de récupérer l'idPR du patient selectionné dans la liste de patients, et le compare à celui de l'examen selectionné
-                //si idPR égaux, il s'agit du même patient, alors affichage normal. Sinon, au changement de patient, le crPanel doit se
-                //réinitialiser pour être vide à l'ouverture du nouveau DMR et non garder en mémoire le CR du dernier exam sélectionné (puisqu'il
-                //s'agit même d'un autre patient)
+                                                            //si idPR égaux, il s'agit du même patient, alors affichage normal. Sinon, au changement de patient, le crPanel doit se
+                                                            //réinitialiser pour être vide à l'ouverture du nouveau DMR et non garder en mémoire le CR du dernier exam sélectionné (puisqu'il
+                                                            //s'agit même d'un autre patient)
                 crTextArea.setText(examen.getCr().getCompteRendu());
                 crTextArea.setLineWrap(true);
                 crPanel.setVisible(true);

@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ui.Accueil">
   <grid id="27dc6" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="778" height="418"/>
+      <xy x="20" y="20" width="958" height="418"/>
     </constraints>
     <properties>
       <preferredSize width="600" height="600"/>
@@ -141,18 +141,10 @@
             <children>
               <component id="5b3f2" class="javax.swing.JButton" binding="accesImageButton">
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Accès images"/>
-                </properties>
-              </component>
-              <component id="60f7f" class="javax.swing.JButton" binding="CRButton">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Accès CR"/>
                 </properties>
               </component>
               <component id="ca5c2" class="javax.swing.JButton" binding="ajoutExamButton">
@@ -179,54 +171,104 @@
                   <text value="imprimer"/>
                 </properties>
               </component>
+              <component id="739f0" class="javax.swing.JButton" binding="crButton">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Accès CR"/>
+                </properties>
+              </component>
             </children>
           </grid>
-          <scrollpane id="fc17c">
+          <grid id="71c27" binding="patientPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints border-constraint="Center"/>
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="71c27" binding="patientPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
-                <constraints/>
+              <grid id="3902a" binding="infoPatientPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints border-constraint="North"/>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="3902a" binding="infoPatientPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <component id="43ce7" class="javax.swing.JLabel" binding="infoPatientLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="41f96" binding="examenPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="Center"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="eb234" binding="crPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints border-constraint="North"/>
+                    <constraints border-constraint="East"/>
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="43ce7" class="javax.swing.JLabel" binding="infoPatientLabel">
+                      <grid id="49bb7" binding="closePanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                            <preferred-size width="-1" height="50"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="8772c" class="javax.swing.JButton" binding="closeButton">
+                            <constraints>
+                              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Fermer"/>
+                            </properties>
+                          </component>
+                          <hspacer id="2a9d3">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                          </hspacer>
+                          <component id="61a7f" class="javax.swing.JLabel" binding="crAnnonceLabel">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Compte-rendu de l'examen"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                      <component id="1b9ab" class="javax.swing.JTextArea" binding="crTextArea">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="50"/>
                           </grid>
                         </constraints>
-                        <properties>
-                          <text value=""/>
-                        </properties>
+                        <properties/>
                       </component>
                     </children>
                   </grid>
-                  <grid id="38466" binding="examenPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
-                    <constraints border-constraint="Center"/>
-                    <properties/>
-                    <border type="none"/>
-                    <children>
-                      <component id="f04ce" class="javax.swing.JTree" binding="examTree">
-                        <constraints border-constraint="Center"/>
-                        <properties>
-                          <editable value="false"/>
-                          <enabled value="true"/>
-                        </properties>
-                      </component>
-                    </children>
-                  </grid>
+                  <component id="f3197" class="javax.swing.JTree" binding="examTree">
+                    <constraints border-constraint="West"/>
+                    <properties>
+                      <editable value="true"/>
+                    </properties>
+                    <clientProperties>
+                      <JTree.lineStyle class="java.lang.String" value=""/>
+                    </clientProperties>
+                  </component>
                 </children>
               </grid>
             </children>
-          </scrollpane>
+          </grid>
         </children>
       </grid>
     </children>
