@@ -104,13 +104,10 @@ public class VisualisationImage extends JPanel {
         picture = examSelect.getImages();
         nbImageLabel.setText("Numéro d'archivage : " + accueil.getNodeToExam().get(accueil.getExamTree().getLastSelectedPathComponent()).getNumArchivage());
 
-        try {
-            imgPanel = new ImagePanel(picture.get(pictureSlider.getValue()).getImage());
-            picturePanel.add(imgPanel, BorderLayout.CENTER);
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Problème de détection d'image", "Error accès image", JOptionPane.ERROR_MESSAGE);
-        }
+        imgPanel = new ImagePanel(picture.get(pictureSlider.getValue()).getImage());
+        picturePanel.add(imgPanel, BorderLayout.CENTER);
+        String annotation = picture.get(pictureSlider.getValue()).getAnnotation();
+        annotationTextArea.setText(annotation);
         revalidate();
     }
 
@@ -178,12 +175,6 @@ public class VisualisationImage extends JPanel {
                 retourAccueil();
             }
         });
-    }
-
-
-    public void changementContraste() {
-        int i = 0;
-        picture.get(i).setContraste(constrastSlider.getValue());
     }
 
     /**
@@ -290,10 +281,10 @@ public class VisualisationImage extends JPanel {
         impressionbutton.setText("Imprimer");
         panel1.add(impressionbutton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         validatebutton = new JButton();
-        validatebutton.setText("Valider");
+        validatebutton.setText("Ajouter annotation");
         panel1.add(validatebutton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         annulebutton = new JButton();
-        annulebutton.setText("Annuler");
+        annulebutton.setText("Retour");
         panel1.add(annulebutton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         picturePanel = new JPanel();
         picturePanel.setLayout(new BorderLayout(0, 0));
@@ -320,40 +311,22 @@ public class VisualisationImage extends JPanel {
         }
     }
 
-    public void refresh() {
-
-    }
-
     public void contraste() {
         int i = pictureSlider.getValue();
-        if (constrastSlider.getValueIsAdjusting()) {
-            try {
-                AbstractImage ig = picture.get(i);
-                ig.setContraste(constrastSlider.getValue());
-                BufferedImage imageModif = ig.getImage();
-                imgPanel.setImg(imageModif);
-                imgPanel.repaint();
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Erreur valeur contraste d'image", "Images introuvables", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        AbstractImage ig = picture.get(i);
+        ig.setContraste(constrastSlider.getValue());
+        BufferedImage imageModif = ig.getImage();
+        imgPanel.setImg(imageModif);
+        imgPanel.repaint();
     }
 
     public void eclaircissement() {
         int i = pictureSlider.getValue();
-        if (ecalircissementSlider.getValueIsAdjusting()) {
-            try {
-                AbstractImage ig = picture.get(i);
-                BufferedImage imageModif = ig.getImage();
-                ig.setLuminosite(ecalircissementSlider.getValue());
-                imgPanel.setImg(imageModif);
-                imgPanel.repaint();
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Erreur valeur luminosité d'image", "Images introuvables", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        AbstractImage ig = picture.get(i);
+        BufferedImage imageModif = ig.getImage();
+        ig.setLuminosite(ecalircissementSlider.getValue());
+        imgPanel.setImg(imageModif);
+        imgPanel.repaint();
     }
 
     public void rotation(ActionEvent e) {
@@ -363,48 +336,40 @@ public class VisualisationImage extends JPanel {
             rotation = Image.ROTATE_RIGHT;
         else if (e.getSource().equals(buttonRight))
             rotation = Image.ROTATE_LEFT;
-        try {
-            AbstractImage ig = picture.get(i);
-            ig.setRotation(rotation);
-            BufferedImage imageModif = ig.getImage();
-            imgPanel.setImg(imageModif);
-            imgPanel.repaint();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Problème de rotation d'image", "Error rotation image", JOptionPane.ERROR_MESSAGE);
-        }
+        AbstractImage ig = picture.get(i);
+        ig.setRotation(rotation);
+        BufferedImage imageModif = ig.getImage();
+        imgPanel.setImg(imageModif);
+        imgPanel.repaint();
     }
 
     public void inversion() {
         int i = pictureSlider.getValue();
-        try {
-            AbstractImage ig = picture.get(i);
-            ig.setInverser();
-            BufferedImage imageModif = ig.getImage();
-            imgPanel.setImg(imageModif);
-            imgPanel.repaint();
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Problème d'inversement d'image", "Error inversement image", JOptionPane.ERROR_MESSAGE);
-        }
+        AbstractImage ig = picture.get(i);
+        ig.setInverser();
+        BufferedImage imageModif = ig.getImage();
+        imgPanel.setImg(imageModif);
+        imgPanel.repaint();
     }
 
     public void ajouterAnnotation() {
-
-    }
-
-    public void retournement() {
         int i = pictureSlider.getValue();
+        String annotation = annotationTextArea.getText();
+        picture.get(i).setAnnotation(annotation);
         try {
-            AbstractImage ig = picture.get(i);
-            ig.setRetourner();
-            BufferedImage imageModif = ig.getImage();
-            imgPanel.setImg(imageModif);
-            imgPanel.repaint();
+            mainWindow.getSir().getConn().addAnnotation(picture);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Problème d'inversement d'image", "Error inversement image", JOptionPane.ERROR_MESSAGE);
         }
+        revalidate();
+    }
+    public void retournement() {
+        int i = pictureSlider.getValue();
+        AbstractImage ig = picture.get(i);
+        ig.setRetourner();
+        BufferedImage imageModif = ig.getImage();
+        imgPanel.setImg(imageModif);
+        imgPanel.repaint();
     }
 
     public void pictureChanged() {
@@ -413,15 +378,28 @@ public class VisualisationImage extends JPanel {
         imgPanel.setImg(imageModif);
         imgPanel.repaint();
         constrastSlider.setValue(picture.get(i).getContraste());
+        constrastSlider.setValue(picture.get(i).getContraste());
         ecalircissementSlider.setValue(picture.get(i).getLuminosite());
         inversionCheckBox.setSelected(picture.get(i).isInverser());
         retournementCheckBox.setSelected(picture.get(i).isRetourner());
+        annotationTextArea.setText(picture.get(i).getAnnotation());
         revalidate();
     }
 
     public void validation() {
+        int i = pictureSlider.getValue();
         String annotation = annotationTextArea.getText();
-        Image newImg = new Image(picture.get(pictureSlider.getValue()).getNumArchivage());
+        if (picture.get(i).getAnnotation().equals("")) {
+            picture.get(i).setAnnotation(annotation);
+            try {
+                mainWindow.getSir().getConn().addAnnotation(picture);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            revalidate();
+        } else
+            JOptionPane.showMessageDialog(null, "Modification des annotations non autorise", "Interdiction de modifier", JOptionPane.ERROR_MESSAGE);
+       /* Image newImg = new Image(picture.get(pictureSlider.getValue()).getNumArchivage());
         newImg.setNumInstance(picture.get(pictureSlider.getValue()).getNumInstance() + 10);
         newImg.setAnnotation(annotation);
         picture.add(newImg);
@@ -434,7 +412,7 @@ public class VisualisationImage extends JPanel {
             mainWindow.getSir().getConn().insertImage(picture);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public JPanel getGeneralPanel() {

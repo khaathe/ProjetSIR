@@ -1,10 +1,7 @@
 package nf;
 
-import ui.ImagePanel;
-
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -30,7 +27,24 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JLabel label = new JLabel(String.valueOf(image.getNumInstance()));
+        /*ImagePanel ip = null;
+        try {
+            BasicConfigurator.configure();
+            SourceImage dimg = new SourceImage("C:\\Users\\amanr\\Desktop\\case1\\case1\\case1_008.dcm");
+            BufferedImage img = dimg.getBufferedImage();
+            ip = new ImagePanel(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DicomException e) {
+            e.printStackTrace();
+        }
+        JFrame frame = new JFrame();
+        frame.setContentPane(ip);
+        frame.setVisible(true);
+        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);*/
+
+        /*JLabel label = new JLabel(String.valueOf(image.getNumInstance()));
         JFrame frame = new JFrame();
         ImagePanel img = new ImagePanel(image.getImage());
         frame.getContentPane().setLayout(new BorderLayout());
@@ -43,7 +57,7 @@ public class Main {
         //frame.setPreferredSize(d);
         frame.pack();
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);*/
         /*Patient patient = new Patient(
                 "",
                 "565694949",

@@ -262,9 +262,25 @@ public class Connexion {
             Image image = new Image(numArchivage);
             image.setImage( ImageIO.read(new ByteArrayInputStream(imageData))  );
             String annotation = res.getString("annotation");
+            image.setAnnotation(annotation);
             listImage.add(image);
         }
         res.close();
         return listImage;
+    }
+
+    public void addAnnotation (List<AbstractImage> lesImages) throws  Exception{
+        String query = "update image " +
+                "set annotation=?" +
+                "where numArchivage=? and numInstance=?";
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt = con.prepareStatement(query);
+        for(AbstractImage img : lesImages){
+            preparedStmt.setString(1, img.getAnnotation());
+            preparedStmt.setString(2, img.getNumArchivage());
+            preparedStmt.setInt(3, img.getNumInstance());
+            preparedStmt.executeUpdate();
+        }
+        // execute the preparedstatement
     }
 }
