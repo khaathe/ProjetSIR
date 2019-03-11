@@ -61,7 +61,7 @@ public class VisualisationImage extends JPanel {
     private ImageIcon imageIcon;
 
 
-    public VisualisationImage(MainWindow mainWindow, Accueil accueil, java.util.List<AbstractImage> picture) {
+    public VisualisationImage(MainWindow mainWindow, Accueil accueil, List<AbstractImage> picture) {
         this.mainWindow = mainWindow;
         this.accueil = accueil;
         this.picture = picture;
@@ -221,19 +221,21 @@ public class VisualisationImage extends JPanel {
         contrasteLabel = new JLabel();
         contrasteLabel.setText("Contraste");
         westPanel.add(contrasteLabel, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        constrastSlider.setInverted(false);
         constrastSlider.setMaximum(5);
         constrastSlider.setMinimum(1);
         constrastSlider.setPaintLabels(true);
         constrastSlider.setPaintTicks(true);
         constrastSlider.setValue(1);
         constrastSlider.setValueIsAdjusting(true);
-        westPanel.add(constrastSlider, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        westPanel.add(constrastSlider, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
         eclaircissementLabel = new JLabel();
         eclaircissementLabel.setText("Eclaircissement");
         westPanel.add(eclaircissementLabel, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ecalircissementSlider.setDoubleBuffered(false);
         ecalircissementSlider.setInheritsPopupMenu(false);
         ecalircissementSlider.setInverted(false);
+        ecalircissementSlider.setMaximum(100);
         ecalircissementSlider.setMinimum(-100);
         ecalircissementSlider.setOpaque(true);
         ecalircissementSlider.setPaintLabels(true);

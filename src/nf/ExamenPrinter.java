@@ -151,7 +151,7 @@ public class ExamenPrinter implements Printable {
         }
 
         while (indexCr<allLines.size() && y + lineHeigth < h - margeY) {
-            g2.drawString(allLines.get(indexCr).toString(), margeX, y);
+            g2.drawString(allLines.get(indexCr), margeX, y);
             y += lineHeigth;
             indexCr++;
         }

@@ -1,6 +1,7 @@
 package nf;
 
 
+
 import ui.ImagePanel;
 import ui.Numeriseur;
 
@@ -16,12 +17,7 @@ import ui.Authentification;
 import ui.MainWindow;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Scanner;
+
 public class Main {
 
 
@@ -29,7 +25,42 @@ public class Main {
         /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
     public static void main(String[] args) {
-        Patient patient = new Patient(
+        File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000050.dcm");
+        String numArchivage = Examen.generateNumArchivage();
+        String[] regrex = f.getName().split("\\.");
+        String extension = regrex[regrex.length-1].toUpperCase();
+        AbstractImage image=null;
+        switch (extension){
+            case "PGM" :
+                image = new PGM(numArchivage);
+                break;
+            case "DCM" :
+                image = new Dicom(numArchivage);
+                break;
+            default :
+                image = new Image(numArchivage);
+                break;
+        }
+        try {
+            image.setImage(f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JLabel label = new JLabel(String.valueOf(image.getNumInstance()));
+        JFrame frame = new JFrame();
+        ImagePanel img = new ImagePanel(image.getImage());
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(img, BorderLayout.CENTER);
+        frame.getContentPane().add(label, BorderLayout.SOUTH);
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Rectangle bound = graphicsEnvironment.getMaximumWindowBounds();
+        Dimension d = frame.getToolkit().getScreenSize();
+        frame.setPreferredSize(new Dimension(bound.width, bound.height));
+        //frame.setPreferredSize(d);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        /*Patient patient = new Patient(
                 "",
                 "565694949",
                 "Heissler",
@@ -37,17 +68,13 @@ public class Main {
                 new GregorianCalendar(1997, 10, 7)
         );
 
-        MainWindow window = null;
-        try {
-            window = new MainWindow();
-            window.setContentPane(new Authentification(window).getConnexionPanel());
-            window.getSir().getHl7().setPortSeveur(6517);
-            window.pack();
-            window.setVisible(true);
-            window.setResizable(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ClientHL7 clientHL7 = new ClientHL7();
+        clientHL7.connexion("130.190.114.137", 6516);
+        library.interfaces.Patient p = new library.interfaces.Patient(Integer.parseInt(patient.getIdPatient()), patient.getNom(), 'N');
+        p.setFirstName(patient.getPrenom());
+        p.setBirth(patient.getNaissance().getTime());
+        clientHL7.admit(p);
+        clientHL7.close();*/
 
        /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 

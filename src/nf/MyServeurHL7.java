@@ -55,7 +55,7 @@ public class MyServeurHL7 {
             this.message = servProto.getParser().getMessage();
             this.out.writeMessage(outputLine);
         } catch (IOException var7) {
-            Logger.getLogger(MyServeurHL7.class.getName()).log(Level.SEVERE, (String) null, var7);
+            Logger.getLogger(MyServeurHL7.class.getName()).log(Level.SEVERE, null, var7);
         } finally {
             this.out.close();
         }
@@ -69,13 +69,13 @@ public class MyServeurHL7 {
             this.in.close();
             this.clientSocket.close();
         } catch (Exception var2) {
-            Logger.getLogger(MyServeurHL7.class.getName()).log(Level.SEVERE, (String) null, var2);
+            Logger.getLogger(MyServeurHL7.class.getName()).log(Level.SEVERE, null, var2);
         }
 
         try {
             serverSocket.close();
         } catch (Exception e){
-            Logger.getLogger(MyServeurHL7.class.getName()).log(Level.SEVERE, (String) null, e);
+            Logger.getLogger(MyServeurHL7.class.getName()).log(Level.SEVERE, null, e);
         }
 
         return true;

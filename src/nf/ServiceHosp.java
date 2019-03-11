@@ -14,7 +14,7 @@ public  enum ServiceHosp {
     private int port;
     private String host;
 
-    private ServiceHosp (String name, int port, String host){
+    ServiceHosp(String name, int port, String host){
         this.name = name;
         this.port = 6517;
         this.host = host;

@@ -6,12 +6,11 @@ import com.intellij.uiDesigner.core.Spacer;
 import nf.*;
 import nf.Image;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -150,13 +149,25 @@ public class AjoutExamen extends JPanel {
     public ArrayList<AbstractImage> loadImage(String numArchivage) {
         ArrayList<AbstractImage> listeImage = new ArrayList<>();
         for (File f : listeFichierImage) {
-            Image image = new Image(numArchivage);
-            try {
-                image.setImage(ImageIO.read(f));
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            String[] regrex = f.getName().split("\\.");
+            String extension = regrex[regrex.length-1].toUpperCase();
+            AbstractImage image=null;
+            switch (extension){
+                case "PGM" :
+                    image = new PGM(numArchivage);
+                    break;
+                case "DCM" :
+                    image = new Dicom(numArchivage);
+                    break;
+                default :
+                    image = new Image(numArchivage);
+                    break;
             }
-            listeImage.add(image);
+            try {
+                image.setImage(f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return listeImage;
     }
