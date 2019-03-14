@@ -20,7 +20,6 @@ import ui.Authentification;
 import ui.MainWindow;
 
 
-
 public class Main {
 
 
@@ -50,7 +49,7 @@ public class Main {
         /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
     public static void main(String[] args) {
-        File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000050.dcm");
+        /*File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000050.dcm");
         String numArchivage = Examen.generateNumArchivage();
         String[] regrex = f.getName().split("\\.");
         String extension = regrex[regrex.length-1].toUpperCase();
@@ -71,7 +70,25 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JLabel label = new JLabel(String.valueOf(image.getNumInstance()));
+*/
+        /*ImagePanel ip = null;
+        try {
+            BasicConfigurator.configure();
+            SourceImage dimg = new SourceImage("C:\\Users\\amanr\\Desktop\\case1\\case1\\case1_008.dcm");
+            BufferedImage img = dimg.getBufferedImage();
+            ip = new ImagePanel(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (DicomException e) {
+            e.printStackTrace();
+        }
+        JFrame frame = new JFrame();
+        frame.setContentPane(ip);
+        frame.setVisible(true);
+        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);*/
+
+        /*JLabel label = new JLabel(String.valueOf(image.getNumInstance()));
         JFrame frame = new JFrame();
         ImagePanel img = new ImagePanel(image.getImage());
         frame.getContentPane().setLayout(new BorderLayout());
@@ -84,7 +101,7 @@ public class Main {
         //frame.setPreferredSize(d);
         frame.pack();
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);*/
         /*Patient patient = new Patient(
                 "",
                 "565694949",

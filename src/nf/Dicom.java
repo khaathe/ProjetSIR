@@ -1,19 +1,6 @@
 package nf;
 
-import org.apache.log4j.BasicConfigurator;
-import org.dcm4che3.data.Attributes;
-import org.dcm4che3.data.Tag;
-import org.dcm4che3.imageio.plugins.dcm.DicomImageReadParam;
-import org.dcm4che3.io.DicomInputStream;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.io.File;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Dicom extends AbstractImage {
 
@@ -23,7 +10,7 @@ public class Dicom extends AbstractImage {
 
     @Override
     public void setImage(File file) throws Exception {
-        DicomInputStream dis = new DicomInputStream(file);
+        /*DicomInputStream dis = new DicomInputStream(file);
         Attributes object2 = dis.readDataset(-1, -1);
         String value2 = object2.toString(Tag.FileMetaInformationVersion, Tag.AcquisitionContextDescription);
         Scanner scan = new Scanner(value2);
@@ -41,6 +28,6 @@ public class Dicom extends AbstractImage {
         ImageInputStream in = ImageIO.createImageInputStream(file);
         reader.setInput(in, false);
         image = reader.read(0, param1);
-        reader.dispose();
+        reader.dispose();*/
     }
 }
