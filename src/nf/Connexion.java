@@ -47,12 +47,14 @@ public class Connexion {
             naissance.setTime(rs.getDate("date"));
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
-            Patient p = new Patient(idPR, idP, nom, prenom, naissance);
+            String sexe = rs.getString("sexe");
+            Patient p = new Patient(idPR, idP, nom, prenom, naissance,sexe);
             array.add(new DMR(p));
         }
         st.close();
         return array;
     }
+
 
     public ArrayList<PersonnelServiceRadio> getListePersonnel() throws Exception {
         String query = "SELECT * FROM personnelhospitalier";
@@ -182,6 +184,7 @@ public class Connexion {
         String prenom = "";
         String num = "";
         GregorianCalendar date = new GregorianCalendar();
+        String sexe = "";
 
         // iterate through the java resultset
         while (rs.next()) {
@@ -191,16 +194,17 @@ public class Connexion {
             date.setGregorianChange(rs.getDate("date"));
             nom = rs.getString("nom");
             prenom = rs.getString("prenom");
+            sexe = rs.getString("sexe");
         }
         st.close();
-        Patient p = new Patient(idPR, idPatient, nom, prenom, date);
+        Patient p = new Patient(idPR, idPatient, nom, prenom, date, sexe );
         return p;
     }
 
 
     public void addPatient(Patient patient) throws Exception{
-        String query = "insert into patient (idPR, idP, date, nom, prenom)"
-                + "values (?, ?, ?, ?, ?)";
+        String query = "insert into patient (idPR, idP, date, nom, prenom,sexe)"
+                + "values (?, ?, ?, ?, ?, ?)";
 
         //create the mysql insert preparedstatement
 
@@ -210,6 +214,7 @@ public class Connexion {
         preparedStatement.setDate(3, new java.sql.Date( patient.getNaissance().getTimeInMillis() ) );
         preparedStatement.setString(4, patient.getNom());
         preparedStatement.setString(5, patient.getPrenom());
+        preparedStatement.setString(6, patient.getSexe());
 
         preparedStatement.execute();
 

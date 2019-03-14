@@ -40,9 +40,14 @@ public class SIR {
     //créer un nouveau DMR, implique d'associer un patient et un examen. On vérifie d'abord qu'un DMR pour ce patient n'est pas déjà présent dans le SIR
     //on l'utilisera pour l'admission uniquement
     public void admitPatient() throws Exception {
-        conn.addPatient( hl7.getPatient() );
-        listeDMR.add( new DMR(hl7.getPatient()) );
-    }
+
+            conn.addPatient(hl7.getPatient());
+            listeDMR.add(new DMR(hl7.getPatient()));
+        }
+
+
+
+
 
     public List<DMR> getListeDMR() {
         return listeDMR;
