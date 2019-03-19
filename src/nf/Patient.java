@@ -27,12 +27,11 @@ public class Patient {
         this.idPatient = idPatient;
         this.nom = nom;
         this.prenom = prenom;
-        String m="M";
-        String f="F";
-        String u="Inconnu";
-        if(sexe.equalsIgnoreCase(m)|sexe.equalsIgnoreCase(f)){
+
+
+        if(sexe.equalsIgnoreCase("H")|sexe.equalsIgnoreCase("F")){
         this.sexe=sexe;}
-        else{this.sexe=u;}
+        else{this.sexe="I";}
         this.naissance = naissance;
     }
 

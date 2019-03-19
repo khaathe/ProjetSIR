@@ -7,6 +7,7 @@ import nf.*;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import java.awt.*;
@@ -33,18 +34,14 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
     private JButton ajoutExamButton;
     private JButton accesImageButton;
-    private JButton CRButton;
     private JButton admissionButton;
-    private JButton button5;
     private JPanel northPanel;
     private JPanel westPanel;
-    private JPanel southPanel;
     private JPanel centrePanel;
 
     private JLabel nameLabel;
     private JLabel iconLabel;
     private JLabel dateLabel;
-    // private JButton trieButton;
     private JButton numeriserButton;
     private JPanel patientPanel;
     private JPanel infoPatientPanel;
@@ -63,8 +60,10 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     private JButton closeButton;
     private JButton crButton;
     private JLabel crAnnonceLabel;
+    private JPanel southPanel;
     private MainWindow mainWindow;
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
+    private static final Dimension minDim = new Dimension(900, 100);
 
 
     public Accueil(MainWindow mainWindow) throws Exception {
@@ -75,7 +74,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         list = new JList();
         listModel = new DefaultListModel();
 
-
         $$$setupUI$$$();
 
         initComponent();
@@ -85,15 +83,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         initListener();
 
         initDifferentialAccess();
-
-
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                crPanel.setVisible(false);
-            }
-        });
-
     }
 
 
@@ -105,15 +94,23 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
         dateLabel.setText("Date : " + LocalDate.now().toString());
 
+        examTree.setRootVisible(false);
+        DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
+        treeCellRenderer.setClosedIcon(null);
+        treeCellRenderer.setOpenIcon(null);
+        treeCellRenderer.setLeafIcon(null);
+        examTree.setCellRenderer(treeCellRenderer);
+
         menuPanel.setVisible(true);
         centrePanel.setVisible(false);
         crPanel.setVisible(false);
+        southPanel.setVisible(false);
         mainWindow.getSir().getHl7().addPropertyChangeListener(this);
+        mainWindow.setMinimumSize(minDim);
     }
 
     public void initDifferentialAccess() {
         switch (mainWindow.getSir().getPersonneConnecte().getProfession()) {
-
             case PH:
                 admissionButton.setVisible(false);
                 searchLabel.setVisible(false);
@@ -125,7 +122,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
             case MANIPULATEUR:
                 ajoutExamButton.setVisible(false);
-                crButton.setVisible(false);
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
                 searchMagnifierLabel.setIcon(new ImageIcon("resources/searchmagnifierIcon.png"));
@@ -133,7 +129,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
             case SECRETAIRE:
                 ajoutExamButton.setVisible(false);
-                crButton.setVisible(false);
                 numeriserButton.setVisible(false);
                 accesImageButton.setVisible(false);
                 imprimerButton.setVisible(false);
@@ -145,21 +140,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     public void initListener() {
-
-        /*crButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                affichageCR();
-            }
-        });
-
-        /*this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent componentEvent) {
-                super.componentResized(componentEvent);
-                rezisePanel();
-            }
-        });*/
 
         examTree.addMouseListener(new MouseAdapter() {
             @Override
@@ -252,15 +232,15 @@ public class Accueil extends JPanel implements PropertyChangeListener {
                 }
             }
         });
-    }
 
-   /* public void rezisePanel() {
-        int w = patientPanel.getWidth() - examenPanel.getWidth();
-        int h = patientPanel.getHeight() - infoPatientPanel.getHeight();
-        examenPanel.setPreferredSize(new Dimension(examTree.getWidth(), h));
-        crPanel.setPreferredSize(new Dimension(w, h));
-        this.revalidate();
-    }*/
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                crPanel.setVisible(false);
+            }
+        });
+
+    }
 
     public void nouvelleList() throws Exception {
         listModel.clear();
@@ -310,8 +290,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     public void affichageCR() {
-
-
         try {
             if (mainWindow.getSir().getPersonneConnecte().getProfession() == Profession.PH) {
                 Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
@@ -325,7 +303,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-
     }
 
     public void openAjouterExam() {
@@ -340,6 +317,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
     public void displayPatient() {
         crPanel.setVisible(false);
+        southPanel.setVisible(true);
         DMR dmr = (DMR) list.getSelectedValue();
         Patient patient = dmr.getPatient();
         infoPatientLabel.setText(patient.toString());
@@ -357,6 +335,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             buildExameTree(listeExamen);
         else
             getExamTree().setModel(new DefaultTreeModel(new DefaultMutableTreeNode()));
+
         centrePanel.setVisible(true);
     }
 
@@ -374,7 +353,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             nodeToExam.put(examNode, e);
         }
         examTree.setModel(model);
-        examTree.setRootVisible(false);
         revalidate();
     }
 
