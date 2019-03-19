@@ -29,6 +29,5 @@ public class Dicom extends AbstractImage {
         reader.setInput(in, false);
         image = reader.read(0, param1);
         reader.dispose();*/
->>>>>>> e3906744afc3d8006068c270e7dcde04f0be3c30
     }
 }
