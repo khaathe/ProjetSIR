@@ -26,8 +26,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
        Connexion c= new Connexion();
 
-       c.connection("3","rupy123");
-        GregorianCalendar g= new GregorianCalendar();
+       c.connection("robertamandine","171197Ar");
+       c.disconnection();
+       /* GregorianCalendar g= new GregorianCalendar();
         g.set(1900,03,05);
        Patient p= new Patient("506","81","Dancelme","Loic", g,"errgkvjbre");
        c.addPatient(p);
@@ -42,10 +43,8 @@ public class Main {
                 ServiceHosp.PNEUMOLOGIE,
                 listImage,
                 compteRendu
-        );
+        );*/
 
-       HL7 hl7=new HL7();
-        hl7.sendMessage(examen, HL7.ADMIT_PATIENT);
         /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
     public static void main(String[] args) {

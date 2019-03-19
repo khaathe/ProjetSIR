@@ -125,7 +125,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
             case MANIPULATEUR:
                 ajoutExamButton.setVisible(false);
-                crButton.setVisible(false);
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
                 searchMagnifierLabel.setIcon(new ImageIcon("resources/searchmagnifierIcon.png"));
@@ -133,7 +132,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
             case SECRETAIRE:
                 ajoutExamButton.setVisible(false);
-                crButton.setVisible(false);
                 numeriserButton.setVisible(false);
                 accesImageButton.setVisible(false);
                 imprimerButton.setVisible(false);
