@@ -1,8 +1,50 @@
 package nf;
 
+import library.interfaces.ClientHL7;
+import ui.ImagePanel;
+import ui.Numeriseur;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
+import ui.Authentification;
+import ui.MainWindow;
+
 
 public class Main {
+
+
+    public static void main(String[] args) throws Exception {
+       Connexion c= new Connexion();
+
+       c.connection("3","rupy123");
+        GregorianCalendar g= new GregorianCalendar();
+        g.set(1900,03,05);
+       Patient p= new Patient("506","81","Dancelme","Loic", g,"errgkvjbre");
+       c.addPatient(p);
+       CompteRendu compteRendu=new CompteRendu("123532","kibigzukefrjvfejhvdzckjzev");
+        ArrayList<AbstractImage> listImage = new ArrayList<>();
+       Examen examen = new Examen(
+                new GregorianCalendar(),
+                "08470296",
+                TypeExamen.SCANNER,
+                p,
+                c.getPersonnelServiceRadio("1"),
+                ServiceHosp.PNEUMOLOGIE,
+                listImage,
+                compteRendu
+        );
+
+       HL7 hl7=new HL7();
+        hl7.sendMessage(examen, HL7.ADMIT_PATIENT);
+        /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
     public static void main(String[] args) {
         File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000001.dcm");
@@ -66,15 +108,11 @@ public class Main {
                 new GregorianCalendar(1997, 10, 7)
         );
 
-        ClientHL7 clientHL7 = new ClientHL7();
-        clientHL7.connexion("130.190.114.137", 6516);
-        library.interfaces.Patient p = new library.interfaces.Patient(Integer.parseInt(patient.getIdPatient()), patient.getNom(), 'N');
-        p.setFirstName(patient.getPrenom());
-        p.setBirth(patient.getNaissance().getTime());
-        clientHL7.admit(p);
-        clientHL7.close();*/
+       */
+
 
        /* PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+
             "rupy",
             "Andrews",
             "Rupy",
@@ -84,18 +122,8 @@ public class Main {
         List<AbstractImage> listImage = new ArrayList<>();
         Image i = new Image("08470296");
         try {
-            i.setImage(new File( "D:\\ProjetSIR\\ProjetTIS4\\jpg\\brain\\brain1_0000.jpg"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        listImage.add(i);
-        listImage.add(i);
-        listImage.add(i);
-        listImage.add(i);
-        listImage.add(i);
-        listImage.add(i);
-        listImage.add(i);
-        listImage.add(i);
+
+
 
         String cr = "";
         try {
@@ -181,10 +209,5 @@ public class Main {
         frame.setSize(500,500);
         frame.setVisible(true);
 
-        frame.setVisible(true);*/
-    }
-}
-
-
-
-
+*/
+}}

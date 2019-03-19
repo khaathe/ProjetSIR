@@ -11,6 +11,7 @@ public class Patient {
     private String nom;
     private String prenom;
     private GregorianCalendar naissance;
+    private String sexe;
 
     public  Patient (){
         idPR = "";
@@ -18,13 +19,19 @@ public class Patient {
         nom = "";
         prenom = "";
         naissance = new GregorianCalendar();
+        sexe = "";
     }
 
-    public Patient(String idPR, String idPatient, String nom, String prenom, GregorianCalendar naissance){
+    public Patient(String idPR, String idPatient, String nom, String prenom, GregorianCalendar naissance, String sexe){
         this.idPR = idPR;
         this.idPatient = idPatient;
         this.nom = nom;
         this.prenom = prenom;
+
+
+        if(sexe.equalsIgnoreCase("H")|sexe.equalsIgnoreCase("F")){
+        this.sexe=sexe;}
+        else{this.sexe="I";}
         this.naissance = naissance;
     }
 
@@ -38,6 +45,10 @@ public class Patient {
         return nom;
     }
 
+    public String getSexe() {
+        return sexe;
+    }
+
     public String getPrenom() {
         return prenom;
     }
@@ -49,9 +60,10 @@ public class Patient {
     public String getIdPR(){return idPR;}
 
     public String toString (){
+        String Newligne=System.getProperty("line.separator");
         String info = idPR + ", "
                 + nom + " " + prenom +", "
-                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime());
+                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime())+Newligne+", Sexe: "+getSexe();
         return info;
     }
 

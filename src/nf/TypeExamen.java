@@ -12,7 +12,7 @@ public enum TypeExamen {
 
     private String name;
 
-    private TypeExamen (String name){
+    TypeExamen(String name){
         this.name = name;
     }
 

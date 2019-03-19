@@ -418,10 +418,14 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         } catch (NullPointerException npe) {
             npe.printStackTrace();
             JOptionPane.showMessageDialog(null, "Aucun patient a admettre", "Erreur admission", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
+        }
+        catch (java.sql.SQLIntegrityConstraintViolationException e){
+            JOptionPane.showMessageDialog(null, "Ce patient a déjà été admit", "Erreur admission", JOptionPane.ERROR_MESSAGE);
+        }catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur admission", JOptionPane.ERROR_MESSAGE);
         }
+
 
     }
 

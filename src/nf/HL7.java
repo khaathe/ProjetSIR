@@ -40,7 +40,8 @@ public class HL7 {
                 library.interfaces.Patient p = serveurHL7.getPatient();
                 GregorianCalendar dateNaissance = new GregorianCalendar();
                 dateNaissance.setTime(p.getBirth());
-                patient = new Patient(Patient.generateIdPR(), p.getID().toString(), p.getFamillyName(), p.getFirstName(), dateNaissance);
+
+                patient = new Patient(Patient.generateIdPR(), p.getID().toString(), p.getFamillyName(), p.getFirstName(), dateNaissance, p.getSex());
                 Message message = serveurHL7.getMessage();
                 serveurHL7.fermer();
                 callback.firePropertyChange("New Hl7 message", null, patient);
@@ -61,7 +62,7 @@ public class HL7 {
     public Patient getPatient () { return this.patient; }
 
     public void sendMessage(Examen examen, int type) {
-        clientHL7.connexion(examen.getService().getHost(), examen.getService().getPort());
+        clientHL7.connexion("localhost", 6516);
         Patient patient = examen.getPatient();
         library.interfaces.Patient p = new library.interfaces.Patient(Integer.parseInt(patient.getIdPatient()), patient.getNom(), 'N');
 		p.setFirstName(patient.getPrenom());

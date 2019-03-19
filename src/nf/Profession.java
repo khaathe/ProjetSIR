@@ -13,7 +13,7 @@ public enum Profession {
 
     private String nom;
 
-    private Profession (String nom) {
+    Profession(String nom) {
         this.nom = nom;
     }
 
