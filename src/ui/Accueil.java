@@ -7,6 +7,7 @@ import nf.*;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import java.awt.*;
@@ -92,6 +93,13 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         );
 
         dateLabel.setText("Date : " + LocalDate.now().toString());
+
+        examTree.setRootVisible(false);
+        DefaultTreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer();
+        treeCellRenderer.setClosedIcon(null);
+        treeCellRenderer.setOpenIcon(null);
+        treeCellRenderer.setLeafIcon(null);
+        examTree.setCellRenderer(treeCellRenderer);
 
         menuPanel.setVisible(true);
         centrePanel.setVisible(false);
@@ -347,7 +355,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             nodeToExam.put(examNode, e);
         }
         examTree.setModel(model);
-        examTree.setRootVisible(false);
         revalidate();
     }
 
