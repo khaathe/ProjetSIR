@@ -9,7 +9,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="d791f" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="d791f" binding="actionPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="South"/>
         <properties>
@@ -57,12 +57,12 @@
           <text value="Ajout d'examen"/>
         </properties>
       </component>
-      <grid id="3899b" layout-manager="GridBagLayout">
+      <grid id="3899b" binding="centerPanel" layout-manager="GridBagLayout">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="a1900" layout-manager="BorderLayout" hgap="0" vgap="0">
+          <grid id="a1900" binding="crPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="1.0" weighty="1.0"/>
@@ -86,15 +86,24 @@
                 <constraints border-constraint="East"/>
                 <properties/>
               </component>
-              <component id="5e3f0" class="javax.swing.JTextArea" binding="crArea">
+              <scrollpane id="9925">
                 <constraints border-constraint="Center"/>
-                <properties>
-                  <lineWrap value="true"/>
-                </properties>
-              </component>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="5e3f0" class="javax.swing.JTextArea" binding="crArea">
+                    <constraints/>
+                    <properties>
+                      <font name="DejaVu Sans" size="16" style="0"/>
+                      <lineWrap value="true"/>
+                      <wrapStyleWord value="true"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
             </children>
           </grid>
-          <grid id="99a7b" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+          <grid id="99a7b" binding="imagePanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="1.0" weighty="1.0"/>
@@ -129,7 +138,7 @@
               </component>
             </children>
           </grid>
-          <grid id="fcde" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+          <grid id="fcde" binding="servicePanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="1.0" weighty="1.0"/>
@@ -154,7 +163,7 @@
               </component>
             </children>
           </grid>
-          <grid id="1097" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+          <grid id="1097" binding="typeExamPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="1.0" weighty="1.0"/>
@@ -179,7 +188,7 @@
               </component>
             </children>
           </grid>
-          <grid id="5c06e" layout-manager="GridLayoutManager" row-count="1" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="5c06e" binding="datePanel" layout-manager="GridLayoutManager" row-count="1" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>

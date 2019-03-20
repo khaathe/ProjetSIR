@@ -47,6 +47,7 @@ public class VisualisationImage extends JPanel {
     private JLabel pictureLabel;
     private JLabel progressionContrasteLabel;
     private JPanel picturePanel;
+    private JPanel actionPanel;
     private MainWindow mainWindow;
     private List<AbstractImage> picture;
     private Accueil accueil;
@@ -67,9 +68,11 @@ public class VisualisationImage extends JPanel {
         this.picture = picture;
 
         $$$setupUI$$$();
+
         initComponent();
 
         initListener();
+
         initDifferentialAccess();
 
         annotationTextArea.addComponentListener(new ComponentAdapter() {
@@ -80,7 +83,6 @@ public class VisualisationImage extends JPanel {
 
     public void initDifferentialAccess() {
         switch (mainWindow.getSir().getPersonneConnecte().getProfession()) {
-
             case PH:
                 iconeDoctorLabel.setIcon(new ImageIcon("resources/iconeMedecin.png"));
                 break;

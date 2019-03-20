@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 
 public class AjoutExamen extends JPanel {
@@ -33,6 +34,13 @@ public class AjoutExamen extends JPanel {
     private JLabel dateLabel;
     private JLabel crLabel;
     private JLabel imageChoisieLabel;
+    private JPanel datePanel;
+    private JPanel typeExamPanel;
+    private JPanel servicePanel;
+    private JPanel imagePanel;
+    private JPanel crPanel;
+    private JPanel centerPanel;
+    private JPanel actionPanel;
     private MainWindow mainWindow;
     private DefaultComboBoxModel<TypeExamen> examModel;
     private DefaultComboBoxModel<ServiceHosp> serviceModel;
@@ -56,29 +64,12 @@ public class AjoutExamen extends JPanel {
         remplissageComboService();
 
         initDayComboBox();
+
         initMonthComboBox();
+
         initYearComoBox();
 
-        choisirImageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choisirImage();
-            }
-        });
-
-        annulerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                retourAccueil();
-            }
-        });
-
-        ajouterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                ajouter();
-            }
-        });
+        initListener();
     }
 
 
@@ -120,7 +111,7 @@ public class AjoutExamen extends JPanel {
         Patient patient = ((DMR) accueil.getList().getSelectedValue()).getPatient();
         PersonnelServiceRadio personnelServiceRadio = mainWindow.getSir().getPersonneConnecte();
         String numArchivage = Examen.generateNumArchivage();
-        ArrayList<AbstractImage> listeImage = loadImage(numArchivage);
+        List<AbstractImage> listeImage = loadImage(numArchivage);
         CompteRendu cr = new CompteRendu(numArchivage, crArea.getText());
         Examen examen = new Examen(date, numArchivage, typeExamen, patient, personnelServiceRadio, serviceHosp, listeImage, cr);
         try {
@@ -143,11 +134,12 @@ public class AjoutExamen extends JPanel {
         if (jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             listeFichierImage = jFileChooser.getSelectedFiles();
             imageChoisieLabel.setText("Image choisie");
+            choisirImageButton.setBackground(Color.GREEN);
         }
     }
 
-    public ArrayList<AbstractImage> loadImage(String numArchivage) {
-        ArrayList<AbstractImage> listeImage = new ArrayList<>();
+    public java.util.List<AbstractImage> loadImage(String numArchivage) {
+        List<AbstractImage> listeImage = new ArrayList<>();
         for (File f : listeFichierImage) {
             String[] regrex = f.getName().split("\\.");
             String extension = regrex[regrex.length - 1].toUpperCase();
@@ -205,6 +197,29 @@ public class AjoutExamen extends JPanel {
         for (int i = currentYear; i >= end; i--) {
             yearComboBox.addItem(i);
         }
+    }
+
+    public void initListener (){
+        choisirImageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choisirImage();
+            }
+        });
+
+        annulerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                retourAccueil();
+            }
+        });
+
+        ajouterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                ajouter();
+            }
+        });
     }
 
     public void retourAccueil() {

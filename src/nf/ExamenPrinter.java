@@ -42,6 +42,9 @@ public class ExamenPrinter implements Printable {
     /**Methode appele par la classe job printer.
      * L'entier y correspond a la hauteur courrante. Cette variable est utilisee pour calculer
      * la hauteur y a laquelle sera dessine le String.
+     * La premiere page sert a l'impression des infos patientes et du practicien. Une partie du compte rendu est aussi imprime.
+     * Si le compte-rendu ne tient pas sur une page, celui-ci est imprime sur une autre page.
+     * Un indice est utilise pour permettre de suavegarder l'avancement dans l'etat du compte rendu.
      */
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         int res = Printable.NO_SUCH_PAGE;
