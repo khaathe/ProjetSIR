@@ -1,35 +1,21 @@
 package nf;
 
-
-
-import library.interfaces.ClientHL7;
-import ui.ImagePanel;
-import ui.Numeriseur;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-
-import ui.Authentification;
-import ui.MainWindow;
-
-
 public class Main {
 
 
     public static void main(String[] args) throws Exception {
        Connexion c= new Connexion();
 
-       c.connection("robertamandine","171197Ar");
+       c.connection("robert", "joke");
+       //c.connection("robertamandine","171197Ar");
        c.disconnection();
+
        /* GregorianCalendar g= new GregorianCalendar();
         g.set(1900,03,05);
+
+       /*GregorianCalendar g= new GregorianCalendar();
+       g.set(1900,03,05);
+
        Patient p= new Patient("506","81","Dancelme","Loic", g,"errgkvjbre");
        c.addPatient(p);
        CompteRendu compteRendu=new CompteRendu("123532","kibigzukefrjvfejhvdzckjzev");
@@ -43,12 +29,17 @@ public class Main {
                 ServiceHosp.PNEUMOLOGIE,
                 listImage,
                 compteRendu
-        );*/
+        );
+
+
+       HL7 hl7=new HL7();
+       hl7.sendMessage(examen, HL7.ADMIT_PATIENT);*/
 
         /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
     public static void main(String[] args) {
-        /*File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000050.dcm");
+        File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000001.dcm");
+        //File f = new File("D:\\ProjetSIR\\ProjetTIS4\\jpg\\brain\\brain1_0000.jpg");
         String numArchivage = Examen.generateNumArchivage();
         String[] regrex = f.getName().split("\\.");
         String extension = regrex[regrex.length-1].toUpperCase();
@@ -69,7 +60,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-*/
         /*ImagePanel ip = null;
         try {
             BasicConfigurator.configure();

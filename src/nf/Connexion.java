@@ -13,8 +13,10 @@ import java.util.List;
 public class Connexion {
 
     private Connection con;
-    //private static String url = "jdbc:mysql://localhost:3306/sir";
-    private static String url="jdbc:mysql://db4free.net:3306/projet_sir";
+
+    private static String url = "jdbc:mysql://localhost:3306/sir";
+   // private static String url="jdbc:mysql://db4free.net:3306/projet_sir";
+
     private static String driver = "com.mysql.cj.jdbc.Driver";
     private String argument = "?serverTimezone=UTC";
 
@@ -266,7 +268,7 @@ public class Connexion {
             int numInstance = res.getInt("numInstance");
             byte[] imageData = res.getBytes("image");
             Image image = new Image(numArchivage);
-            image.setImage( ImageIO.read(new ByteArrayInputStream(imageData)) );
+            image.setImage( ImageIO.read(new ByteArrayInputStream(imageData))  );
             String annotation = res.getString("annotation");
             image.setAnnotation(annotation);
             listImage.add(image);

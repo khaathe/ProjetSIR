@@ -363,7 +363,6 @@ public class VisualisationImage extends JPanel {
         }
         revalidate();
     }
-
     public void retournement() {
         int i = pictureSlider.getValue();
         AbstractImage ig = picture.get(i);
@@ -372,7 +371,6 @@ public class VisualisationImage extends JPanel {
         imgPanel.setImg(imageModif);
         imgPanel.repaint();
     }
-
 
     public void pictureChanged() {
         int i = pictureSlider.getValue();
