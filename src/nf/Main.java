@@ -1,5 +1,7 @@
 package nf;
 
+import library.interfaces.ClientHL7;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -33,7 +35,7 @@ public class Main {
 
        HL7 hl7=new HL7();
        hl7.sendMessage(examen, HL7.ADMIT_PATIENT);
-        /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+      /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
     public static void main(String[] args) {
         File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000001.dcm");
