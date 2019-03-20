@@ -1,5 +1,7 @@
 package nf;
 
+import library.interfaces.ClientHL7;
+
 public class Main {
 
 
@@ -8,6 +10,7 @@ public class Main {
 
        c.connection("robertamandine","171197Ar");
        c.disconnection();
+        ClientHL7 hl7 = new ClientHL7();
        /*GregorianCalendar g= new GregorianCalendar();
        g.set(1900,03,05);
        Patient p= new Patient("506","81","Dancelme","Loic", g,"errgkvjbre");
