@@ -13,8 +13,8 @@ import java.util.List;
 public class Connexion {
 
     private Connection con;
-//    private static String url = "jdbc:mysql://localhost:3306/sir";
-    private static String url = "jdbc:mysql://db4free.net:3306/projet_sir";
+    private static String url = "jdbc:mysql://localhost:3306/sir";
+    //private static String url = "jdbc:mysql://db4free.net:3306/projet_sir";
     private static String driver = "com.mysql.cj.jdbc.Driver";
     private String argument = "?serverTimezone=UTC";
 
