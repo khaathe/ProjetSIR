@@ -1,9 +1,5 @@
 package nf;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 public class Main {
 
 
@@ -11,7 +7,7 @@ public class Main {
        /*Connexion c= new Connexion();
 
        c.connection("robertamandine","171197Ar");
-       c.disconnection();*/
+       c.disconnection();
        GregorianCalendar g= new GregorianCalendar();
        g.set(1900,03,05);
        Patient p= new Patient("506","81","Dancelme","Loic", g,"errgkvjbre");
@@ -30,8 +26,9 @@ public class Main {
         );
 
        HL7 hl7=new HL7();
-       hl7.sendMessage(examen, HL7.ADMIT_PATIENT);
-        /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
+       hl7.sendMessage(examen, HL7.ADMIT_PATIENT);*/
+
+       /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
     public static void main(String[] args) {
         File f = new File("D:\\ProjetSIR\\ProjetTIS4\\series-000001\\image-000001.dcm");

@@ -50,7 +50,7 @@
               <background color="-4275773"/>
               <font name="DejaVu Sans" size="16" style="0"/>
               <foreground color="-1"/>
-              <text value="Numéro d'archivage : "/>
+              <text value="Numero d'archivage : "/>
             </properties>
           </component>
           <component id="14a8a" class="javax.swing.JLabel" binding="dateLabel">

@@ -16,6 +16,11 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 
 public class Numeriseur extends JDialog implements TransferListener {
+
+    private static final Color default_background = new Color(190, 193, 195);
+    private static final Color button_background = new Color(68, 140, 255);
+    private static final Font default_font = new Font("DejaVu Sans", Font.PLAIN, 16);
+
     ImagePanel imagePanel;
     JPanel main, south, panel_button;
     JButton quitter, numeriser, choixDevice, valider;
@@ -36,20 +41,48 @@ public class Numeriseur extends JDialog implements TransferListener {
     public void initComponent() {
         image = null;
         info = new JLabel("Aucun Peripherique selectionne");
+        info.setBackground(default_background);
+        info.setForeground(Color.WHITE);
+        info.setFont(default_font);
+
         manager = Manager.getInstance();
         device = null;
         imagePanel = new ImagePanel(null);
         imagePanel.setPreferredSize(new Dimension(500, 500));
-        south = new JPanel();
 
+        south = new JPanel();
+        south.setBackground(default_background);
+        south.setForeground(Color.WHITE);
+        south.setFont(default_font);
         south.setLayout(new BorderLayout());
         south.add(info, BorderLayout.NORTH);
 
         panel_button = new JPanel();
+        panel_button.setBackground(default_background);
+        panel_button.setForeground(Color.WHITE);
+        panel_button.setFont(default_font);
+
         quitter = new JButton("Quitter");
+        quitter.setBackground(button_background);
+        quitter.setForeground(Color.WHITE);
+        quitter.setFont(default_font);
+
         numeriser = new JButton("Numeriser");
+        numeriser.setBackground(button_background);
+        numeriser.setForeground(Color.WHITE);
+        numeriser.setFont(default_font);
+
         choixDevice = new JButton("Choisir un scanner");
+        choixDevice.setBackground(button_background);
+        choixDevice.setForeground(Color.WHITE);
+        choixDevice.setFont(default_font);
+
         valider = new JButton("Valider");
+        valider.setBackground(button_background);
+        valider.setForeground(Color.WHITE);
+        valider.setFont(default_font);
+
+
         panel_button.add(valider);
         panel_button.add(numeriser);
         panel_button.add(choixDevice);
@@ -57,6 +90,9 @@ public class Numeriseur extends JDialog implements TransferListener {
         south.add(panel_button, BorderLayout.SOUTH);
 
         main = new JPanel();
+        main.setBackground(default_background);
+        main.setForeground(Color.WHITE);
+        main.setFont(default_font);
         main.setLayout(new BorderLayout());
         main.add(south, BorderLayout.SOUTH);
         main.add(imagePanel, BorderLayout.CENTER);

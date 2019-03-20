@@ -1,7 +1,7 @@
 package nf;
 
 public  enum ServiceHosp {
-    UNKNOWN("inconu", 6518, "localhost"),
+    UNKNOWN("inconu", 80, "localhost"),
     CARDIOLOGIE("cardiologie", 6516, "localhost"),
     UROLOGIE("urologie", 6516, "localhost"),
     GENICO_OBSTETRIE("genico_obstetrie", 6516, "localhost"),
@@ -16,7 +16,7 @@ public  enum ServiceHosp {
 
     ServiceHosp(String name, int port, String host){
         this.name = name;
-        this.port = 6517;
+        this.port = port;
         this.host = host;
     }
 

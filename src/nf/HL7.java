@@ -2,7 +2,6 @@ package nf;
 
 import library.interfaces.ClientHL7;
 import library.interfaces.MessageInterface;
-import library.structure.groupe.messages.Message;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -42,7 +41,6 @@ public class HL7 {
                 dateNaissance.setTime(p.getBirth());
 
                 patient = new Patient(Patient.generateIdPR(), p.getID().toString(), p.getFamillyName(), p.getFirstName(), dateNaissance, p.getSex());
-                Message message = serveurHL7.getMessage();
                 serveurHL7.fermer();
                 callback.firePropertyChange("New Hl7 message", null, patient);
             }

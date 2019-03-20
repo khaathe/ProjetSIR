@@ -120,7 +120,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
                 ajoutExamButton.setVisible(false);
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
-                searchMagnifierLabel.setIcon(new ImageIcon("resources/searchmagnifierIcon.png"));
                 break;
 
             case SECRETAIRE:
@@ -129,7 +128,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
                 accesImageButton.setVisible(false);
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeSecretaireMed.png"));
-                searchMagnifierLabel.setIcon(new ImageIcon("resources/searchmagnifierIcon.png"));
                 break;
         }
         mainWindow.revalidate();
@@ -282,8 +280,12 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
                 throw new NullPointerException("Veuilez choisir un examen");
-            else if (examen.getImages().size() == 0)
-                throw new Exception("Aucune image pour cet examen");
+            if (examen.getImages().size() == 0){
+                List<AbstractImage> listeImage = mainWindow.getSir().getConn().getImage(examen.getNumArchivage());
+                if (listeImage.size() == 0)
+                    throw new Exception("Aucune image pour cet examen");
+                examen.setImages(listeImage);
+            }
             this.mainWindow.setContentPane(new VisualisationImage(mainWindow, this, examen.getImages()).getGeneralPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {

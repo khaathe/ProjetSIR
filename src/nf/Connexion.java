@@ -114,7 +114,6 @@ public class Connexion {
             ServiceHosp service = ServiceHosp.valueOf(rs.getString("service").toUpperCase());
             TypeExamen typeexam = TypeExamen.valueOf(rs.getString("typeExamen").toUpperCase());
             PersonnelServiceRadio personnel = getPersonnelServiceRadio(rs.getString("idPersonnel"));
-            List<AbstractImage> listeImage = getImage(numArchivage);
             CompteRendu cr = new CompteRendu(numArchivage, rs.getString("compteRendu"));
 
             Examen examen = new Examen(
@@ -124,7 +123,6 @@ public class Connexion {
                    patient,
                     personnel,
                     service,
-                    listeImage,
                     cr
             );
 
