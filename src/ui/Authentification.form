@@ -54,13 +54,13 @@
           </component>
         </children>
       </grid>
-      <grid id="702d0" binding="southPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="702d0" binding="southPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints border-constraint="South"/>
         <properties/>
         <border type="none"/>
         <children>
           <component id="1b0c" class="javax.swing.JButton" binding="connexionButton">
-            <constraints border-constraint="East"/>
+            <constraints/>
             <properties>
               <background color="-12284673"/>
               <font name="DejaVu Sans" size="16" style="0"/>
@@ -70,60 +70,60 @@
               <text value="Connexion"/>
             </properties>
           </component>
-          <grid id="887ab" binding="resultPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints border-constraint="Center"/>
-            <properties/>
-            <border type="none"/>
-            <children/>
-          </grid>
         </children>
       </grid>
       <grid id="2419c" binding="westPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
-        <constraints border-constraint="West"/>
+        <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="c659d" class="javax.swing.JTextField" binding="identifiantTextField">
+          <grid id="96df0" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties>
-              <columns value="0"/>
-              <font name="DejaVu Sans" size="16" style="0"/>
-            </properties>
-          </component>
-          <component id="fcd7f" class="javax.swing.JPasswordField" binding="passwordField">
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="ab6b2" class="javax.swing.JLabel" binding="identifiantLabel">
+                <constraints/>
+                <properties>
+                  <font name="DejaVu Sans" size="16" style="0"/>
+                  <text value="Identifiant :"/>
+                </properties>
+              </component>
+              <component id="c659d" class="javax.swing.JTextField" binding="identifiantTextField">
+                <constraints/>
+                <properties>
+                  <columns value="15"/>
+                  <font name="DejaVu Sans" size="16" style="0"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="13307" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties>
-              <font name="DejaVu Sans" size="16" style="0"/>
-            </properties>
-          </component>
-          <component id="ab6b2" class="javax.swing.JLabel" binding="identifiantLabel">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <font name="DejaVu Sans" size="16" style="0"/>
-              <text value="Identifiant :"/>
-            </properties>
-          </component>
-          <component id="6273b" class="javax.swing.JLabel" binding="mdpLabel">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <font name="DejaVu Sans" size="16" style="0"/>
-              <text value="Mot de passe :"/>
-            </properties>
-          </component>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="6273b" class="javax.swing.JLabel" binding="mdpLabel">
+                <constraints/>
+                <properties>
+                  <font name="DejaVu Sans" size="16" style="0"/>
+                  <text value="Mot de passe :"/>
+                </properties>
+              </component>
+              <component id="fcd7f" class="javax.swing.JPasswordField" binding="passwordField">
+                <constraints/>
+                <properties>
+                  <columns value="15"/>
+                  <font name="DejaVu Sans" size="16" style="0"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
         </children>
       </grid>
     </children>

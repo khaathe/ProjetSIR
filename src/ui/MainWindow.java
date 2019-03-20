@@ -4,10 +4,15 @@ import nf.SIR;
 
 import javax.naming.NamingException;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MainWindow extends JFrame {
+
+
+    public static final Dimension MIN_DIM = new Dimension(900, 100);
+
     private static String title = "SIR";
     private SIR sir;
 
@@ -50,6 +55,7 @@ public class MainWindow extends JFrame {
                     e.printStackTrace();
                 }
                 window.setContentPane(new Authentification(window).getConnexionPanel());
+                window.setMinimumSize(MIN_DIM);
                 window.pack();
                 window.setVisible(true);
                 window.setResizable(false);

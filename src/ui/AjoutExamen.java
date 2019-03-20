@@ -118,11 +118,16 @@ public class AjoutExamen extends JPanel {
             mainWindow.getSir().getConn().addExamen(examen);
             DMR dmr = (DMR) accueil.getList().getSelectedValue();
             dmr.ajouterExamen(examen);
-            mainWindow.getSir().getHl7().sendMessage(examen, HL7.END_PAT);
             accueil.displayPatient();
             retourAccueil();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+        try {
+            mainWindow.getSir().getHl7().sendMessage(examen, HL7.END_PAT);
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Impossible d'envoyer le message HL7 au service : "+examen.getService(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
@@ -135,10 +140,11 @@ public class AjoutExamen extends JPanel {
             listeFichierImage = jFileChooser.getSelectedFiles();
             imageChoisieLabel.setText("Image choisie");
             choisirImageButton.setBackground(Color.GREEN);
+            choisirImageButton.setForeground(Color.BLACK);
         }
     }
 
-    public java.util.List<AbstractImage> loadImage(String numArchivage) {
+    public List<AbstractImage> loadImage(String numArchivage) {
         List<AbstractImage> listeImage = new ArrayList<>();
         for (File f : listeFichierImage) {
             String[] regrex = f.getName().split("\\.");
@@ -157,6 +163,7 @@ public class AjoutExamen extends JPanel {
             }
             try {
                 image.setImage(f);
+                listeImage.add(image);
             } catch (Exception e) {
                 e.printStackTrace();
             }

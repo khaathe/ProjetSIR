@@ -61,9 +61,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     private JButton crButton;
     private JLabel crAnnonceLabel;
     private JPanel southPanel;
+    private JButton resetButton;
     private MainWindow mainWindow;
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
-    private static final Dimension minDim = new Dimension(900, 100);
 
 
     public Accueil(MainWindow mainWindow) throws Exception {
@@ -106,16 +106,12 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         crPanel.setVisible(false);
         southPanel.setVisible(false);
         mainWindow.getSir().getHl7().addPropertyChangeListener(this);
-        mainWindow.setMinimumSize(minDim);
     }
 
     public void initDifferentialAccess() {
         switch (mainWindow.getSir().getPersonneConnecte().getProfession()) {
             case PH:
                 admissionButton.setVisible(false);
-                searchLabel.setVisible(false);
-                searchDMRtextField.setVisible(false);
-                searchMagnifierLabel.setVisible(false);
                 numeriserButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeMedecin.png"));
                 break;
@@ -237,6 +233,13 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 crPanel.setVisible(false);
+            }
+        });
+
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initList();
             }
         });
 

@@ -27,7 +27,6 @@ public class Authentification extends JPanel {
     private JTextField identifiantTextField;
     private JPasswordField passwordField;
     private JButton connexionButton;
-    private JPanel resultPanel;
 
 
     public Authentification(MainWindow mainWindow) {
@@ -125,9 +124,6 @@ public class Authentification extends JPanel {
         connexionButton.setHorizontalTextPosition(0);
         connexionButton.setText("Connexion");
         southPanel.add(connexionButton, BorderLayout.EAST);
-        resultPanel = new JPanel();
-        resultPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        southPanel.add(resultPanel, BorderLayout.CENTER);
         westPanel = new JPanel();
         westPanel.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
         connexionPanel.add(westPanel, BorderLayout.WEST);

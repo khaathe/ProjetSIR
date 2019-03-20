@@ -365,6 +365,7 @@ public class VisualisationImage extends JPanel {
         }
         revalidate();
     }
+
     public void retournement() {
         int i = pictureSlider.getValue();
         AbstractImage ig = picture.get(i);
@@ -428,7 +429,6 @@ public class VisualisationImage extends JPanel {
         pictureSlider = new JSlider(0, picture.size() - 1, 0);
         Hashtable<Integer, JLabel> positionCursorPctr = new Hashtable<Integer, JLabel>();
         positionCursorPctr.put(0, new JLabel("1"));
-        //position.put(CONTRASTE_MAX / 2, new JLabel("2,5"));
         positionCursorPctr.put(picture.size() - 1, new JLabel(String.valueOf(picture.size())));
         pictureSlider.setLabelTable(positionCursorPctr);
         pictureSlider.setPaintLabels(true);
@@ -440,7 +440,6 @@ public class VisualisationImage extends JPanel {
         constrastSlider = new JSlider(CONTRASTE_MIN, CONTRASTE_MAX, CONTRASTE_INIT);
         Hashtable<Integer, JLabel> position = new Hashtable<Integer, JLabel>();
         position.put(CONTRASTE_MIN, new JLabel("0"));
-        //position.put(CONTRASTE_MAX / 2, new JLabel("2,5"));
         position.put(CONTRASTE_MAX - 1, new JLabel("5"));
         constrastSlider.setLabelTable(position);
         constrastSlider.setPaintLabels(true);
