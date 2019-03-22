@@ -19,13 +19,15 @@ public class MyServeurHL7 {
     Message message;
 
     public MyServeurHL7() {
+        // ne fait rien car on souhaite uniquement creer l'objet en memoire
+        //la connexion au serveur doit se faire a l'aide de la methode connection
     }
 
     public boolean connection(int port) {
         try {
             this.serverSocket = new ServerSocket(port);
         } catch (IOException var3) {
-            System.err.println("Could not listen on port: " + port + ".");
+            Logger.getAnonymousLogger().log(Level.WARNING, "Could not listen on port: " + port + ".");
             System.exit(1);
         }
 
@@ -36,7 +38,7 @@ public class MyServeurHL7 {
         try {
             this.clientSocket = this.serverSocket.accept();
         } catch (IOException var2) {
-            System.err.println("Accept failed.");
+            Logger.getAnonymousLogger().log(Level.WARNING,"Accept failed.");
         }
 
         return true;

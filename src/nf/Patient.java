@@ -27,15 +27,13 @@ public class Patient {
         this.idPatient = idPatient;
         this.nom = nom;
         this.prenom = prenom;
-
-
-        if(sexe.equalsIgnoreCase("H")|sexe.equalsIgnoreCase("F")){
-        this.sexe=sexe;}
-        else{this.sexe="I";}
+        if( sexe.equalsIgnoreCase("H")
+                || sexe.equalsIgnoreCase("F"))
+            this.sexe=sexe;
+        else
+            this.sexe="I";
         this.naissance = naissance;
     }
-
-    public  void setIdPatient (String idPatient) { this.idPatient = idPatient; }
 
     public String getIdPatient() {
         return idPatient;
@@ -60,11 +58,10 @@ public class Patient {
     public String getIdPR(){return idPR;}
 
     public String toString (){
-        String Newligne=System.getProperty("line.separator");
-        String info = idPR + ", "
+        return idPR + ", "
                 + nom + " " + prenom +", "
-                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime())+Newligne+", Sexe: "+getSexe();
-        return info;
+                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime())
+                + System.getProperty("line.separator") +", Sexe: "+getSexe();
     }
 
     public static String generateIdPR () {

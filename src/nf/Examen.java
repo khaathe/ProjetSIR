@@ -26,18 +26,6 @@ public class Examen {
         service = ServiceHosp.UNKNOWN;
     }
 
-
-    public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, List<AbstractImage> images, CompteRendu cr) {
-        this.date = date;
-        this.numArchivage = numArchivage;
-        this.typeExamen = typeExamen;
-        this.patient = patient;
-        this.praticien = praticien;
-        this.service = service;
-        this.images = images;
-        this.cr = cr;
-    }
-
     public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, CompteRendu cr) {
         this.date = date;
         this.numArchivage = numArchivage;
@@ -45,7 +33,7 @@ public class Examen {
         this.patient = patient;
         this.praticien = praticien;
         this.service = service;
-        this.images = new ArrayList<AbstractImage>();
+        this.images = new ArrayList<>();
         this.cr = cr;
     }
 
@@ -64,8 +52,7 @@ public class Examen {
     }
 
     public String toString() {
-        String info = "Examen du : " + new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
-        return info;
+        return "Examen du : " + new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
     }
 
     public GregorianCalendar getDate() {

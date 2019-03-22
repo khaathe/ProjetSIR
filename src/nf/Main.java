@@ -3,7 +3,7 @@ package nf;
 public class Main {
 
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
        /*Connexion c= new Connexion();
 
        c.connection("robertamandine","171197Ar");

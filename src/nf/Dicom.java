@@ -9,7 +9,7 @@ public class Dicom extends AbstractImage {
     }
 
     @Override
-    public void setImage(File file) throws Exception {
+    public void setImage(File file) {
         /*DicomInputStream dis = new DicomInputStream(file);
         Attributes object2 = dis.readDataset(-1, -1);
         String value2 = object2.toString(Tag.FileMetaInformationVersion, Tag.AcquisitionContextDescription);

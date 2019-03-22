@@ -21,13 +21,13 @@ public abstract class AbstractImage {
     private boolean retourner;
 
 
-    public abstract void setImage (File file) throws Exception;
+    public abstract void setImage(File file);
 
 
-    public AbstractImage(String numArchivage){
+    public AbstractImage(String numArchivage) {
         this.numArchivage = numArchivage;
         if (nbInstanceParNumArchivage.containsKey(numArchivage))
-            numInstance = nbInstanceParNumArchivage.get(numArchivage)+1;
+            numInstance = nbInstanceParNumArchivage.get(numArchivage) + 1;
         else
             numInstance = 1;
         nbInstanceParNumArchivage.put(numArchivage, numInstance);
@@ -40,20 +40,21 @@ public abstract class AbstractImage {
         annotation = "";
     }
 
-    public static int getNoRotate() {
-        return NO_ROTATE;
+    public String getNumArchivage() {
+        return numArchivage;
     }
 
-    public String getNumArchivage (){ return  numArchivage;}
-
-    public void setImage (BufferedImage image) {
+    public void setImage(BufferedImage image) {
         this.image = image;
     }
 
-    public BufferedImage rotation (BufferedImage src){
-        int w = src.getWidth(), h = src.getHeight(), type = src.getType();
-        double anchorx = 0, anchory = 0;
-        if(this.getRotation() == ROTATE_RIGHT) {
+    public BufferedImage rotation(BufferedImage src) {
+        int w = src.getWidth();
+        int h = src.getHeight();
+        int type = src.getType();
+        double anchorx = 0;
+        double anchory = 0;
+        if (this.getRotation() == ROTATE_RIGHT) {
             anchorx = (double) h / 2.0;
             anchory = (double) h / 2.0;
         } else {
@@ -76,111 +77,113 @@ public abstract class AbstractImage {
                 0.0f, 1.0f, 0.0f,
                 0.0f, 0.0f, 0.0f
         };
-        if (contraste > 1){
-            accentuation = new float[] {
-                    0.0f, -1.0f*coeff, 0.0f,
-                    -1.0f*coeff, 5.0f*coeff, -1.0f*coeff,
-                    0.0f, -1.0f*coeff, 0.0f
+        if (contraste > 1) {
+            accentuation = new float[]{
+                    0.0f, -1.0f * coeff, 0.0f,
+                    -1.0f * coeff, 5.0f * coeff, -1.0f * coeff,
+                    0.0f, -1.0f * coeff, 0.0f
             };
         }
-        ConvolveOp cop = new ConvolveOp(new Kernel(3,3, accentuation));
+        ConvolveOp cop = new ConvolveOp(new Kernel(3, 3, accentuation));
         cop.filter(src, dst);
-        return  dst;
+        return dst;
     }
 
     public BufferedImage eclaircissement(BufferedImage src) {
         BufferedImage dst = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
-        float scale = 1.0f + ( (float) getLuminosite() /100.0f);
+        float scale = 1.0f + ((float) getLuminosite() / 100.0f);
         RescaleOp op = new RescaleOp(scale, 0.0f, null);
         op.filter(src, dst);
         return dst;
     }
 
     public BufferedImage inversion(BufferedImage src) {
-        BufferedImage inverser = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
+        BufferedImage imageInverse = new BufferedImage(src.getWidth(), src.getHeight(), src.getType());
         byte[] data = new byte[256];
-        for(int i=0; i<256; i++){data[i] = (byte) (255-i);}
+        for (int i = 0; i < 256; i++) {
+            data[i] = (byte) (255 - i);
+        }
         ByteLookupTable table = new ByteLookupTable(0, data);
         LookupOp inversion = new LookupOp(table, null);
-        inversion.filter(src, inverser);
-        return inverser;
+        inversion.filter(src, imageInverse);
+        return imageInverse;
     }
 
     public BufferedImage retournementVertical(BufferedImage src) {
-        int w = src.getWidth(), h = src.getHeight();
-        BufferedImage retourner = new BufferedImage(w, h, image.getType());
-        for(int i = 0; i<h; i++){
-            for(int j = 0; j<w; j++){
-                retourner.setRGB(j,i, src.getRGB(w-1-j, i));
+        int w = src.getWidth();
+        int h = src.getHeight();
+        BufferedImage imageRetourner = new BufferedImage(w, h, image.getType());
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                imageRetourner.setRGB(j, i, src.getRGB(w - 1 - j, i));
             }
         }
-        return retourner;
+        return imageRetourner;
     }
 
-    public BufferedImage retournementHorizontal (BufferedImage src) {
-        int w = src.getWidth(), h = src.getHeight();
-        BufferedImage retourner = new BufferedImage(w, h, image.getType());
-        for(int i = 0; i<h; i++){
-            for(int j = 0; j<w; j++){
-                retourner.setRGB(j,i, src.getRGB(j, h-1-i));
+    public BufferedImage retournementHorizontal(BufferedImage src) {
+        int w = src.getWidth();
+        int h = src.getHeight();
+        BufferedImage imageRetourner = new BufferedImage(w, h, image.getType());
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                imageRetourner.setRGB(j, i, src.getRGB(j, h - 1 - i));
             }
         }
-        return retourner;
+        return imageRetourner;
     }
 
-    public void setRotation (int sens){
-        switch (sens){
-            case ROTATE_LEFT :
-                if(this.getRotation() == ROTATE_LEFT)
-                    this.rotation = ROTATE_LEFT;
-                else if(this.getRotation() == ROTATE_RIGHT)
-                    this.rotation = NO_ROTATE;
-                else
-                    this.rotation = sens;
-                break;
-            case ROTATE_RIGHT :
-                if(this.getRotation() == ROTATE_LEFT)
-                    this.rotation = NO_ROTATE;
-                else if(this.getRotation() == ROTATE_RIGHT)
-                    this.rotation = ROTATE_RIGHT;
-                else
-                    this.rotation = sens;
-                break;
+    public void setRotation(int sens) {
+        if (sens == ROTATE_LEFT) {
+            if (this.getRotation() == ROTATE_LEFT)
+                this.rotation = ROTATE_LEFT;
+            else if (this.getRotation() == ROTATE_RIGHT)
+                this.rotation = NO_ROTATE;
+            else
+                this.rotation = sens;
+        }
+        else if (sens == ROTATE_RIGHT) {
+            if (this.getRotation() == ROTATE_LEFT)
+                this.rotation = NO_ROTATE;
+            else if (this.getRotation() == ROTATE_RIGHT)
+                this.rotation = ROTATE_RIGHT;
+            else
+                this.rotation = sens;
         }
     }
 
-    public void setContraste (int contraste){
+    public void setContraste(int contraste) {
         this.contraste = contraste;
     }
 
-    public void setLuminosite (int luminosite){
+    public void setLuminosite(int luminosite) {
         this.luminosite = luminosite;
     }
 
-    public void setInverser (){
+    public void setInverser() {
         this.inverser = !(this.isInverser());
     }
 
-    public void setRetourner (){
+    public void setRetourner() {
         this.retourner = !(this.isRetourner());
     }
 
-    public void setAnnotation (String annotation) { this.annotation = annotation; }
+    public void setAnnotation(String annotation) {
+        this.annotation = annotation;
+    }
 
-    public BufferedImage getImage (){
+    public BufferedImage getImage() {
         BufferedImage newImage = this.image;
-        if(this.getRotation() != NO_ROTATE)
+        if (this.getRotation() != NO_ROTATE)
             newImage = rotation(newImage);
         newImage = eclaircissement(newImage);
         newImage = contraste(newImage);
-        if(this.isInverser())
+        if (this.isInverser())
             newImage = inversion(newImage);
-        if(isRetourner())
+        if (isRetourner())
             newImage = retournementHorizontal(newImage);
         return newImage;
     }
-
-    public void save () { image = getImage();}
 
     public int getNumInstance() {
         return numInstance;
@@ -201,7 +204,6 @@ public abstract class AbstractImage {
     public int getContraste() {
         return contraste;
     }
-    public boolean getRetourner(){ return isRetourner(); }
 
     public int getLuminosite() {
         return luminosite;

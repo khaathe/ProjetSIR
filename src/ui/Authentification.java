@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Authentification extends JPanel {
@@ -64,7 +66,7 @@ public class Authentification extends JPanel {
             this.mainWindow.setContentPane(new Accueil(mainWindow).getMainPanel());
             this.mainWindow.pack();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             identifiantTextField.setText("");
             passwordField.setText("");
             JOptionPane.showMessageDialog(null, e.getMessage());

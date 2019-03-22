@@ -11,20 +11,23 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-
-//import javax.swing.*;
-/*import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;*/
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Accueil extends JPanel implements PropertyChangeListener {
+    private  static String error_examen = "Veuillez choisir un examen";
+
     private JPanel mainPanel;
     private JList list;
 
@@ -66,7 +69,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
 
 
-    public Accueil(MainWindow mainWindow) throws Exception {
+    public Accueil(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         examTree = new JTree();
         iconLabel = new JLabel();
@@ -129,6 +132,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
                 imprimerButton.setVisible(false);
                 iconLabel.setIcon(new ImageIcon("resources/iconeSecretaireMed.png"));
                 break;
+
+            default:
+                break;
         }
         mainWindow.revalidate();
     }
@@ -144,19 +150,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             }
         });
 
-        ajoutExamButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                openAjouterExam();
-            }
-        });
+        ajoutExamButton.addActionListener( (actionEvent) -> openAjouterExam() );
 
-        accesImageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                openImage();
-            }
-        });
+        accesImageButton.addActionListener( ( actionEvent) -> openImage() );
 
         list.addMouseListener(new MouseAdapter() {
             @Override
@@ -175,75 +171,40 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         });
 
 
-        deconnexion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deconnection();
-            }
-        });
+        deconnexion.addActionListener( actionEvent -> deconnection() );
 
-        numeriserButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                numeriser();
-            }
-        });
+        numeriserButton.addActionListener( actionEvent -> numeriser() );
 
-        admissionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                admission();
-            }
-        });
+        admissionButton.addActionListener( actionEvent -> admission() );
 
-        imprimerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                imprimer();
-            }
-        });
+        imprimerButton.addActionListener( actionEvent -> imprimer() );
 
-        searchMagnifierLabel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+        searchMagnifierLabel.addActionListener( actionEvent ->
+             {
                 try {
                     nouvelleList();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
                 }
             }
-        });
+        );
         searchDMRtextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                    try {
-                        nouvelleList();
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
+                    nouvelleList();
                 }
             }
         });
 
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                crPanel.setVisible(false);
-            }
-        });
+        closeButton.addActionListener( actionEvent -> crPanel.setVisible(false) );
 
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                initList();
-            }
-        });
+        resetButton.addActionListener( actionEvent -> initList() );
 
     }
 
-    public void nouvelleList() throws Exception {
+    public void nouvelleList() {
         listModel.clear();
         for (DMR d : mainWindow.getSir().rechercheDMR(searchDMRtextField.getText())) {
             listModel.addElement(d);
@@ -268,7 +229,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
                 this.mainWindow.pack();
                 this.mainWindow.setResizable(false);
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
                 JOptionPane.showMessageDialog(null, "Echec de la deconnection", "Error deconnection", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -279,17 +240,17 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
-                throw new NullPointerException("Veuilez choisir un examen");
-            if (examen.getImages().size() == 0){
+                throw new NullPointerException(error_examen);
+            if (examen.getImages().size() == 0) {
                 List<AbstractImage> listeImage = mainWindow.getSir().getConn().getImage(examen.getNumArchivage());
-                if (listeImage.size() == 0)
-                    throw new Exception("Aucune image pour cet examen");
+                if (listeImage.isEmpty())
+                    throw new NullPointerException("Aucune image pour cet examen");
                 examen.setImages(listeImage);
             }
             this.mainWindow.setContentPane(new VisualisationImage(mainWindow, this, examen.getImages()).getGeneralPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
@@ -315,7 +276,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             mainWindow.setContentPane(new AjoutExamen(mainWindow, this).getGeneralPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             JOptionPane.showMessageDialog(null, "Problème d'interface");
         }
     }
@@ -327,20 +288,24 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         Patient patient = dmr.getPatient();
         infoPatientLabel.setText(patient.toString());
         List<Examen> listeExamen = null;
-        if (dmr.getListeExamen().size() == 0) {
-            try {
+        try {
+            if (dmr.getListeExamen().size() == 0) {
                 listeExamen = mainWindow.getSir().getConn().getExamen(patient);
                 dmr.setListeExamen(listeExamen);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else
-            listeExamen = dmr.getListeExamen();
-        if (listeExamen.size() > 0)
-            buildExameTree(listeExamen);
-        else
+            } else
+                listeExamen = dmr.getListeExamen();
+            if ( !listeExamen.isEmpty())
+                buildExameTree(listeExamen);
+            else
+                getExamTree().setModel(new DefaultTreeModel(new DefaultMutableTreeNode()));
+        } catch (NullPointerException npe) {
+            Logger.getAnonymousLogger().log(Level.WARNING, npe.getMessage());
+            JOptionPane.showMessageDialog(null, "Aucun examen trouve");
             getExamTree().setModel(new DefaultTreeModel(new DefaultMutableTreeNode()));
-
+        } catch (Exception e) {
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
+            getExamTree().setModel(new DefaultTreeModel(new DefaultMutableTreeNode()));
+        }
         centrePanel.setVisible(true);
     }
 
@@ -365,7 +330,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
-                throw new NullPointerException("Veuilez choisir un examen");
+                throw new NullPointerException(error_examen);
             AbstractImage image = new Numeriseur(examen.getNumArchivage()).run();
             if (image != null) {
                 mainWindow.getSir().addImageToExam(examen, image);
@@ -380,7 +345,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
-                throw new NullPointerException("Veuilez choisir un examen");
+                throw new NullPointerException(error_examen);
+            if (examen.getImages().size() == 0)
+                examen.setImages(mainWindow.getSir().getConn().getImage(examen.getNumArchivage()));
             PrinterJob job = PrinterJob.getPrinterJob();
             job.setPrintable(new ExamenPrinter(examen));
             if (job.printDialog()) {
@@ -388,25 +355,27 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             }
             this.mainWindow.revalidate();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
+            JOptionPane.showMessageDialog(this, "Un probleme est apparu lors de l'impression");
         }
     }
 
     public void admission() {
+        String errorAdmin = "Erreur admission";
         try {
             mainWindow.getSir().admitPatient();
             initList();
             admissionButton.setForeground(Color.blue);
             mainWindow.getSir().getHl7().ecoute();
         } catch (NullPointerException npe) {
-            npe.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Aucun patient a admettre", "Erreur admission", JOptionPane.ERROR_MESSAGE);
-        }
-        catch (java.sql.SQLIntegrityConstraintViolationException e){
-            JOptionPane.showMessageDialog(null, "Ce patient a déjà été admit", "Erreur admission", JOptionPane.ERROR_MESSAGE);
-        }catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur admission", JOptionPane.ERROR_MESSAGE);
+            Logger.getAnonymousLogger().log(Level.WARNING, npe.getMessage());
+            JOptionPane.showMessageDialog(null, "Aucun patient a admettre", errorAdmin, JOptionPane.ERROR_MESSAGE);
+        } catch (java.sql.SQLIntegrityConstraintViolationException e) {
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
+            JOptionPane.showMessageDialog(null, "Ce patient a déjà été admit", errorAdmin, JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), errorAdmin, JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -536,18 +505,11 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         return mainPanel;
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-
-
-    }
-
-
     public JTree getExamTree() {
         return examTree;
     }
 
-    public HashMap<DefaultMutableTreeNode, Examen> getNodeToExam() {
+    public Map<DefaultMutableTreeNode, Examen> getNodeToExam() {
         return nodeToExam;
     }
 

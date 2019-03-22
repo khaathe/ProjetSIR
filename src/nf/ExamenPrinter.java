@@ -17,15 +17,18 @@ public class ExamenPrinter implements Printable {
     private int indexImage;
     private Patient patient;
     private  PersonnelServiceRadio practicien;
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+    private SimpleDateFormat dateFormat;
     private boolean crImprimer;
     private int oldPageIndex;
     private List<AbstractImage> listeImage;
-    private static int margeX;
-    private static int margeY;
-    private static final Font titleFont = new Font("Serif", Font.PLAIN, 24);
-    private static final Font subTitleFont = new Font("Serif", Font.PLAIN, 18);
-    private static final Font textFont = new Font("Serif", Font.PLAIN, 12);
+    private int margeX;
+    private int margeY;
+
+    private  static String prenom = "Prenom";
+    private static String police = "Serif";
+    private static final Font TITLE = new Font(police, Font.PLAIN, 24);
+    private static final Font SUBTITLE = new Font(police, Font.PLAIN, 18);
+    private static final Font TEXT = new Font(police, Font.PLAIN, 12);
 
     public ExamenPrinter (Examen examen){
         this.examen = examen;
@@ -36,6 +39,7 @@ public class ExamenPrinter implements Printable {
         oldPageIndex = 0;
         crImprimer = false;
         listeImage = examen.getImages();
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
@@ -56,7 +60,7 @@ public class ExamenPrinter implements Printable {
         int h = (int) pageFormat.getImageableHeight();
         g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
         if (pageIndex == 0) {
-            y = printInfoPatientPracticien(g2, y, w, h);
+            y = printInfoPatientPracticien(g2, y, w);
             indexCr = 0;
             printCR(g2, y, w, h, indexCr);
             lastPage = pageIndex + 1 + listeImage.size();
@@ -69,7 +73,7 @@ public class ExamenPrinter implements Printable {
             oldPageIndex = pageIndex;
             res = Printable.PAGE_EXISTS;
         }
-        else if ( listeImage != null && listeImage.size()>0 && pageIndex<lastPage ){
+        else if ( listeImage != null && !listeImage.isEmpty() && pageIndex<lastPage ){
             printImage(g2, y, w, h);
             res = Printable.PAGE_EXISTS;
             if (pageIndex > oldPageIndex && oldPageIndex>0 && indexImage < listeImage.size()-1)
@@ -80,16 +84,16 @@ public class ExamenPrinter implements Printable {
         return res;
     }
 
-    public int printInfoPatientPracticien (Graphics2D g2, int y, int w, int h){
+    public int printInfoPatientPracticien (Graphics2D g2, int y, int w){
         String title = "Examen du " + dateFormat.format( examen.getDate().getTime() );
-        g2.setFont(titleFont);
+        g2.setFont(TITLE);
         FontMetrics metrics = g2.getFontMetrics();
         int lineHeigth = metrics.getHeight();
         int xCentered = (w - metrics.stringWidth(title) )/2;
         g2.drawString(title, xCentered, y);
         y += lineHeigth;
 
-        g2.setFont(subTitleFont);
+        g2.setFont(SUBTITLE);
         metrics = g2.getFontMetrics();
         lineHeigth = metrics.getHeight();
         y += lineHeigth;
@@ -100,7 +104,7 @@ public class ExamenPrinter implements Printable {
         g2.drawString("Medecin : ", w/2, y);
         y += lineHeigth;
 
-        g2.setFont(textFont);
+        g2.setFont(TEXT);
         metrics = g2.getFontMetrics();
         lineHeigth = metrics.getHeight();
         g2.drawString("Id Radiologique : " + patient.getIdPR(), margeX, y);
@@ -111,8 +115,8 @@ public class ExamenPrinter implements Printable {
         g2.drawString("Nom : " + practicien.getNom(), w/2, y);
         y += lineHeigth;
 
-        g2.drawString("Prenom : " + patient.getPrenom(), margeX, y);
-        g2.drawString("Prenom : " + practicien.getPrenom(), w/2, y);
+        g2.drawString( prenom + patient.getPrenom(), margeX, y);
+        g2.drawString(prenom + practicien.getPrenom(), w/2, y);
         y += lineHeigth;
 
         g2.drawString("Id : " + patient.getIdPatient(), margeX, y);
@@ -126,31 +130,33 @@ public class ExamenPrinter implements Printable {
     }
 
     public int printCR (Graphics2D g2, int y, int w, int h, int indexCr){
-        g2.setFont(subTitleFont);
+        g2.setFont(SUBTITLE);
         FontMetrics metrics = g2.getFontMetrics();
         int lineHeigth = metrics.getHeight();
         String title = "Compte-rendu medical";
         g2.drawString( title, margeX, y);
         y += lineHeigth;
 
-        g2.setFont(textFont);
+        g2.setFont(TEXT);
         metrics = g2.getFontMetrics();
         lineHeigth = metrics.getHeight();
-        int numberOfLine = h/lineHeigth;
         String[] words = examen.getCr().getCompteRendu().split("\\s");
 
-        List<String> allLines = new ArrayList<String>();
+        List<String> allLines = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
         for(int i=0; i<words.length; i++){
             int x=margeX + metrics.stringWidth(words[i]);
-            String oneLine="";
             while( i<words.length && x < w-(2*margeX) ){
                 if (i<words.length-1)
                     x += metrics.stringWidth(words[i+1]+" ");
-                oneLine += words[i]+" ";
+                //oneLine += words[i]+" ";
+                builder.append(words[i] + " ");
                 i++;
             }
-            allLines.add(oneLine);
-            i++;
+            allLines.add(builder.toString());
+            builder = new StringBuilder();
+            if (i<words.length-1)
+                builder.append(words[i] + " ");
         }
 
         while (indexCr<allLines.size() && y + lineHeigth < h - margeY) {
@@ -164,7 +170,7 @@ public class ExamenPrinter implements Printable {
 
     public void printImage (Graphics2D g2, int y, int w, int h){
 
-        g2.setFont(subTitleFont);
+        g2.setFont(SUBTITLE);
         FontMetrics metrics = g2.getFontMetrics();
         int lineHeigth = metrics.getHeight();
         AbstractImage image = listeImage.get(indexImage);
@@ -178,7 +184,7 @@ public class ExamenPrinter implements Printable {
 
         g2.drawString("Patient : ", margeX, y);
         y += lineHeigth;
-        g2.setFont(textFont);
+        g2.setFont(TEXT);
         metrics = g2.getFontMetrics();
         lineHeigth = metrics.getHeight();
         g2.drawString("Id Radiologique : " + patient.getIdPR(), margeX, y);

@@ -247,28 +247,42 @@
                           </component>
                         </children>
                       </grid>
-                      <component id="1b9ab" class="javax.swing.JTextArea" binding="crTextArea">
+                      <scrollpane id="fe8eb">
                         <constraints border-constraint="Center"/>
-                        <properties>
-                          <columns value="500"/>
-                          <editable value="false"/>
-                          <font name="DejaVu Sans" size="16" style="0"/>
-                          <lineWrap value="true"/>
-                          <rows value="50"/>
-                        </properties>
-                      </component>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="1b9ab" class="javax.swing.JTextArea" binding="crTextArea">
+                            <constraints/>
+                            <properties>
+                              <columns value="500"/>
+                              <editable value="false"/>
+                              <font name="DejaVu Sans" size="16" style="0"/>
+                              <lineWrap value="true"/>
+                              <rows value="50"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
                     </children>
                   </grid>
-                  <component id="f3197" class="javax.swing.JTree" binding="examTree">
+                  <scrollpane id="6330b">
                     <constraints border-constraint="West"/>
-                    <properties>
-                      <editable value="false"/>
-                      <font name="DejaVu Sans" size="16" style="0"/>
-                    </properties>
-                    <clientProperties>
-                      <JTree.lineStyle class="java.lang.String" value=""/>
-                    </clientProperties>
-                  </component>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="f3197" class="javax.swing.JTree" binding="examTree">
+                        <constraints/>
+                        <properties>
+                          <editable value="false"/>
+                          <font name="DejaVu Sans" size="16" style="0"/>
+                        </properties>
+                        <clientProperties>
+                          <JTree.lineStyle class="java.lang.String" value=""/>
+                        </clientProperties>
+                      </component>
+                    </children>
+                  </scrollpane>
                 </children>
               </grid>
             </children>

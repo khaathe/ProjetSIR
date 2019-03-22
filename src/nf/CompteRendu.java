@@ -1,13 +1,13 @@
 package nf;
 
 public class CompteRendu {
-    private String compteRendu;
+    private String cr;
     private String numArchivage;
 
 
-    public CompteRendu(String numArchivage, String compteRendu){
+    public CompteRendu(String numArchivage, String cr){
         this.numArchivage=numArchivage;
-        this.compteRendu= compteRendu;
+        this.cr= cr;
     }
 
     public String getNumArchivage() {
@@ -15,7 +15,7 @@ public class CompteRendu {
     }
 
     public String getCompteRendu() {
-        return compteRendu;
+        return cr;
     }
 
 }

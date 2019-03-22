@@ -22,8 +22,7 @@ public class PersonnelServiceRadio {
     }
 
     public String toString (){
-        String info = "Dr " + nom + " " + prenom;
-        return info;
+        return "Dr " + nom + " " + prenom;
     }
 
     public String getNom() {

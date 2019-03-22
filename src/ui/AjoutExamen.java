@@ -3,18 +3,18 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import nf.*;
 import nf.Image;
+import nf.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class AjoutExamen extends JPanel {
@@ -113,7 +113,8 @@ public class AjoutExamen extends JPanel {
         String numArchivage = Examen.generateNumArchivage();
         List<AbstractImage> listeImage = loadImage(numArchivage);
         CompteRendu cr = new CompteRendu(numArchivage, crArea.getText());
-        Examen examen = new Examen(date, numArchivage, typeExamen, patient, personnelServiceRadio, serviceHosp, listeImage, cr);
+        Examen examen = new Examen(date, numArchivage, typeExamen, patient, personnelServiceRadio, serviceHosp, cr);
+        examen.setImages(listeImage);
         try {
             mainWindow.getSir().getConn().addExamen(examen);
             DMR dmr = (DMR) accueil.getList().getSelectedValue();
@@ -122,18 +123,17 @@ public class AjoutExamen extends JPanel {
             retourAccueil();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());        }
         try {
             mainWindow.getSir().getHl7().sendMessage(examen, HL7.END_PAT);
         } catch (Exception e){
             JOptionPane.showMessageDialog(this, "Impossible d'envoyer le message HL7 au service : "+examen.getService(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
         }
     }
 
     public void choisirImage() {
-        JFileChooser jFileChooser = new JFileChooser();
+        JFileChooser jFileChooser = new JFileChooser("/");
         jFileChooser.setMultiSelectionEnabled(true);
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if (jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -165,7 +165,7 @@ public class AjoutExamen extends JPanel {
                 image.setImage(f);
                 listeImage.add(image);
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             }
         }
         return listeImage;
@@ -207,29 +207,16 @@ public class AjoutExamen extends JPanel {
     }
 
     public void initListener (){
-        choisirImageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choisirImage();
-            }
-        });
+        choisirImageButton.addActionListener( actionEvent -> choisirImage() );
 
-        annulerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                retourAccueil();
-            }
-        });
+        annulerButton.addActionListener( actionEvent-> retourAccueil() );
 
-        ajouterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                ajouter();
-            }
-        });
+        ajouterButton.addActionListener( actionEvent-> ajouter() );
     }
 
     public void retourAccueil() {
+        DMR dmr = (DMR) (accueil.getList().getSelectedValue());
+        accueil.buildExameTree( dmr.getListeExamen() );
         this.mainWindow.setContentPane(accueil.getMainPanel());
     }
 

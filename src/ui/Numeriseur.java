@@ -9,11 +9,11 @@ import nf.PGM;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Numeriseur extends JDialog implements TransferListener {
 
@@ -22,8 +22,13 @@ public class Numeriseur extends JDialog implements TransferListener {
     private static final Font default_font = new Font("DejaVu Sans", Font.PLAIN, 16);
 
     ImagePanel imagePanel;
-    JPanel main, south, panel_button;
-    JButton quitter, numeriser, choixDevice, valider;
+    JPanel main;
+    JPanel south;
+    JPanel panelButton;
+    JButton quitter;
+    JButton numeriser;
+    JButton choixDevice;
+    JButton valider;
     JLabel info;
     Manager manager;
     Device device;
@@ -57,10 +62,10 @@ public class Numeriseur extends JDialog implements TransferListener {
         south.setLayout(new BorderLayout());
         south.add(info, BorderLayout.NORTH);
 
-        panel_button = new JPanel();
-        panel_button.setBackground(default_background);
-        panel_button.setForeground(Color.WHITE);
-        panel_button.setFont(default_font);
+        panelButton = new JPanel();
+        panelButton.setBackground(default_background);
+        panelButton.setForeground(Color.WHITE);
+        panelButton.setFont(default_font);
 
         quitter = new JButton("Quitter");
         quitter.setBackground(button_background);
@@ -83,11 +88,11 @@ public class Numeriseur extends JDialog implements TransferListener {
         valider.setFont(default_font);
 
 
-        panel_button.add(valider);
-        panel_button.add(numeriser);
-        panel_button.add(choixDevice);
-        panel_button.add(quitter);
-        south.add(panel_button, BorderLayout.SOUTH);
+        panelButton.add(valider);
+        panelButton.add(numeriser);
+        panelButton.add(choixDevice);
+        panelButton.add(quitter);
+        south.add(panelButton, BorderLayout.SOUTH);
 
         main = new JPanel();
         main.setBackground(default_background);
@@ -100,33 +105,13 @@ public class Numeriseur extends JDialog implements TransferListener {
     }
 
     public void initListener() {
-        valider.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                valider();
-            }
-        });
+        valider.addActionListener( actionEvent -> valider() );
 
-        numeriser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                numerise();
-            }
-        });
+        numeriser.addActionListener( actionEvent ->  numerise() );
 
-        choixDevice.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChoixDevice();
-            }
-        });
+        choixDevice.addActionListener( actionEvent -> setChoixDevice() );
 
-        quitter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                quitter();
-            }
-        });
+        quitter.addActionListener( actionEvent -> quitter() );
     }
 
     public void valider() {
@@ -196,7 +181,7 @@ public class Numeriseur extends JDialog implements TransferListener {
             }
             imagePanel.setImg(image.getImage());
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
         }
         info.setText("Numerisation finie");
         repaint();

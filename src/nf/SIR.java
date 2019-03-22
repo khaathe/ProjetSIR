@@ -2,6 +2,7 @@ package nf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class SIR {
 
@@ -68,16 +69,17 @@ public class SIR {
 
     public HL7 getHl7 () { return hl7; }
 
-    public ArrayList<DMR> rechercheDMR(String p) throws Exception {
-        ArrayList<DMR> dmr = new ArrayList<DMR>();
-
-        for(int i=0; i<this.listeDMR.size();i++){
-            String np = this.listeDMR.get(i).getPatient().getNom()+ " "+this.listeDMR.get(i).getPatient().getPrenom();
-            if(this.listeDMR.get(i).getPatient().getNom().equalsIgnoreCase(p) || this.listeDMR.get(i).getPatient().getPrenom().equalsIgnoreCase(p) || this.listeDMR.get(i).getPatient().getIdPR().matches(p+"(.*)") || this.listeDMR.get(i).getPatient().getIdPatient().matches(p+"(.*)")){
+    public List<DMR> rechercheDMR(String p) {
+        List<DMR> dmr = new ArrayList<>();
+        Pattern pattern = Pattern.compile("^"+p+"\\d*");
+        for(int i=0; i<this.listeDMR.size(); i++){
+            Patient patient = this.listeDMR.get(i).getPatient();
+            if(patient.getNom().equalsIgnoreCase(p)
+                    || patient.getPrenom().equalsIgnoreCase(p)
+                    || pattern.matcher(patient.getIdPR() ).matches()
+                    || pattern.matcher( patient.getIdPatient() ).matches()
+            ){
                     dmr.add(listeDMR.get(i));
-            }
-            else if (np.equals(p)){
-                dmr.add(listeDMR.get(i));
             }
         }
        return dmr;

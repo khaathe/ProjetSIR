@@ -20,6 +20,7 @@ public  enum ServiceHosp {
         this.host = host;
     }
 
+    @Override
     public String toString (){ return this.name; }
 
     public int getPort() { return port; }
