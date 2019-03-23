@@ -218,6 +218,7 @@ public class AjoutExamen extends JPanel {
         DMR dmr = (DMR) (accueil.getList().getSelectedValue());
         accueil.buildExameTree( dmr.getListeExamen() );
         this.mainWindow.setContentPane(accueil.getMainPanel());
+        this.mainWindow.revalidate();
     }
 
     {
