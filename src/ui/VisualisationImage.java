@@ -1,10 +1,11 @@
-package  ui;
+package ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import nf.AbstractImage;
 import nf.Examen;
 import nf.Image;
+import nf.Profession;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,15 +80,11 @@ public class VisualisationImage extends JPanel {
 
 
     public void initDifferentialAccess() {
-        switch (mainWindow.getSir().getPersonneConnecte().getProfession()) {
-            case PH:
+        Profession profession = mainWindow.getSir().getPersonneConnecte().getProfession();
+        if (profession == Profession.PH)
                 iconeDoctorLabel.setIcon(new ImageIcon("resources/iconeMedecin.png"));
-                break;
-
-            case MANIPULATEUR:
-                iconeDoctorLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
-                break;
-        }
+        else if (profession == Profession.MANIPULATEUR)
+            iconeDoctorLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
         mainWindow.revalidate();
     }
 
@@ -112,23 +109,23 @@ public class VisualisationImage extends JPanel {
 
     public void initListener() {
 
-        validatebutton.addActionListener( actionEvent -> validation() );
+        validatebutton.addActionListener(actionEvent -> validation());
 
-        retournementCheckBox.addActionListener( actionEvent -> retournement() );
+        retournementCheckBox.addActionListener(actionEvent -> retournement());
 
-        inversionCheckBox.addActionListener( actionEvent -> inversion() );
+        inversionCheckBox.addActionListener(actionEvent -> inversion());
 
-        buttonRight.addActionListener(actionEvent -> rotation(actionEvent) );
+        buttonRight.addActionListener(actionEvent -> rotation(actionEvent));
 
-        buttonLeft.addActionListener(actionEvent -> rotation(actionEvent) );
+        buttonLeft.addActionListener(actionEvent -> rotation(actionEvent));
 
-        ecalircissementSlider.addChangeListener(changeEvent -> eclaircissement() );
+        ecalircissementSlider.addChangeListener(changeEvent -> eclaircissement());
 
-        pictureSlider.addChangeListener( changeEvent -> pictureChanged() );
+        pictureSlider.addChangeListener(changeEvent -> pictureChanged());
 
-        constrastSlider.addChangeListener(changeEvent -> contraste() );
+        constrastSlider.addChangeListener(changeEvent -> contraste());
 
-        annulebutton.addActionListener( actionEvent -> retourAccueil() );
+        annulebutton.addActionListener(actionEvent -> retourAccueil());
     }
 
     /**
@@ -348,9 +345,8 @@ public class VisualisationImage extends JPanel {
 
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         pictureSlider = new JSlider(0, picture.size() - 1, 0);
-        Hashtable<Integer, JLabel> positionCursorPctr = new Hashtable<Integer, JLabel>();
+        Hashtable<Integer, JLabel> positionCursorPctr = new Hashtable<>();
         positionCursorPctr.put(0, new JLabel("1"));
         positionCursorPctr.put(picture.size() - 1, new JLabel(String.valueOf(picture.size())));
         pictureSlider.setLabelTable(positionCursorPctr);
@@ -360,7 +356,7 @@ public class VisualisationImage extends JPanel {
         pictureSlider.setPaintTicks(true);
 
         constrastSlider = new JSlider(CONTRASTE_MIN, CONTRASTE_MAX, CONTRASTE_INIT);
-        Hashtable<Integer, JLabel> position = new Hashtable<Integer, JLabel>();
+        Hashtable<Integer, JLabel> position = new Hashtable<>();
         position.put(CONTRASTE_MIN, new JLabel("0"));
         position.put(CONTRASTE_MAX - 1, new JLabel("5"));
         constrastSlider.setLabelTable(position);

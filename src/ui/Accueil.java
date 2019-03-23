@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Accueil extends JPanel implements PropertyChangeListener {
-    private  static String error_examen = "Veuillez choisir un examen";
+    private  static String errorExamen = "Veuillez choisir un examen";
 
     private JPanel mainPanel;
     private JList list;
@@ -150,9 +150,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             }
         });
 
-        ajoutExamButton.addActionListener( (actionEvent) -> openAjouterExam() );
+        ajoutExamButton.addActionListener( actionEvent -> openAjouterExam() );
 
-        accesImageButton.addActionListener( ( actionEvent) -> openImage() );
+        accesImageButton.addActionListener( actionEvent -> openImage() );
 
         list.addMouseListener(new MouseAdapter() {
             @Override
@@ -240,7 +240,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
-                throw new NullPointerException(error_examen);
+                throw new NullPointerException(errorExamen);
             if (examen.getImages().size() == 0) {
                 List<AbstractImage> listeImage = mainWindow.getSir().getConn().getImage(examen.getNumArchivage());
                 if (listeImage.isEmpty())
@@ -330,7 +330,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
-                throw new NullPointerException(error_examen);
+                throw new NullPointerException(errorExamen);
             AbstractImage image = new Numeriseur(examen.getNumArchivage()).run();
             if (image != null) {
                 mainWindow.getSir().addImageToExam(examen, image);
@@ -345,7 +345,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
             if (examen == null)
-                throw new NullPointerException(error_examen);
+                throw new NullPointerException(errorExamen);
             if (examen.getImages().size() == 0)
                 examen.setImages(mainWindow.getSir().getConn().getImage(examen.getNumArchivage()));
             PrinterJob job = PrinterJob.getPrinterJob();

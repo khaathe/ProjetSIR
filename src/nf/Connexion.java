@@ -5,6 +5,7 @@ import com.mysql.cj.jdbc.Blob;
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -14,7 +15,7 @@ public class Connexion {
 
     private Connection con;
     private static String url = "jdbc:mysql://localhost:3306/sir";
-    //private static String url = "jdbc:mysql://db4free.net:3306/projet_sir";
+    // l'url pour la base de donnees en ligne devrait etre "jdbc:mysql://db4free.net:3306/projet_sir"
     private static String driver = "com.mysql.cj.jdbc.Driver";
     private String argument = "?serverTimezone=UTC";
 
@@ -25,20 +26,16 @@ public class Connexion {
         con = null;
     }
 
-    public void connection(String user, String mdp) throws Exception {
+    public void connection(String user, String mdp) throws SQLException, ClassNotFoundException {
         Class.forName(driver);
         con = DriverManager.getConnection(url+argument, user, mdp);
     }
 
-    public void disconnection() throws Exception {
+    public void disconnection() throws SQLException {
         con.close();
     }
 
-    public Connection getCon() {
-        return con;
-    }
-
-    public List<DMR> getDMR() throws Exception {
+    public List<DMR> getDMR() throws SQLException {
         String query = "SELECT * FROM patient";
         List<DMR> array = new ArrayList<>();
         try (Statement st = con.createStatement()){
@@ -59,7 +56,7 @@ public class Connexion {
         return array;
     }
 
-    public PersonnelServiceRadio getPersonnelServiceRadio(String id) throws Exception {
+    public PersonnelServiceRadio getPersonnelServiceRadio(String id) throws SQLException {
         String query = "SELECT * FROM personnelhospitalier where idPersonnel=?";
         PersonnelServiceRadio personnel = null;
        try  ( PreparedStatement statement = con.prepareStatement(query) ) {
@@ -79,7 +76,7 @@ public class Connexion {
         return personnel;
     }
 
-    public List<Examen> getExamen(Patient patient) throws Exception {
+    public List<Examen> getExamen(Patient patient) throws SQLException {
         String query = "SELECT * FROM examen natural join compterendu WHERE idPR=?";
         ArrayList<Examen> listeExamen = new ArrayList<>();
         // create the java statement
@@ -111,13 +108,13 @@ public class Connexion {
         return listeExamen;
     }
 
-    public void addExamen (Examen examen) throws Exception{
+    public void addExamen (Examen examen) throws SQLException, IOException {
         insertExamen(examen);
         insertCompteRendu(examen.getCr());
         insertImage(examen.getImages());
     }
 
-    public void insertExamen (Examen exam) throws Exception {
+    public void insertExamen (Examen exam) throws SQLException {
         String query = "INSERT INTO examen (date, idPR, idPersonnel, numArchivage, typeExamen, service) VALUES (?, ?, ?, ?, ?, ?)";
 
         // create the mysql insert preparedstatement
@@ -136,7 +133,7 @@ public class Connexion {
 
 
 
-    public void insertCompteRendu(CompteRendu cr) throws Exception {
+    public void insertCompteRendu(CompteRendu cr) throws SQLException {
         String query = " insert into compterendu (numArchivage, compteRendu)"
                 + " values (?, ?)";
         try (PreparedStatement preparedStmt = con.prepareStatement(query) ) {
@@ -146,42 +143,7 @@ public class Connexion {
         }
     }
 
-    public Patient getPatient(String id) throws Exception {
-
-        //Connexion conn = con.getCon();
-        // our SQL SELECT query.
-        // if you only need a few columns, specify them by name instead of using "*"
-        String query = "SELECT * FROM patient WHERE idP=" + id;
-        Patient p =null;
-
-        // create the java statement
-        try (Statement st = con.createStatement() ) {
-            // execute the query, and get a java resultset
-            try (ResultSet rs = st.executeQuery(query) ){
-                String idPR = "";
-                String idPatient = "";
-                String nom = "";
-                String prenom = "";
-                GregorianCalendar date = new GregorianCalendar();
-                String sexe = "";
-                // iterate through the java resultset
-                while (rs.next()) {
-                    idPR = rs.getString("idPR");
-                    idPatient = rs.getString("idP");
-                    //pour recup une date
-                    date.setGregorianChange(rs.getDate("date"));
-                    nom = rs.getString("nom");
-                    prenom = rs.getString(NAME);
-                    sexe = rs.getString("sexe");
-                }
-                p = new Patient(idPR, idPatient, nom, prenom, date, sexe);
-            }
-        }
-        return p;
-    }
-
-
-    public void addPatient(Patient patient) throws Exception{
+    public void addPatient(Patient patient) throws SQLException{
         String query = "insert into patient (idPR, idP, date, nom, prenom,sexe)"
                 + "values (?, ?, ?, ?, ?, ?)";
         //create the mysql insert preparedstatement
@@ -197,7 +159,7 @@ public class Connexion {
 
     }
 
-    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws Exception {
+    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws SQLException {
         String query = " insert into personnelhospitalier (idPersonnel, nom,prenom, profession)"
                 + " values (?, ?, ?, ?)";
 
@@ -215,7 +177,7 @@ public class Connexion {
 
 
 
-    public void insertImage (List<AbstractImage> listImage) throws Exception{
+    public void insertImage (List<AbstractImage> listImage) throws SQLException, IOException {
         try(PreparedStatement statement = this.con.prepareStatement("INSERT INTO image (numArchivage, numInstance, image, annotation) VALUES (?, ?, ?,?)")) {
             for (AbstractImage image : listImage) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -232,8 +194,8 @@ public class Connexion {
         }
     }
 
-    public List<AbstractImage> getImage (String numArchivage) throws Exception{
-        List<AbstractImage> listImage = new ArrayList<AbstractImage>();
+    public List<AbstractImage> getImage (String numArchivage) throws SQLException, IOException {
+        List<AbstractImage> listImage = new ArrayList<>();
         String query = "select * from image where numArchivage=?";
         try ( PreparedStatement statement = this.con.prepareStatement(query) ) {
             statement.setString(1, numArchivage);
@@ -253,7 +215,7 @@ public class Connexion {
         return listImage;
     }
 
-    public void addAnnotation (List<AbstractImage> lesImages) throws  Exception{
+    public void addAnnotation (List<AbstractImage> lesImages) throws SQLException {
         String query = "update image " +
                 "set annotation=?" +
                 "where numArchivage=? and numInstance=?";

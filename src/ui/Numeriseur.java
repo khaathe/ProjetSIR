@@ -130,7 +130,7 @@ public class Numeriseur extends JDialog implements TransferListener {
         try {
             if (device != null) {
                 device.startTransfer(this);
-            } else throw new Exception("Aucun peripherique connecte");
+            } else throw new NullPointerException("Aucun peripherique connecte");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Peripherique non trouve", JOptionPane.ERROR_MESSAGE);
         }

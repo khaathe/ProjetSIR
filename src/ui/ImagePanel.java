@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class ImagePanel extends JPanel {
 
-    private BufferedImage img;
+    private transient BufferedImage img;
 
     public ImagePanel(BufferedImage img){
         this.img = img;

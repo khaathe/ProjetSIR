@@ -144,19 +144,18 @@ public class ExamenPrinter implements Printable {
 
         List<String> allLines = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
-        for(int i=0; i<words.length; i++){
+
+        int i=0;
+        while( i<words.length ){
             int x=margeX + metrics.stringWidth(words[i]);
             while( i<words.length && x < w-(2*margeX) ){
                 if (i<words.length-1)
                     x += metrics.stringWidth(words[i+1]+" ");
-                //oneLine += words[i]+" ";
                 builder.append(words[i] + " ");
                 i++;
             }
             allLines.add(builder.toString());
             builder = new StringBuilder();
-            if (i<words.length-1)
-                builder.append(words[i] + " ");
         }
 
         while (indexCr<allLines.size() && y + lineHeigth < h - margeY) {

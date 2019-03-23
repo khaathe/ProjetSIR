@@ -86,8 +86,4 @@ public class MyServeurHL7 {
     public Patient getPatient() {
         return this.patient;
     }
-
-    public Message getMessage() {
-        return this.message;
-    }
 }
