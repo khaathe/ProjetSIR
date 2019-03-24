@@ -25,7 +25,6 @@ public class VisualisationImage extends JPanel {
     private JCheckBox inversionCheckBox;
     private JCheckBox retournementCheckBox;
     private JTextArea annotationTextArea;
-    private JButton impressionbutton;
     private JButton validatebutton;
     private JButton annulebutton;
     private JPanel headPanel;
@@ -226,9 +225,6 @@ public class VisualisationImage extends JPanel {
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel1, BorderLayout.SOUTH);
-        impressionbutton = new JButton();
-        impressionbutton.setText("Imprimer");
-        panel1.add(impressionbutton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         validatebutton = new JButton();
         validatebutton.setText("Ajouter annotation");
         panel1.add(validatebutton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

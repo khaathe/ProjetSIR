@@ -43,12 +43,23 @@ public class ExamenPrinter implements Printable {
     }
 
     @Override
-    /**Methode appele par la classe job printer.
+    /**
+     * Methode appele par la classe job printer.
      * L'entier y correspond a la hauteur courrante. Cette variable est utilisee pour calculer
      * la hauteur y a laquelle sera dessine le String.
      * La premiere page sert a l'impression des infos patientes et du practicien. Une partie du compte rendu est aussi imprime.
      * Si le compte-rendu ne tient pas sur une page, celui-ci est imprime sur une autre page.
-     * Un indice est utilise pour permettre de suavegarder l'avancement dans l'etat du compte rendu.
+     * Un indice est utilise pour permettre de sauvegarder l'avancement dans l'etat du compte rendu.
+     * Pour imprimer les differentes parties d'un examen trois methodes sont appelees : printInfoPatientPraticien, printCR et printImage
+     *
+     * @param graphics
+     *      graphique de la page
+     * @param pageFormat
+     *      format de la page
+     * @param pageIndex
+     *      index de la page en cours
+     * @return si la page existe ou non
+     * @throws PrinterException
      */
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         int res = Printable.NO_SUCH_PAGE;
@@ -84,6 +95,19 @@ public class ExamenPrinter implements Printable {
         return res;
     }
 
+    /**
+     * Methode qui imprimer les infos du patient et du praticien en double colonne
+     * Elle imprime aussi l'entete de la premiere page du compte rendu
+     *
+     * @param g2
+     *      Graphic de la page envoye a la methode print
+     * @param y
+     *      La hauteur en cours sur la page
+     * @param w
+     *      La largeur de la page
+     *
+     * @return la hauteur a laquelle toutes les informations ont ete imprimes
+     */
     public int printInfoPatientPracticien (Graphics2D g2, int y, int w){
         String title = "Examen du " + dateFormat.format( examen.getDate().getTime() );
         g2.setFont(TITLE);
@@ -129,6 +153,26 @@ public class ExamenPrinter implements Printable {
         return y;
     }
 
+    /**
+     * Imprime le compte rendu a la suite des informations patientes et praticien.
+     * Les mots du compte rendu sont d'abord rentre dans un tableau.
+     * Une boucle va alors parcourir le tableau et creer des lignes dont la taille ne depasse pas
+     * celle de la longueuer de la page. Chaque lignes est sauvegardees dans une liste.
+     * Une seconde boucle parcour la liste et imprime les lignes du compte rendu
+     * tant que la fin de la page n'a pas ete atteinte.
+     * @param g2
+     *      Graphic de la page
+     * @param y
+     *      Hauteur en cours de la page
+     * @param w
+     *      Largeur de la page
+     * @param h
+     *      Hauteur de la page
+     * @param indexCr
+     *      Indice sauvegardant la progressin dans l'etat d'impression du compte rendu
+     *
+     * @return L'indice
+     */
     public int printCR (Graphics2D g2, int y, int w, int h, int indexCr){
         g2.setFont(SUBTITLE);
         FontMetrics metrics = g2.getFontMetrics();
@@ -167,6 +211,18 @@ public class ExamenPrinter implements Printable {
         return indexCr;
     }
 
+    /**
+     * Methode qui imprime les images d'un compte et leur informations.
+     * Chaque images est imprimees sur une page.
+     * @param g2
+     *      Graphic de la page
+     * @param y
+     *      Hauteur en cours sur la page
+     * @param w
+     *      Largeur de la page
+     * @param h
+     *      Hauteur de la page
+     */
     public void printImage (Graphics2D g2, int y, int w, int h){
 
         g2.setFont(SUBTITLE);

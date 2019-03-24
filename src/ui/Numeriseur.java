@@ -4,6 +4,7 @@ import eu.gnome.morena.Device;
 import eu.gnome.morena.Manager;
 import eu.gnome.morena.TransferListener;
 import nf.AbstractImage;
+import nf.Dicom;
 import nf.Image;
 import nf.PGM;
 
@@ -126,6 +127,9 @@ public class Numeriseur extends JDialog implements TransferListener {
         }
     }
 
+    /**
+     * Methode qui demarre la numerisation avec le scanner choisi.
+     */
     public synchronized void numerise() {
         try {
             if (device != null) {
@@ -136,17 +140,27 @@ public class Numeriseur extends JDialog implements TransferListener {
         }
     }
 
+    /**
+     * Affiche une JOptionPane avec les peripheriques actuellement connectees.
+     */
     public void setChoixDevice() {
         device = manager.selectDevice(this);
         info.setText("Scanner choisi : " + device);
     }
 
+    /**
+     * Libere toute les ressources et ferme la Dialog si l'utilisateur souhaite quitter.
+     */
     public void quitter() {
         image = null;
         manager.close();
         this.setVisible(false);
     }
 
+    /**
+     * Methode qui rend la dialog visible et retourne l'image numerise.
+     * @return Image numerise
+     */
     public AbstractImage run() {
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -164,21 +178,39 @@ public class Numeriseur extends JDialog implements TransferListener {
     }
 
     @Override
+    /**
+     * Methode de l'interface TransfertListener appelee pendant la numerisation.
+     * Cette methode affiche l'etat d'avancement de la numerisation dans un label.
+     */
     public void transferProgress(int progress) {
         info.setText("Numerisation à " + progress + "%");
         info.repaint();
     }
 
     @Override
+    /**
+     * Methode de l'interface TransfertListener appelee une fois la numerisation terminee.
+     * Un test est realise sur l'extension du fichier pour creer une instance de l'image correspondante.
+     * @param file
+     *      Fichier image
+     */
     public void transferDone(File file) {
         try {
-            if (file.getName().matches(".pgm")) {
-                image = new PGM(numArchivage);
-                image.setImage(file);
-            } else {
-                image = new Image(numArchivage);
-                image.setImage(file);
+            String[] regrex = file.getName().split("\\.");
+            String extension = regrex[regrex.length - 1].toUpperCase();
+            AbstractImage image = null;
+            switch (extension) {
+                case "PGM":
+                    image = new PGM(numArchivage);
+                    break;
+                case "DCM":
+                    image = new Dicom(numArchivage);
+                    break;
+                default:
+                    image = new Image(numArchivage);
+                    break;
             }
+            image.setImage(file);
             imagePanel.setImg(image.getImage());
         } catch (Exception e) {
             Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
@@ -188,6 +220,10 @@ public class Numeriseur extends JDialog implements TransferListener {
     }
 
     @Override
+    /**
+     * Methode de l'interface TransfertListener appelee lors d'un echec de la numerisation.
+     * Cette methode affiche le code de l'erreur survenue lors du transfert.
+     */
     public void transferFailed(int code, String messsage) {
         info.setText(messsage + "[0x" + Integer.toHexString(code) + "]");
         info.repaint();

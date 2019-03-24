@@ -365,7 +365,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         try {
             mainWindow.getSir().admitPatient();
             initList();
-            admissionButton.setForeground(Color.blue);
+            admissionButton.setBackground( new Color(68, 140, 255));
             mainWindow.getSir().getHl7().ecoute();
         } catch (NullPointerException npe) {
             Logger.getAnonymousLogger().log(Level.WARNING, npe.getMessage());
@@ -377,8 +377,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             JOptionPane.showMessageDialog(null, e.getMessage(), errorAdmin, JOptionPane.ERROR_MESSAGE);
         }
-
-
     }
 
     public JPanel getMainPanel() {
@@ -515,6 +513,6 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        admissionButton.setForeground(Color.red);
+        admissionButton.setBackground(Color.red);
     }
 }

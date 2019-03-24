@@ -35,7 +35,6 @@ public class HL7 {
             library.interfaces.Patient p = serveurHL7.getPatient();
             GregorianCalendar dateNaissance = new GregorianCalendar();
             dateNaissance.setTime(p.getBirth());
-
             patient = new Patient(Patient.generateIdPR(), p.getID().toString(), p.getFamillyName(), p.getFirstName(), dateNaissance, p.getSex());
             serveurHL7.fermer();
             callback.firePropertyChange("New Hl7 message", null, patient);
