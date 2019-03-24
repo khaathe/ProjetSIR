@@ -39,7 +39,7 @@ public class ExamenPrinter implements Printable {
     }
 
     @Override
-    /**Methode appele par la classe job printer.
+    /**Methode appelee par la classe job printer.
      * L'entier y correspond a la hauteur courrante. Cette variable est utilisee pour calculer
      * la hauteur y a laquelle sera dessine le String.
      */

@@ -59,6 +59,9 @@ public class SIR {
 
     public PersonnelServiceRadio getPersonneConnecte (){ return personneConnecte; }
 
+    //Méthode permettant d'ajouter une image à un examen. Prend en paramètre l'examen concerné et l'image à ajouter
+    //Ajoute l'image à l'examen précisé en paramètre, crée une nouvelle liste d'AbstractImage à laquelle l'image en paramètre est ajoutée
+    //Appelle la méthode insertImage de la classe Connexion, pour inserer l'image sous forme d'une liste dans la base de données
     public void addImageToExam (Examen examen, AbstractImage image) throws Exception {
         examen.addImage(image);
         List<AbstractImage> list = new ArrayList<>();
@@ -68,6 +71,11 @@ public class SIR {
 
     public HL7 getHl7 () { return hl7; }
 
+    //Methode permettant de rechercher un patient ou des patients dans la liste de patient contenue dans le SIR,
+    // et renvoie une nouvelle liste contenant tous les patients correspondant à l'attribut utilisé pour la recherche (pris en paramètre).
+    //Une boucle permet de parcourir la liste de patients du SIR en comparant le prénom, le nom (ou les 2 ensembles),
+    // ou l'un des identifiants avec le string en paramètre.
+    //Quand une correspondance est détectée, le patient correspondant est ajouté à la nouvelle liste ensuite retournée
     public ArrayList<DMR> rechercheDMR(String p) throws Exception {
         ArrayList<DMR> dmr = new ArrayList<DMR>();
 
