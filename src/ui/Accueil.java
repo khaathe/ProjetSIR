@@ -69,6 +69,14 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
 
 
+    /**
+     * Constructeur de la classe.
+     * Réalise toutes les initialisation au moment de la construction de la classe : initialise les composants de
+     * la fenêtre, les listes, les Listerner et l'accès différentiel
+     * @param mainWindow
+     * MainWindow dont le contenu changera en fonction des actions demandées
+     * Changera son contenu selon des actionListener sollicités
+     */
     public Accueil(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
         examTree = new JTree();
@@ -89,6 +97,10 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
 
+    /**
+     * Methode permettant d'initialiser tout les composants de la fenêtre au moment de son ouverture
+     * Avec affichage de l'identité du personnel connecté
+     */
     public void initComponent() {
         nameLabel.setText("Mr/Mme " + mainWindow.getSir().getPersonneConnecte().getNom()
                 + " " + mainWindow.getSir().getPersonneConnecte().getPrenom()
@@ -111,6 +123,11 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         mainWindow.getSir().getHl7().addPropertyChangeListener(this);
     }
 
+    /**
+     * Méthode permettant d'initialiser l'accès différentiel.
+     * Pour cela, rend visibles ou non les boutons permettant d'accéder aux autres interfaces
+     * selon ce que le personnel connecté a la capacité de faire
+     */
     public void initDifferentialAccess() {
         switch (mainWindow.getSir().getPersonneConnecte().getProfession()) {
             case PH:
@@ -139,6 +156,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         mainWindow.revalidate();
     }
 
+    /**
+     * Méthode permettant d'initialiser tout les listener utilisés dans l'interface
+     */
     public void initListener() {
 
         examTree.addMouseListener(new MouseAdapter() {
@@ -204,6 +224,10 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
     }
 
+    /**
+     * Methode permettant de générer une nouvelle liste des DMR correspondant au résultat
+     * tapé dans la barre de recherche prévue à cet effet
+     */
     public void nouvelleList() {
         listModel.clear();
         for (DMR d : mainWindow.getSir().rechercheDMR(searchDMRtextField.getText())) {
@@ -212,6 +236,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         list.setModel(listModel);
     }
 
+    /**
+     * Méthode permettant d'initialiser la liste de DMR enregistrés dans le service de radiologie
+     */
     public void initList() {
         listModel = new DefaultListModel();
         for (DMR d : mainWindow.getSir().getListeDMR()) {
@@ -220,6 +247,10 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         list.setModel(listModel);
     }
 
+    /**
+     * Méthode permettant de se déconnecter. Ouver un JOptionPane pour vérifier le désir de déconnexion
+     * puis renvoie sur la fenêtre de connexion
+     */
     public void deconnection() {
         int res = JOptionPane.showConfirmDialog(null, "Etes vous sur de vouloir vous deconnecter ?", "Confirmer deconnexion", JOptionPane.OK_CANCEL_OPTION);
         if (res == JOptionPane.OK_OPTION) {
@@ -236,6 +267,11 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Méthode permettant d'ouvrir l'interface dans laquelle pourront être visualisées les images
+     * de l'exmane sélectionné. Nécessite qu'un examen soit sélectionné ET qu'il contienne des images
+     * sinon un JOptionPane s'ouvre pour prévenir que ce n'est pas le cas
+     */
     public void openImage() {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
@@ -255,6 +291,11 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Méthode permettant d'afficher le compte-rendu de l'examen sélectionné dans une
+     * nouvelle zone prévue à cet effet.
+     * Nécessite que l'examen possède un compte-rendu, sinon rien ne s'afficher
+     */
     public void affichageCR() {
         try {
             if (mainWindow.getSir().getPersonneConnecte().getProfession() == Profession.PH) {
@@ -271,6 +312,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Méthode permettant d'accéder à la fenêtre d'ajout d'examen.
+     */
     public void openAjouterExam() {
         try {
             mainWindow.setContentPane(new AjoutExamen(mainWindow, this).getGeneralPanel());
@@ -281,6 +325,10 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Méthode permettant l'affichage du DMR du patient sélectionné dans la liste, donc de la liste
+     * d'examens qu'il contient sous forme d'arbre dans une zone prévue à effet
+     */
     public void displayPatient() {
         crPanel.setVisible(false);
         southPanel.setVisible(true);
@@ -309,6 +357,12 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         centrePanel.setVisible(true);
     }
 
+    /**
+     * Méthode permettant de générer une liste d'examens sous forme d'arbre, avec toutes les
+     * informations relatives à l'examen présentées à chaque noeud
+     * @param listeExamen
+     * La liste d'examen d'un patient à afficher, récupérée dans la base de données
+     */
     public void buildExameTree(List<Examen> listeExamen) {
         DefaultMutableTreeNode allExamn = new DefaultMutableTreeNode();
         DefaultTreeModel model = new DefaultTreeModel(allExamn);
@@ -326,6 +380,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         revalidate();
     }
 
+    /**
+     * Méthode permettant d'accéder à l'interface de numérisation
+     */
     public void numeriser() {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());
@@ -341,6 +398,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Méthode permettant d'imprimer un examen sélectionné, selon un format définis dans le noyau fonctionnel
+     */
     public void imprimer() {
         try {
             Examen examen = nodeToExam.get(examTree.getLastSelectedPathComponent());

@@ -16,7 +16,12 @@ public class MainWindow extends JFrame {
     private SIR sir;
 
 
-
+    /**
+     * Constructeur de la classe.
+     * Instancie un SIR. Implémente les JOptionPane générant des messages en cas d'erreurs de fermeture du logiciel
+     * ou de vérification du désir de quitter le logiciel
+     *
+     */
     public MainWindow () {
         super(titleMainWindow);
         sir = new SIR();
@@ -43,6 +48,11 @@ public class MainWindow extends JFrame {
 
     public String getIdMed () {return  sir.getPersonneConnecte().getIdMedical(); }
 
+    /**
+     * Méthode permettant d'acceder à la fenêtre suivant la connection en changeant simplement le
+     * contenu de la Frame actuelle
+     * @param args
+     */
     public static void main(String[] args){
         SwingUtilities.invokeLater( () -> {
                 MainWindow  window = new MainWindow();

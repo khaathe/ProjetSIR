@@ -13,7 +13,10 @@ public class Patient {
     private GregorianCalendar naissance;
     private String sexe;
 
-    //Constructeur par défaut de la classe. Permet d'inititaliser tous les attributs à des valeurs par défaut.
+    /**
+     * Constructeur par défaut de la classe. Permet d'inititaliser tous les attributs à des valeurs par défaut.
+     */
+
     public  Patient (){
         idPR = "";
         idPatient = "";
@@ -23,8 +26,11 @@ public class Patient {
         sexe = "";
     }
 
-    //Constructeur permettant d'initialiser tous les attributs de la classe à des valeurs définies.
-    // Affecte à l'attribut sexe la valeur F ou H si elle est réellement trouvée, et I sinon.
+    /**
+     * Constructeur permettant d'initialiser tous les attributs de la classe à des valeurs définies dans les paramètres.
+     * Affecte à l'attribut sexe la valeur F ou H si elle est réellement trouvée, et I sinon.
+     */
+
     public Patient(String idPR, String idPatient, String nom, String prenom, GregorianCalendar naissance, String sexe){
         this.idPR = idPR;
         this.idPatient = idPatient;
@@ -38,38 +44,34 @@ public class Patient {
         this.naissance = naissance;
     }
 
-    //Méthode permettant de modifier l'identifiant du patient en lui affectant une valeur définie dans les paramètres
     public  void setIdPatient (String idPatient) { this.idPatient = idPatient; }
 
-    //Permet de retourner l'identifiant du patient
     public String getIdPatient() {
         return idPatient;
     }
 
-    //Permet de retourner le nom du patient
     public String getNom() {
         return nom;
     }
 
-    //Permet de retourner le sexe du patient
     public String getSexe() {
         return sexe;
     }
 
-    //Permet de retourner le prénom du patient
     public String getPrenom() {
         return prenom;
     }
 
-    //Permet de retourner la date de naissance du patient
     public GregorianCalendar getNaissance() {
         return naissance;
     }
 
-    //Permet de retourner l'identifiant radiologique du patient
     public String getIdPR(){return idPR;}
 
-    //Méthode permettant de retourner l'ensemble des informations concernant le patient dans un string
+    /**
+     *  Méthode permettant de retourner l'ensemble des informations concernant le patient dans un string structuré
+     * @return String
+     */
     public String toString (){
         return idPR + ", "
                 + nom + " " + prenom +", "
@@ -77,8 +79,13 @@ public class Patient {
                 + System.getProperty("line.separator") +", Sexe: "+getSexe();
     }
 
-    //Méthode permettant de générer un identifiant radiologique aléatoirement.
-    // Utilise la méthode Math.random() pour la génération aléatoire, et limite l'identifiant à 15 chiffres au format décimal
+    /**
+     * Méthode permettant de générer un identifiant radiologique aléatoirement.
+     * Utilise la méthode Math.random() pour la génération aléatoire, et limite l'identifiant à 15 chiffres au format décimal
+     * @return String
+     * Le numéro IdPR
+     */
+
     public static String generateIdPR () {
         double random = Math.random();
         random = random * Math.pow(10, 15);
