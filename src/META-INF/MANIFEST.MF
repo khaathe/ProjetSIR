@@ -3,5 +3,5 @@ Class-Path: ij.jar APIHL7.jar morena7.jar pixelmed.jar DicomReader.jar
   morena7_osx.jar morena7_win.jar asprise_scan.jar json-20180813.jar m
  orena_license.jar morena7_launcher.jar bioformats_package.jar mysql-c
  onnector-java-8.0.14.jar forms_rt.jar
-Main-Class: ui.MainWindow
+Main-Class: main.ui.MainWindow
 

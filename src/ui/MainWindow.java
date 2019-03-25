@@ -2,19 +2,23 @@ package ui;
 
 import nf.SIR;
 
-import javax.naming.NamingException;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class MainWindow extends JFrame {
-    private static String title = "SIR";
+
+
+    public static final Dimension MIN_DIM = new Dimension(900, 100);
+
+    private static String titleMainWindow = "SIR";
     private SIR sir;
 
 
 
-    public MainWindow () throws NamingException {
-        super(title);
+    public MainWindow () {
+        super(titleMainWindow);
         sir = new SIR();
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -40,21 +44,15 @@ public class MainWindow extends JFrame {
     public String getIdMed () {return  sir.getPersonneConnecte().getIdMedical(); }
 
     public static void main(String[] args){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run(){
-                MainWindow window = null;
-                try {
-                    window = new MainWindow();
-                } catch (NamingException e) {
-                    e.printStackTrace();
-                }
+        SwingUtilities.invokeLater( () -> {
+                MainWindow  window = new MainWindow();
                 window.setContentPane(new Authentification(window).getConnexionPanel());
+                window.setMinimumSize(MIN_DIM);
                 window.pack();
                 window.setVisible(true);
                 window.setResizable(false);
             }
-        });
+        );
     }
 
     public SIR getSir() {

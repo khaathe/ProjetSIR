@@ -3,17 +3,18 @@ package ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import nf.*;
 import nf.Image;
+import nf.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class AjoutExamen extends JPanel {
@@ -33,6 +34,13 @@ public class AjoutExamen extends JPanel {
     private JLabel dateLabel;
     private JLabel crLabel;
     private JLabel imageChoisieLabel;
+    private JPanel datePanel;
+    private JPanel typeExamPanel;
+    private JPanel servicePanel;
+    private JPanel imagePanel;
+    private JPanel crPanel;
+    private JPanel centerPanel;
+    private JPanel actionPanel;
     private MainWindow mainWindow;
     private DefaultComboBoxModel<TypeExamen> examModel;
     private DefaultComboBoxModel<ServiceHosp> serviceModel;
@@ -56,29 +64,12 @@ public class AjoutExamen extends JPanel {
         remplissageComboService();
 
         initDayComboBox();
+
         initMonthComboBox();
+
         initYearComoBox();
 
-        choisirImageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choisirImage();
-            }
-        });
-
-        annulerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                retourAccueil();
-            }
-        });
-
-        ajouterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                ajouter();
-            }
-        });
+        initListener();
     }
 
 
@@ -120,34 +111,41 @@ public class AjoutExamen extends JPanel {
         Patient patient = ((DMR) accueil.getList().getSelectedValue()).getPatient();
         PersonnelServiceRadio personnelServiceRadio = mainWindow.getSir().getPersonneConnecte();
         String numArchivage = Examen.generateNumArchivage();
-        ArrayList<AbstractImage> listeImage = loadImage(numArchivage);
+        List<AbstractImage> listeImage = loadImage(numArchivage);
         CompteRendu cr = new CompteRendu(numArchivage, crArea.getText());
-        Examen examen = new Examen(date, numArchivage, typeExamen, patient, personnelServiceRadio, serviceHosp, listeImage, cr);
+        Examen examen = new Examen(date, numArchivage, typeExamen, patient, personnelServiceRadio, serviceHosp, cr);
+        examen.setImages(listeImage);
         try {
             mainWindow.getSir().getConn().addExamen(examen);
             DMR dmr = (DMR) accueil.getList().getSelectedValue();
             dmr.ajouterExamen(examen);
-            mainWindow.getSir().getHl7().sendMessage(examen, HL7.END_PAT);
             accueil.displayPatient();
             retourAccueil();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());        }
+        try {
+            mainWindow.getSir().getHl7().sendMessage(examen, HL7.END_PAT);
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Impossible d'envoyer le message HL7 au service : "+examen.getService(), "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
         }
     }
 
     public void choisirImage() {
-        JFileChooser jFileChooser = new JFileChooser();
+        JFileChooser jFileChooser = new JFileChooser("/");
         jFileChooser.setMultiSelectionEnabled(true);
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if (jFileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             listeFichierImage = jFileChooser.getSelectedFiles();
             imageChoisieLabel.setText("Image choisie");
+            choisirImageButton.setBackground(Color.GREEN);
+            choisirImageButton.setForeground(Color.BLACK);
         }
     }
 
-    public ArrayList<AbstractImage> loadImage(String numArchivage) {
-        ArrayList<AbstractImage> listeImage = new ArrayList<>();
+    public List<AbstractImage> loadImage(String numArchivage) {
+        List<AbstractImage> listeImage = new ArrayList<>();
         for (File f : listeFichierImage) {
             String[] regrex = f.getName().split("\\.");
             String extension = regrex[regrex.length - 1].toUpperCase();
@@ -165,8 +163,9 @@ public class AjoutExamen extends JPanel {
             }
             try {
                 image.setImage(f);
+                listeImage.add(image);
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             }
         }
         return listeImage;
@@ -207,8 +206,19 @@ public class AjoutExamen extends JPanel {
         }
     }
 
+    public void initListener (){
+        choisirImageButton.addActionListener( actionEvent -> choisirImage() );
+
+        annulerButton.addActionListener( actionEvent-> retourAccueil() );
+
+        ajouterButton.addActionListener( actionEvent-> ajouter() );
+    }
+
     public void retourAccueil() {
+        DMR dmr = (DMR) (accueil.getList().getSelectedValue());
+        accueil.buildExameTree( dmr.getListeExamen() );
         this.mainWindow.setContentPane(accueil.getMainPanel());
+        this.mainWindow.revalidate();
     }
 
     {

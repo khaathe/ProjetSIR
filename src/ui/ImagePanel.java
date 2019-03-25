@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class ImagePanel extends JPanel {
 
-    private BufferedImage img;
+    private transient BufferedImage img;
 
     //Constructeur de la classe prenant en paramètre la BufferedImage qui s'affichera dans le Panel.
     //Initialisation de cet image
@@ -23,8 +23,10 @@ public class ImagePanel extends JPanel {
     //Renvoie l'image contenue dans le Panel
     public BufferedImage getImg(){ return img; }
 
+
     //Méthode permettant d'optimiser l'affichage de l'image dans le Panel
     //Permet de calculer un ratio horizontal et un vertical
+    @Override
     public void paintComponent (Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);

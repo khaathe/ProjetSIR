@@ -30,11 +30,11 @@ public class Patient {
         this.idPatient = idPatient;
         this.nom = nom;
         this.prenom = prenom;
-
-
-        if(sexe.equalsIgnoreCase("H")|sexe.equalsIgnoreCase("F")){
-        this.sexe=sexe;}
-        else{this.sexe="I";}
+        if( sexe.equalsIgnoreCase("H")
+                || sexe.equalsIgnoreCase("F"))
+            this.sexe=sexe;
+        else
+            this.sexe="I";
         this.naissance = naissance;
     }
 
@@ -71,11 +71,10 @@ public class Patient {
 
     //Méthode permettant de retourner l'ensemble des informations concernant le patient dans un string
     public String toString (){
-        String Newligne=System.getProperty("line.separator");
-        String info = idPR + ", "
+        return idPR + ", "
                 + nom + " " + prenom +", "
-                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime())+Newligne+", Sexe: "+getSexe();
-        return info;
+                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime())
+                + System.getProperty("line.separator") +", Sexe: "+getSexe();
     }
 
     //Méthode permettant de générer un identifiant radiologique aléatoirement.

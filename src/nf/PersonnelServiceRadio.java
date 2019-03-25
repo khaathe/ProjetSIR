@@ -25,8 +25,7 @@ public class PersonnelServiceRadio {
     //Méthode permettant l'affichage d'un string comportant les nom et prénom du personnel dans le cas
     // où il s'agit médecin ou d'un manipulateur radiologique, donc de la forme : "Dr : DUPONT Patrick"
     public String toString (){
-        String info = "Dr " + nom + " " + prenom;
-        return info;
+        return "Dr " + nom + " " + prenom;
     }
 
     //Retourne du nom du personnel
