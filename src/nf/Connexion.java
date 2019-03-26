@@ -24,7 +24,6 @@ public class Connexion {
 
     private static String driver = "com.mysql.cj.jdbc.Driver";
     private String argument = "?serverTimezone=UTC";
-
     private static final String NAME = "prenom";
     private static final String ID_PERSONNEL = "idPersonnel";
 
@@ -32,19 +31,42 @@ public class Connexion {
         con = null;
     }
 
-
+    /**
+     * Permet de se connecter a la base de donnee grace a identifiant et un mot de passe
+     *
+     * @param user
+     *          Correspond au login de l'utilisateur
+     * @param mdp
+     *          Correspond au mot de passe de l'utilisateur
+     * @throws SQLException
+     *          Generee par une erreur sql
+     * @throws ClassNotFoundException
+     *          Generee par la methode forName si la classe demandee n'est pas trouvee
+     */
     public void connection(String user, String mdp) throws SQLException, ClassNotFoundException {
 
         Class.forName(driver);
         con = DriverManager.getConnection(url+argument, user, mdp);
     }
 
-
+    /**
+     * Permet de se deconnecter de la base de donnee
+     *
+     * @throws SQLException
+     *          Generee par une erreur sql
+     */
     public void disconnection() throws SQLException {
 
         con.close();
     }
 
+    /**
+     *  Recupere dans la base de donnee la liste des patients de la base de donnee et en fait une liste de DMR
+     * @return
+     *          Renvoie la liste de tout les DMR
+     * @throws SQLException
+     *          Generee par une erreur sql
+     */
     public List<DMR> getDMR() throws SQLException {
         String query = "SELECT * FROM patient";
         List<DMR> array = new ArrayList<>();
@@ -66,6 +88,15 @@ public class Connexion {
         return array;
     }
 
+    /**
+     * Recupere un personnel du service radio
+     * @param id
+     *          Correspond a l'identifiant du medecin
+     * @return
+     *          Renvoie le personnel correspondant au parametre id
+     * @throws SQLException
+     *          Generee par une erreur sql
+     */
     public PersonnelServiceRadio getPersonnelServiceRadio(String id) throws SQLException {
         String query = "SELECT * FROM personnelhospitalier where idPersonnel=?";
         PersonnelServiceRadio personnel = null;
@@ -86,6 +117,15 @@ public class Connexion {
         return personnel;
     }
 
+    /**
+     * Recupere dans la base de donnee la liste d'examens correspondant au parametre patient
+     * @param patient
+     *          Correspond au patient pour qui on souhaite recuperer les examens
+     * @return
+     *          Renvoie la liste d'examens correspondant a un patient donne
+     * @throws SQLException
+     *  Generee par une erreur sql
+     */
     public List<Examen> getExamen(Patient patient) throws SQLException {
         String query = "SELECT * FROM examen natural join compterendu WHERE idPR=?";
         ArrayList<Examen> listeExamen = new ArrayList<>();
@@ -118,12 +158,28 @@ public class Connexion {
         return listeExamen;
     }
 
+    /**
+     * Ajoute un examen ainsi que le compte-rendu et les images correspondantes, dans la base de donnee
+     * @param examen
+     *         Correspond a l'examen que l'on souhaite ajouter
+     * @throws SQLException
+     *           Generee par une erreur sql
+     * @throws IOException
+     *  Generee par une erreur dans le flux
+     */
     public void addExamen (Examen examen) throws SQLException, IOException {
         insertExamen(examen);
         insertCompteRendu(examen.getCr());
         insertImage(examen.getImages());
     }
 
+    /**
+     * Ajoute un Examen a la base de donnee
+     * @param exam
+     * Correspond a l'examen que l'on souhaite ajouter
+     * @throws SQLException
+     * Generee par une erreur sql
+     */
     public void insertExamen (Examen exam) throws SQLException {
         String query = "INSERT INTO examen (date, idPR, idPersonnel, numArchivage, typeExamen, service) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -141,7 +197,13 @@ public class Connexion {
         }
     }
 
-
+    /**
+     * Ajoute un compte-rendu a la base de donnee
+     * @param cr
+     *  Correspond au compte-rendu que l'on souhaite ajouter
+     * @throws SQLException
+     * Generee par une erreur sql
+     */
 
     public void insertCompteRendu(CompteRendu cr) throws SQLException {
         String query = " insert into compterendu (numArchivage, compteRendu)"
@@ -153,6 +215,13 @@ public class Connexion {
         }
     }
 
+    /**
+     * Ajoute un patient a la base de donnee
+     * @param patient
+     *      Correspond au patient que l'on souhaite ajouter
+     * @throws SQLException
+     * Generee par une erreur sql
+     */
     public void addPatient(Patient patient) throws SQLException{
         String query = "insert into patient (idPR, idP, date, nom, prenom,sexe)"
                 + "values (?, ?, ?, ?, ?, ?)";
@@ -169,24 +238,16 @@ public class Connexion {
 
     }
 
-    public void addPersonnelServiceRadio(PersonnelServiceRadio personnel) throws SQLException {
-        String query = " insert into personnelhospitalier (idPersonnel, nom,prenom, profession)"
-                + " values (?, ?, ?, ?)";
 
-        // create the mysql insert preparedstatement
-        try (PreparedStatement preparedStmt = con.prepareStatement(query)) {
-            preparedStmt.setString(1, personnel.getIdMedical());
-            preparedStmt.setString(2, personnel.getNom());
-            preparedStmt.setString(3, personnel.getPrenom());
-            preparedStmt.setString(4, personnel.getProfessionString());
-
-            // execute the preparedstatement
-            preparedStmt.execute();
-        }
-    }
-
-
-
+    /**
+     * Ajoute une image dans la base de donnee
+     * @param listImage
+     *          Correspond aux images que l'on souhaite ajouter
+     * @throws SQLException
+     *          Generee par une erreur sql
+     * @throws IOException
+     *          Generee par une erreur dans le flux
+     */
     public void insertImage (List<AbstractImage> listImage) throws SQLException, IOException {
         try(PreparedStatement statement = this.con.prepareStatement("INSERT INTO image (numArchivage, numInstance, image, annotation) VALUES (?, ?, ?,?)")) {
             for (AbstractImage image : listImage) {
@@ -204,6 +265,17 @@ public class Connexion {
         }
     }
 
+    /**
+     * Recupere dans la base de donnee la liste des images correspondant au numero d'archivage recherche
+     * @param numArchivage
+     * Correspond au numero d'archivage que l'on souhaite recuperer
+     * @return
+     * Renvoie une liste d'images
+     * @throws SQLException
+     * Generee par une erreur sql
+     * @throws IOException
+     *  Generee par une erreur dans le flux
+     */
     public List<AbstractImage> getImage (String numArchivage) throws SQLException, IOException {
         List<AbstractImage> listImage = new ArrayList<>();
         String query = "select * from image where numArchivage=?";
@@ -225,6 +297,13 @@ public class Connexion {
         return listImage;
     }
 
+    /**
+     * Ajoute une annotation a la base de donnee
+     * @param lesImages
+     * Correspond aux images auxquelles on souhaite ajouter une annotation
+     * @throws SQLException
+     * Generee par une erreur sql
+     */
     public void addAnnotation (List<AbstractImage> lesImages) throws SQLException {
         String query = "update image " +
                 "set annotation=?" +

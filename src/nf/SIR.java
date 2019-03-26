@@ -96,11 +96,12 @@ public class SIR {
      */
     public List<DMR> rechercheDMR (String p){
             List<DMR> dmr = new ArrayList<>();
-            Pattern pattern = Pattern.compile("^" + p + "\\d*");
+            Pattern pattern = Pattern.compile("^" + p + "\\w*",Pattern.CASE_INSENSITIVE);
+
             for (int i = 0; i < this.listeDMR.size(); i++) {
                 Patient patient = this.listeDMR.get(i).getPatient();
-                if (patient.getNom().equalsIgnoreCase(p)
-                        || patient.getPrenom().equalsIgnoreCase(p)
+                if (pattern.matcher(patient.getPrenom()).matches()
+                        || pattern.matcher(patient.getNom()).matches()
                         || pattern.matcher(patient.getIdPR()).matches()
                         || pattern.matcher(patient.getIdPatient()).matches()
                 ) {
