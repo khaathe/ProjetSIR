@@ -18,8 +18,8 @@ public class MainWindow extends JFrame {
 
     /**
      * Constructeur de la classe.
-     * Instancie un SIR. Implémente les JOptionPane générant des messages en cas d'erreurs de fermeture du logiciel
-     * ou de vérification du désir de quitter le logiciel
+     * Instancie un SIR. Implemente les JOptionPane generant des messages en cas d'erreurs de fermeture du logiciel
+     * ou de verification du desir de quitter le logiciel
      *
      */
     public MainWindow () {
@@ -49,8 +49,8 @@ public class MainWindow extends JFrame {
     public String getIdMed () {return  sir.getPersonneConnecte().getIdMedical(); }
 
     /**
-     * Méthode permettant d'acceder à la fenêtre suivant la connection en changeant simplement le
-     * contenu de la Frame actuelle
+     * Methode permettant d'acceder a la fenetre suivant la connection en changeant simplement le
+     * contenu du Panel actuel dans la Frame en attribuant des tailles definies
      * @param args
      */
     public static void main(String[] args){

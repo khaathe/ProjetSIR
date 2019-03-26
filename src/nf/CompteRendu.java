@@ -7,7 +7,7 @@ public class CompteRendu {
 
     /**Constructeur de la classe
      * @param numArchivage et cr
-     *       un numéro d'archivage lui permettant de correspondre à
+     *       un numero d'archivage lui permettant de correspondre a
      *       un examen particulier et un texte en String correspondant au contenu du compte-rendu
      *
      */

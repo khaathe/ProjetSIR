@@ -29,6 +29,11 @@ public class Authentification extends JPanel {
     private JButton connexionButton;
 
 
+    /**
+     * Constructeur de la classe, initialisant la mainWindow affichant le contenu de la fenetre
+     * Et initialise les 2 listener utilises dans l'interface
+     * @param mainWindow
+     */
     public Authentification(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
 
@@ -53,6 +58,11 @@ public class Authentification extends JPanel {
         });
     }
 
+    /**
+     * Methode permettant a l'utilisateur de se connecter
+     * Recupere les string tape dans les TextArea d'identifiant et de mot de passe
+     * Renvoie sur l'interface d'accueil correspondant a la profession de l'utilisateur en cas de succes
+     */
     public void valider() {
         try {
             String id = identifiantTextField.getText();

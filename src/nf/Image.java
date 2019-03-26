@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 public class Image extends AbstractImage {
 
     /**
-     * Constructeur de la classe héritant du constructeur de la mère abstraite AbstractImage
+     * Constructeur de la classe heritant du constructeur de la mere abstraite AbstractImage
      * @param numArchivage
-     * Numéro d'archivage de l'image à considérer
+     * Numero d'archivage de l'image a considerer
      */
     public Image (String numArchivage){
         super(numArchivage);
@@ -19,9 +19,9 @@ public class Image extends AbstractImage {
 
 
     /**
-     * Méthode permettant à la classe de lire l'image choisie en lui donnant le chemin à suivre pour la trouver
+     * Methode permettant a la classe de lire l'image choisie en lui donnant le chemin a suivre pour la trouver
      * @param file
-     * Chemin pour trouver l'image considérée
+     * Chemin pour trouver l'image consideree
      */
 
     public void setImage (File file) {

@@ -183,7 +183,7 @@ public class Numeriseur extends JDialog implements TransferListener {
      * Cette methode affiche l'etat d'avancement de la numerisation dans un label.
      */
     public void transferProgress(int progress) {
-        info.setText("Numerisation à " + progress + "%");
+        info.setText("Numerisation a " + progress + "%");
         info.repaint();
     }
 

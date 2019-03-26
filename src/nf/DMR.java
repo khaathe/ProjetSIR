@@ -10,15 +10,15 @@ public class DMR {
     /**Constructeur de la classe
      * @param patient
      *   Patient auquel appartient le DMR
-     *   Le DMR coontiendra aussi une liste d'examen, initialisée ici
+     *   Le DMR coontiendra aussi une liste d'examen, initialisee ici
      */
     public DMR(Patient patient){
         this.patient = patient;
         listeExamen = new ArrayList<>();
     }
 
-    /** La méthode toString permet de retourner un affichage de la forme : "DMR de : DUPONT Patrick".
-     *  Elle peut être directement appelée dans les interfaces pour faciliter l'affichage de l'identité du patien auquel appartient du DMR
+    /** La methode toString permet de retourner un affichage de la forme : "DMR de : DUPONT Patrick".
+     *  Elle peut etre directement appelee dans les interfaces pour faciliter l'affichage de l'identite du patien auquel appartient du DMR
      * @return String
      */
     public String toString () {
@@ -26,14 +26,14 @@ public class DMR {
     }
 
     /**
-     * Méthode permettant d'ajouter un examen (pris en paramètre) à la liste d'examen du patient listeExamen
+     * Methode permettant d'ajouter un examen (pris en parametre) a la liste d'examen du patient listeExamen
      */
     public void ajouterExamen(Examen exam){
         listeExamen.add(exam);
     }
 
     /**
-     * Méthode permettant d'accéder au patient titulaire du DMR en le retournant
+     * Methode permettant d'acceder au patient titulaire du DMR en le retournant
      * @return Patient
      */
     public Patient getPatient() {
@@ -43,7 +43,7 @@ public class DMR {
     public void setPatient(Patient patient) { this.patient = patient; }
 
     /**
-     * Methode permettant d'accéder à la liste d'examens, en la retournant
+     * Methode permettant d'acceder a la liste d'examens, en la retournant
      * @return la liste d'examen
      */
     public List<Examen> getListeExamen() {
@@ -51,7 +51,7 @@ public class DMR {
     }
 
     /**
-     * Méthode permettant d'affecter une nouvelle liste (celle en paramètre) au DMR considéré.
+     * Methode permettant d'affecter une nouvelle liste (celle en parametre) au DMR considere.
      */
     public void setListeExamen(List<Examen> listeExamen) {
         this.listeExamen = listeExamen;

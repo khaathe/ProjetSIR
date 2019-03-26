@@ -14,7 +14,7 @@ public class Patient {
     private String sexe;
 
     /**
-     * Constructeur par défaut de la classe. Permet d'inititaliser tous les attributs à des valeurs par défaut.
+     * Constructeur par defaut de la classe. Permet d'inititaliser tous les attributs a des valeurs par defaut.
      */
 
     public  Patient (){
@@ -27,8 +27,8 @@ public class Patient {
     }
 
     /**
-     * Constructeur permettant d'initialiser tous les attributs de la classe à des valeurs définies dans les paramètres.
-     * Affecte à l'attribut sexe la valeur F ou H si elle est réellement trouvée, et I sinon.
+     * Constructeur permettant d'initialiser tous les attributs de la classe a des valeurs definies dans les parametres.
+     * Affecte a l'attribut sexe la valeur F ou H si elle est reellement trouvee, et I sinon.
      */
 
     public Patient(String idPR, String idPatient, String nom, String prenom, GregorianCalendar naissance, String sexe){
@@ -69,7 +69,7 @@ public class Patient {
     public String getIdPR(){return idPR;}
 
     /**
-     *  Méthode permettant de retourner l'ensemble des informations concernant le patient dans un string structuré
+     *  Methode permettant de retourner l'ensemble des informations concernant le patient dans un string structure
      * @return String
      */
     public String toString (){
@@ -80,10 +80,10 @@ public class Patient {
     }
 
     /**
-     * Méthode permettant de générer un identifiant radiologique aléatoirement.
-     * Utilise la méthode Math.random() pour la génération aléatoire, et limite l'identifiant à 15 chiffres au format décimal
+     * Methode permettant de generer un identifiant radiologique aleatoirement.
+     * Utilise la methode Math.random() pour la generation aleatoire, et limite l'identifiant a 15 chiffres au format decimal
      * @return String
-     * Le numéro IdPR
+     * Le numero IdPR
      */
 
     public static String generateIdPR () {
