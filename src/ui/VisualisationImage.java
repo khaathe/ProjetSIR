@@ -59,6 +59,15 @@ public class VisualisationImage extends JPanel {
     private ImagePanel imgPanel;
 
 
+    /**
+     * Constructeur de la classe initialisant les composants de l'interface, les listener, et l'accas differentiel
+     * @param mainWindow
+     * Le panel qui contiendra le contenu de la fenetre
+     * @param accueil
+     * Permet d'afficher les images de l'examen selectionne dans l'interface accueil qui precede
+     * @param picture
+     * Liste d'images qui seront affichees dans l'interface
+     */
     public VisualisationImage(MainWindow mainWindow, Accueil accueil, List<AbstractImage> picture) {
         this.mainWindow = mainWindow;
         this.accueil = accueil;
@@ -77,7 +86,10 @@ public class VisualisationImage extends JPanel {
 
     }
 
-
+/**
+ * Initialise l'acces differentiel pour le PH et le manipulateur
+ * Ne modifie que l'image
+ */
     public void initDifferentialAccess() {
         Profession profession = mainWindow.getSir().getPersonneConnecte().getProfession();
         if (profession == Profession.PH)
@@ -88,6 +100,11 @@ public class VisualisationImage extends JPanel {
     }
 
 
+    /**
+     * Initialise tous les composants de la fenetre
+     * Identite de l'utilisateur connecte, date courante, Numero d'archivage de l'examen selectionne
+     * Renvoie la premiere image de la liste
+     */
     public void initComponent() {
         nameDoctorLabel.setText("Mr/Mme " + mainWindow.getSir().getPersonneConnecte().getNom()
                 + " " + mainWindow.getSir().getPersonneConnecte().getPrenom()
@@ -97,7 +114,7 @@ public class VisualisationImage extends JPanel {
 
         Examen examSelect = accueil.getNodeToExam().get(accueil.getExamTree().getLastSelectedPathComponent());
         picture = examSelect.getImages();
-        nbImageLabel.setText("Numéro d'archivage : " + accueil.getNodeToExam().get(accueil.getExamTree().getLastSelectedPathComponent()).getNumArchivage());
+        nbImageLabel.setText("Numero d'archivage : " + accueil.getNodeToExam().get(accueil.getExamTree().getLastSelectedPathComponent()).getNumArchivage());
 
         imgPanel = new ImagePanel(picture.get(pictureSlider.getValue()).getImage());
         picturePanel.add(imgPanel, BorderLayout.CENTER);
@@ -106,6 +123,9 @@ public class VisualisationImage extends JPanel {
         revalidate();
     }
 
+    /**
+     * Reunis l'initialisation de tous les listeners
+     */
     public void initListener() {
 
         validatebutton.addActionListener(actionEvent -> validation());
@@ -151,7 +171,7 @@ public class VisualisationImage extends JPanel {
         iconeDoctorLabel.setText("");
         headPanel.add(iconeDoctorLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nbImageLabel = new JLabel();
-        nbImageLabel.setText("Numéro d'archivage : ");
+        nbImageLabel.setText("Numero d'archivage : ");
         headPanel.add(nbImageLabel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         dateLabel = new JLabel();
         dateLabel.setText("Date : ");
@@ -246,16 +266,24 @@ public class VisualisationImage extends JPanel {
         return mainPanel;
     }
 
+    /**
+     * Methode permettant de modifier le contenu du Panel courant par l'interface d'accueil
+     * apres avoir clique sur le bouton retour
+     */
     public void retourAccueil() {
         try {
             this.mainWindow.setContentPane(accueil.getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
             Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
-            JOptionPane.showMessageDialog(null, "Problème d'interface");
+            JOptionPane.showMessageDialog(null, "Probleme d'interface");
         }
     }
 
+    /**
+     * Methode permettant de modifier le contraste de l'image courante en utilisant
+     * le curseur prevu a cet effet
+     */
     public void contraste() {
         int i = pictureSlider.getValue();
         AbstractImage ig = picture.get(i);
@@ -265,6 +293,10 @@ public class VisualisationImage extends JPanel {
         imgPanel.repaint();
     }
 
+    /**
+     * Methode permettant de modifier l'eclaircissement de l'image courante en utilisant
+     * le curseur prevu a cet effet
+     */
     public void eclaircissement() {
         int i = pictureSlider.getValue();
         AbstractImage ig = picture.get(i);
@@ -274,6 +306,13 @@ public class VisualisationImage extends JPanel {
         imgPanel.repaint();
     }
 
+    /**
+     * Methode permettant de changer de faire pivoter l'image courante de 90° a droite ou
+     * a gauche selon le bouton selectionne
+     * @param e
+     * Recupere la source du bouton clique, pour affecter la valeur rotation a droite ou a gauche
+     * a un nouvel attribut pour appeler les methodes implementees dans le moyau fonctionnel
+     */
     public void rotation(ActionEvent e) {
         int i = pictureSlider.getValue();
         int rotation = 0;
@@ -297,6 +336,10 @@ public class VisualisationImage extends JPanel {
         imgPanel.repaint();
     }
 
+    /**
+     * Methode permettant de retourner l'image courante, en faisant appel a la methode prevue
+     * a cet effet dans le noyau fonctionnel
+     */
     public void retournement() {
         int i = pictureSlider.getValue();
         AbstractImage ig = picture.get(i);
@@ -306,6 +349,12 @@ public class VisualisationImage extends JPanel {
         imgPanel.repaint();
     }
 
+    /**
+     * Methode permettant l'affichage de toutes les images de l'examen une a une
+     * selon la position du curseur prevue pour les faire defiler
+     * Reinitialise les positions des curseurs (de luminosite, contraste) a 0 et autres modifications
+     * realisees sur l'image precedente
+     */
     public void pictureChanged() {
         int i = pictureSlider.getValue();
         BufferedImage imageModif = picture.get(i).getImage();
@@ -320,6 +369,10 @@ public class VisualisationImage extends JPanel {
         revalidate();
     }
 
+    /**
+     * Methode permettant d'enresgistrer l'annotation ajoutee dans la zone de texte prevue a cet effet, si il n'y en
+     * avait pas deja une. N'enregistre pas les modifications apportees aux images
+     */
     public void validation() {
         int i = pictureSlider.getValue();
         String annotation = annotationTextArea.getText();
@@ -340,6 +393,10 @@ public class VisualisationImage extends JPanel {
     }
 
 
+    /**
+     * Permet d'initialiser les JSlider de luminosite, contraste et de defilement des images a des
+     * valeurs qui leur sont adaptees
+     */
     private void createUIComponents() {
         pictureSlider = new JSlider(0, picture.size() - 1, 0);
         Hashtable<Integer, JLabel> positionCursorPctr = new Hashtable<>();

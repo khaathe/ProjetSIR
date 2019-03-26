@@ -71,11 +71,11 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
     /**
      * Constructeur de la classe.
-     * Réalise toutes les initialisation au moment de la construction de la classe : initialise les composants de
-     * la fenêtre, les listes, les Listerner et l'accès différentiel
+     * Realise toutes les initialisation au moment de la construction de la classe : initialise les composants de
+     * la fenetre, les listes, les Listerner et l'acces differentiel
      * @param mainWindow
-     * MainWindow dont le contenu changera en fonction des actions demandées
-     * Changera son contenu selon des actionListener sollicités
+     * MainWindow dont le contenu changera en fonction des actions demandees
+     * Changera son contenu selon des actionListener sollicites
      */
     public Accueil(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -98,8 +98,8 @@ public class Accueil extends JPanel implements PropertyChangeListener {
 
 
     /**
-     * Methode permettant d'initialiser tout les composants de la fenêtre au moment de son ouverture
-     * Avec affichage de l'identité du personnel connecté
+     * Methode permettant d'initialiser tout les composants de la fenetre au moment de son ouverture
+     * Avec affichage de l'identite du personnel connecte
      */
     public void initComponent() {
         nameLabel.setText("Mr/Mme " + mainWindow.getSir().getPersonneConnecte().getNom()
@@ -124,9 +124,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant d'initialiser l'accès différentiel.
-     * Pour cela, rend visibles ou non les boutons permettant d'accéder aux autres interfaces
-     * selon ce que le personnel connecté a la capacité de faire
+     * Methode permettant d'initialiser l'acces differentiel.
+     * Pour cela, rend visibles ou non les boutons permettant d'acceder aux autres interfaces
+     * selon ce que le personnel connecte a la capacite de faire
      */
     public void initDifferentialAccess() {
         switch (mainWindow.getSir().getPersonneConnecte().getProfession()) {
@@ -157,7 +157,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant d'initialiser tout les listener utilisés dans l'interface
+     * Methode permettant d'initialiser tout les listener utilises dans l'interface
      */
     public void initListener() {
 
@@ -225,8 +225,8 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Methode permettant de générer une nouvelle liste des DMR correspondant au résultat
-     * tapé dans la barre de recherche prévue à cet effet
+     * Methode permettant de generer une nouvelle liste des DMR correspondant au resultat
+     * tape dans la barre de recherche prevue a cet effet
      */
     public void nouvelleList() {
         listModel.clear();
@@ -237,7 +237,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant d'initialiser la liste de DMR enregistrés dans le service de radiologie
+     * Methode permettant d'initialiser la liste de DMR enregistres dans le service de radiologie
      */
     public void initList() {
         listModel = new DefaultListModel();
@@ -248,8 +248,8 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant de se déconnecter. Ouver un JOptionPane pour vérifier le désir de déconnexion
-     * puis renvoie sur la fenêtre de connexion
+     * Methode permettant de se deconnecter. Ouver un JOptionPane pour verifier le desir de deconnexion
+     * puis renvoie sur la fenetre de connexion
      */
     public void deconnection() {
         int res = JOptionPane.showConfirmDialog(null, "Etes vous sur de vouloir vous deconnecter ?", "Confirmer deconnexion", JOptionPane.OK_CANCEL_OPTION);
@@ -268,9 +268,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant d'ouvrir l'interface dans laquelle pourront être visualisées les images
-     * de l'exmane sélectionné. Nécessite qu'un examen soit sélectionné ET qu'il contienne des images
-     * sinon un JOptionPane s'ouvre pour prévenir que ce n'est pas le cas
+     * Methode permettant d'ouvrir l'interface dans laquelle pourront etre visualisees les images
+     * de l'exmane selectionne. Necessite qu'un examen soit selectionne ET qu'il contienne des images
+     * sinon un JOptionPane s'ouvre pour prevenir que ce n'est pas le cas
      */
     public void openImage() {
         try {
@@ -292,9 +292,9 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant d'afficher le compte-rendu de l'examen sélectionné dans une
-     * nouvelle zone prévue à cet effet.
-     * Nécessite que l'examen possède un compte-rendu, sinon rien ne s'afficher
+     * Methode permettant d'afficher le compte-rendu de l'examen selectionne dans une
+     * nouvelle zone prevue a cet effet.
+     * Necessite que l'examen possede un compte-rendu, sinon rien ne s'afficher
      */
     public void affichageCR() {
         try {
@@ -313,7 +313,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant d'accéder à la fenêtre d'ajout d'examen.
+     * Methode permettant d'acceder a la fenetre d'ajout d'examen.
      */
     public void openAjouterExam() {
         try {
@@ -321,13 +321,13 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             this.mainWindow.revalidate();
         } catch (Exception e) {
             Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
-            JOptionPane.showMessageDialog(null, "Problème d'interface");
+            JOptionPane.showMessageDialog(null, "Probleme d'interface");
         }
     }
 
     /**
-     * Méthode permettant l'affichage du DMR du patient sélectionné dans la liste, donc de la liste
-     * d'examens qu'il contient sous forme d'arbre dans une zone prévue à effet
+     * Methode permettant l'affichage du DMR du patient selectionne dans la liste, donc de la liste
+     * d'examens qu'il contient sous forme d'arbre dans une zone prevue a effet
      */
     public void displayPatient() {
         crPanel.setVisible(false);
@@ -358,10 +358,10 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant de générer une liste d'examens sous forme d'arbre, avec toutes les
-     * informations relatives à l'examen présentées à chaque noeud
+     * Methode permettant de generer une liste d'examens sous forme d'arbre, avec toutes les
+     * informations relatives a l'examen presentees a chaque noeud
      * @param listeExamen
-     * La liste d'examen d'un patient à afficher, récupérée dans la base de données
+     * La liste d'examen d'un patient a afficher, recuperee dans la base de donnees
      */
     public void buildExameTree(List<Examen> listeExamen) {
         DefaultMutableTreeNode allExamn = new DefaultMutableTreeNode();
@@ -381,7 +381,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant d'accéder à l'interface de numérisation
+     * Methode permettant d'acceder a l'interface de numerisation
      */
     public void numeriser() {
         try {
@@ -399,7 +399,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Méthode permettant d'imprimer un examen sélectionné, selon un format définis dans le noyau fonctionnel
+     * Methode permettant d'imprimer un examen selectionne, selon un format definis dans le noyau fonctionnel
      */
     public void imprimer() {
         try {
@@ -420,6 +420,10 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Methode permettatn d'admettre un patient en SIR, en faisant appel a la methode admitPatient() du noyau fonctionnel
+     * Reinitialise le bouton Admission a sa couleur d'origine une fois le patient admis
+     */
     public void admission() {
         String errorAdmin = "Erreur admission";
         try {
@@ -432,7 +436,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
             JOptionPane.showMessageDialog(null, "Aucun patient a admettre", errorAdmin, JOptionPane.ERROR_MESSAGE);
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
-            JOptionPane.showMessageDialog(null, "Ce patient a déjà été admit", errorAdmin, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ce patient a deja ete admit", errorAdmin, JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             JOptionPane.showMessageDialog(null, e.getMessage(), errorAdmin, JOptionPane.ERROR_MESSAGE);
@@ -508,7 +512,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         southPanel.setLayout(new GridLayoutManager(1, 5, new Insets(0, 0, 0, 0), -1, -1));
         centrePanel.add(southPanel, BorderLayout.SOUTH);
         accesImageButton = new JButton();
-        accesImageButton.setText("Accès images");
+        accesImageButton.setText("Acces images");
         southPanel.add(accesImageButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ajoutExamButton = new JButton();
         ajoutExamButton.setText("Ajouter un examen");
@@ -520,7 +524,7 @@ public class Accueil extends JPanel implements PropertyChangeListener {
         imprimerButton.setText("imprimer");
         southPanel.add(imprimerButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         crButton = new JButton();
-        crButton.setText("Accès CR");
+        crButton.setText("Acces CR");
         southPanel.add(crButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         patientPanel = new JPanel();
         patientPanel.setLayout(new BorderLayout(0, 0));

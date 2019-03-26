@@ -18,8 +18,8 @@ public class Examen {
     private ServiceHosp service;
 
     /**
-     * Constructeur par défaut de la classe Examen. Ne prend pas de paramètres et initialise tous les
-     *     attributs à des valeurs par défaut à l'exception de la liste d'images et du compte-rendu
+     * Constructeur par defaut de la classe Examen. Ne prend pas de parametres et initialise tous les
+     *     attributs a des valeurs par defaut a l'exception de la liste d'images et du compte-rendu
      */
     public Examen() {
         date = new GregorianCalendar();
@@ -31,7 +31,7 @@ public class Examen {
     }
 
     /**
-     * Constructeur permettant d'initialiser tous les attributs à des valeurs définies dans les paramètres et d'instanciation la liste d'images
+     * Constructeur permettant d'initialiser tous les attributs a des valeurs definies dans les parametres et d'instanciation la liste d'images
      */
     public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service, CompteRendu cr)
         {
@@ -46,7 +46,7 @@ public class Examen {
         }
 
     /**
-     * Constructeur permettant d'initialiser les attributs à des valeurs définies, à l'exception de la liste d'images et du compte-rendu
+     * Constructeur permettant d'initialiser les attributs a des valeurs definies, a l'exception de la liste d'images et du compte-rendu
      */
     public Examen(GregorianCalendar date, String numArchivage, TypeExamen typeExamen, Patient patient, PersonnelServiceRadio praticien, ServiceHosp service)
         {
@@ -59,11 +59,11 @@ public class Examen {
         }
 
     /**
-     * Méthode permettant d'ajouter une image à laliste d'image présente dans l'examen.
-     * Vérifie que l'image à ajouter n'est pas déjà présente
+     * Methode permettant d'ajouter une image a laliste d'image presente dans l'examen.
+     * Verifie que l'image a ajouter n'est pas deja presente
      * dans la liste. Si elle y est, ne l'ajoute pas, sinon oui.
      * @param image
-     * L'image à ajouter
+     * L'image a ajouter
      */
         public void ajouterImage (AbstractImage image){
                 if (!images.contains(image)) {
@@ -72,10 +72,10 @@ public class Examen {
             }
 
     /**
-     *  méthode permettant de générer et renvoyer un numéro d'archivage aléatoire pour l'examen. Utilise la méthode random() pour le générer
-     *  aléatoirement et restreint un format de type décimal limité à 15 chiffres, pour être conforme à la base de données
+     *  methode permettant de generer et renvoyer un numero d'archivage aleatoire pour l'examen. Utilise la methode random() pour le generer
+     *  aleatoirement et restreint un format de type decimal limite a 15 chiffres, pour etre conforme a la base de donnees
      * @return String
-     * Le numéro d'archivage généré
+     * Le numero d'archivage genere
      */
             public static String generateNumArchivage () {
                 double random = Math.random();
@@ -87,8 +87,8 @@ public class Examen {
 
 
     /**
-     * La méthode toString permet de retourner un affichage de la forme : "Examen du : 1997-05-19" en récupérant la date de l'attribut date.
-     * Elle peut être directement appelée dans les interfaces pour faciliter l'affichage de la date de l'examen
+     * La methode toString permet de retourner un affichage de la forme : "Examen du : 1997-05-19" en recuperant la date de l'attribut date.
+     * Elle peut etre directement appelee dans les interfaces pour faciliter l'affichage de la date de l'examen
      * @return String
      */
             public String toString () {
@@ -128,7 +128,7 @@ public class Examen {
             }
 
     /**
-     * Méthode permettant d'ajouter une image de type AbstractImage (prise en paramètre) dans la liste d'images.
+     * Methode permettant d'ajouter une image de type AbstractImage (prise en parametre) dans la liste d'images.
      */
             public void addImage (AbstractImage image){
                 images.add(image);

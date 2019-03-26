@@ -303,7 +303,7 @@
               <enabled value="true"/>
               <font name="DejaVu Sans" size="16" style="0"/>
               <foreground color="-1"/>
-              <text value="Accès images"/>
+              <text value="Acces images"/>
             </properties>
           </component>
           <component id="ca5c2" class="javax.swing.JButton" binding="ajoutExamButton">

@@ -9,10 +9,10 @@ public class ImagePanel extends JPanel {
     private transient BufferedImage img;
 
     /**
-     * Constructeur de la classe prenant en paramètre la BufferedImage qui s'affichera dans le Panel.
+     * Constructeur de la classe prenant en parametre la BufferedImage qui s'affichera dans le Panel.
      *     Initialisation de cet image
      * @param img
-     * L'image à afficher dans le panel
+     * L'image a afficher dans le panel
      */
 
     public ImagePanel(BufferedImage img){
@@ -28,13 +28,13 @@ public class ImagePanel extends JPanel {
 
 
     /**
-     * Méthode permettant d'optimiser l'affichage de l'image dans le Panel
-     * Permet de calculer un ratio horizontal et un vertical pour mieux gérer la place de l'image dans le panel
+     * Methode permettant d'optimiser l'affichage de l'image dans le Panel
+     * Permet de calculer un ratio horizontal et un vertical pour mieux gerer la place de l'image dans le panel
      * @param g
      *
      */
-
     @Override
+
     public void paintComponent (Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);

@@ -47,7 +47,13 @@ public class AjoutExamen extends JPanel {
     private Accueil accueil;
     private File[] listeFichierImage;
 
-
+    /**
+     * Constructeur de la classe, permettant d'initialiser les attributs mainWindow et accueil
+     * Et intialise l'ensemble des composants, et listerner
+     * @param mainWindow
+     * Une nouvelle mainWindow traduisant le contenu du Panel
+     * @param accueil
+     */
     public AjoutExamen(MainWindow mainWindow, Accueil accueil) {
         this.mainWindow = mainWindow;
         this.accueil = accueil;
@@ -73,11 +79,19 @@ public class AjoutExamen extends JPanel {
     }
 
 
+    /**
+     * Methode permettant de creer le nouvel examen apres verification de sa conformite
+     */
     public void ajouter() {
         if (isAllFIeldValid())
             creationExam();
     }
 
+    /**
+     * Methode permettant de verifier si toutes les cases d'elements (necessaires a la creation
+     * d'un nouvel examen dans la base de donnees) sont bien remplis et valides
+     * @return booleen attestant de cette condition ou non
+     */
     public boolean isAllFIeldValid() {
         boolean valid = false;
         if (checkDate() && !(crArea.getText().equals("")) && listeFichierImage != null)
@@ -87,6 +101,11 @@ public class AjoutExamen extends JPanel {
         return valid;
     }
 
+    /**
+     * Methode verifiant que la date rentree pour le nouveau examen grâce aux comboBox
+     * est bien valide
+     * @return booleen verifiant cette condition ou non
+     */
     public boolean checkDate() {
         boolean check = true;
         int day = (int) dayComboBox.getSelectedItem();
@@ -100,6 +119,9 @@ public class AjoutExamen extends JPanel {
         return check;
     }
 
+    /**
+     * Methode permettant de creer et ajouter le nouvel examen a la base de donnees
+     */
     public void creationExam() {
         GregorianCalendar date = new GregorianCalendar();
         date.set(GregorianCalendar.DAY_OF_MONTH, (int) dayComboBox.getSelectedItem());
@@ -132,6 +154,10 @@ public class AjoutExamen extends JPanel {
         }
     }
 
+    /**
+     * Methode permettant de selectionner l'image correspondant au nouvel examen a l'aide
+     *  d'un JFileChooser, permettant l'exploration des fichiers internes a la machine
+     */
     public void choisirImage() {
         JFileChooser jFileChooser = new JFileChooser("/");
         jFileChooser.setMultiSelectionEnabled(true);
@@ -144,6 +170,15 @@ public class AjoutExamen extends JPanel {
         }
     }
 
+    /**
+     * Methode permettant de telecharger dans le nouvel examen, l'image selectionnee (ou les images)
+     * dans l'explorateur de fichier de la machine. Lui/leur attribut l'extension correspondante
+     * @param numArchivage
+     * Realise cette action pour chaque image ayant ce numero d'archivage (les images etant ensuite differenciees
+     * par leur numero d'instance, au sein d'un meme archivage
+     * @return
+     * Renvoie la liste d'images alors telechargees
+     */
     public List<AbstractImage> loadImage(String numArchivage) {
         List<AbstractImage> listeImage = new ArrayList<>();
         for (File f : listeFichierImage) {
@@ -171,6 +206,10 @@ public class AjoutExamen extends JPanel {
         return listeImage;
     }
 
+    /**
+     * Methode permettant le remplissage de la comboBox type Examen, en fonction de ce qui est
+     * specifie dans le noyau fonctionnel
+     */
     public void remplissageComboTypeExam() {
         for (TypeExamen typeExamen : TypeExamen.values()) {
             if (!typeExamen.equals(TypeExamen.UNKNOWN))
@@ -178,7 +217,10 @@ public class AjoutExamen extends JPanel {
         }
     }
 
-
+    /**
+     * Methode permettant le remplissage de la comboBox service hospitalier ayant demande l'examen,
+     * en fonction de ce qui est specifie dans le noyau fonctionnel
+     */
     public void remplissageComboService() {
         for (ServiceHosp serviceHosp : ServiceHosp.values()) {
             if (!serviceHosp.equals(ServiceHosp.UNKNOWN))
@@ -186,18 +228,28 @@ public class AjoutExamen extends JPanel {
         }
     }
 
+    /**
+     * Methode permettant de remplir la comboBox de choix de jour par des entiers
+     * compris entre 1 et 31
+     */
     public void initDayComboBox() {
         for (int i = 1; i <= 31; i++) {
             dayComboBox.addItem(i);
         }
     }
-
+    /**
+     * Methode permettant de remplir la comboBox de choix de mois par des entiers
+     * compris entre 1 et 12
+     */
     public void initMonthComboBox() {
         for (int i = 1; i <= 12; i++) {
             monthComboBox.addItem(i);
         }
     }
-
+    /**
+     * Methode permettant de remplir la comboBox de choix d'annee par des entiers
+     * compris entre 1950 et l'annee courante
+     */
     public void initYearComoBox() {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int end = 1950;
@@ -206,6 +258,10 @@ public class AjoutExamen extends JPanel {
         }
     }
 
+    /**
+     * Methode permettant d'initialiser tout les listener qui seront ensuite utilises en cliquant
+     * sur les boutons correspondant
+     */
     public void initListener (){
         choisirImageButton.addActionListener( actionEvent -> choisirImage() );
 
@@ -214,6 +270,10 @@ public class AjoutExamen extends JPanel {
         ajouterButton.addActionListener( actionEvent-> ajouter() );
     }
 
+    /**
+     * Methode permettant de revenir a l'interface d'accueil en modifiant le contenu de la fenetre courante
+     * par celui de la fenetre d'accueil
+     */
     public void retourAccueil() {
         DMR dmr = (DMR) (accueil.getList().getSelectedValue());
         accueil.buildExameTree( dmr.getListeExamen() );
