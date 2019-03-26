@@ -65,6 +65,8 @@ public class Accueil extends JPanel implements PropertyChangeListener {
     private JLabel crAnnonceLabel;
     private JPanel southPanel;
     private JButton resetButton;
+    private JScrollPane examScrollPane;
+    private JScrollPane crScrollPane;
     private MainWindow mainWindow;
     private HashMap<DefaultMutableTreeNode, Examen> nodeToExam;
 

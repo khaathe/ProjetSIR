@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 public class MainWindow extends JFrame {
 
 
-    public static final Dimension MIN_DIM = new Dimension(900, 100);
+    public static final Dimension MIN_DIM = new Dimension(900, 350);
 
     private static String titleMainWindow = "SIR";
     private SIR sir;

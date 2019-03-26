@@ -247,7 +247,7 @@
                           </component>
                         </children>
                       </grid>
-                      <scrollpane id="fe8eb">
+                      <scrollpane id="fe8eb" binding="crScrollPane">
                         <constraints border-constraint="Center"/>
                         <properties/>
                         <border type="none"/>
@@ -266,7 +266,7 @@
                       </scrollpane>
                     </children>
                   </grid>
-                  <scrollpane id="6330b">
+                  <scrollpane id="6330b" binding="examScrollPane">
                     <constraints border-constraint="West"/>
                     <properties/>
                     <border type="none"/>

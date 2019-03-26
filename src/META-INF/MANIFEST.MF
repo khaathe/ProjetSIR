@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: forms_rt.jar APIHL7.jar morena7.jar morena7_win.jar morena
- _license.jar mysql-connector-java-8.0.14.jar
-Main-Class: ui.MainWindow
-
