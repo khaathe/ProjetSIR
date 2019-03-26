@@ -32,12 +32,16 @@ public class Connexion {
         con = null;
     }
 
+
     public void connection(String user, String mdp) throws SQLException, ClassNotFoundException {
+
         Class.forName(driver);
         con = DriverManager.getConnection(url+argument, user, mdp);
     }
 
+
     public void disconnection() throws SQLException {
+
         con.close();
     }
 

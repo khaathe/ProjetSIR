@@ -13,9 +13,11 @@ public class Patient {
     private GregorianCalendar naissance;
     private String sexe;
 
+
     /**
      * Constructeur par defaut de la classe. Permet d'inititaliser tous les attributs a des valeurs par defaut.
      */
+
 
     public  Patient (){
         idPR = "";
@@ -30,7 +32,6 @@ public class Patient {
      * Constructeur permettant d'initialiser tous les attributs de la classe a des valeurs definies dans les parametres.
      * Affecte a l'attribut sexe la valeur F ou H si elle est reellement trouvee, et I sinon.
      */
-
     public Patient(String idPR, String idPatient, String nom, String prenom, GregorianCalendar naissance, String sexe){
         this.idPR = idPR;
         this.idPatient = idPatient;
@@ -85,7 +86,6 @@ public class Patient {
      * @return String
      * Le numero IdPR
      */
-
     public static String generateIdPR () {
         double random = Math.random();
         random = random * Math.pow(10, 15);

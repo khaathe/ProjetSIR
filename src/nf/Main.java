@@ -1,21 +1,26 @@
 package nf;
 
 
+
 import library.interfaces.ClientHL7;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+
 public class Main {
+
+
+
 
    public static void main(String[] args) throws Exception {
        /* GregorianCalendar g= new GregorianCalendar();
         g.set(1900,03,05);
         c.connection("robertamandine","171197Ar");
-       c.disconnection();*/
+       c.disconnection();*/}
       GregorianCalendar g = new GregorianCalendar();
-      g.set(1900, 03, 05);
+
 
       Patient p = new Patient("506", "81", "Dancelme", "Loic", g, "errgkvjbre");
       PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio("111588", "Nom", "Prenom", Profession.PH);
@@ -42,11 +47,8 @@ public class Main {
       );
 
 
-       /*HL7 hl7=new HL7();
-       hl7.sendMessage(examen, HL7.ADMIT_PATIENT);}}
-      /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
        //cette methode ne sert qu'a des fin des tests
         HL7 hl7 = new HL7();
         Patient patient = new Patient(
@@ -73,6 +75,6 @@ public class Main {
                 ServiceHosp.UNKNOWN,
                 new CompteRendu("120384261063482", "")
         );
-        hl7.sendMessage(examen, HL7.ADMIT_PATIENT);*/
-   }
+        hl7.sendMessage(examen, HL7.ADMIT_PATIENT);
+   }*/
 }
