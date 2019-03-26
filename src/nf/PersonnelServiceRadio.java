@@ -6,6 +6,9 @@ public class PersonnelServiceRadio {
     private String idMedical;
     private Profession profession;
 
+    /**
+     * Constructeur par défaut initialisant tous les attributs de la classe à des valeurs par défaut
+     */
     public PersonnelServiceRadio (){
         nom = "";
         prenom = "";
@@ -13,7 +16,9 @@ public class PersonnelServiceRadio {
         profession = Profession.UNKNOWN;
     }
 
-
+    /**
+     * Constructeur permettant d'initialiser tous les attributs de la classe à des valeurs définies en paramètres
+     */
     public PersonnelServiceRadio(String idMedical, String nom, String prenom, Profession profession) {
         this.idMedical = idMedical;
         this.nom = nom;
@@ -21,9 +26,13 @@ public class PersonnelServiceRadio {
         this.profession = profession;
     }
 
+    /**
+     *  Méthode permettant l'affichage d'un string comportant les nom et prénom du personnel dans le cas
+     *  où il s'agit médecin ou d'un manipulateur radiologique, donc de la forme : "Dr : DUPONT Patrick"
+     * @return String
+     */
     public String toString (){
-        String info = "Dr " + nom + " " + prenom;
-        return info;
+        return "Dr " + nom + " " + prenom;
     }
 
     public String getNom() {
@@ -53,6 +62,12 @@ public class PersonnelServiceRadio {
     public Profession getProfession() {
         return profession;
     }
+
+    /**
+     *  Méthode permettant de retourner la profession sous forme d'un string.
+     *  Renvoi "secrétaire" dans le cas des sécrétaires médicales, et l'intitulé de la profession
+     *  comme décrite dans l'énumération Profession pour les deux autres types d'utilisateurs.
+     */
     public String getProfessionString(){
         Profession p;
         String s;
@@ -63,6 +78,7 @@ public class PersonnelServiceRadio {
         else{s=p.toString();}
         return s;
     }
+
     public void setProfession(Profession profession) {
         this.profession = profession;
     }

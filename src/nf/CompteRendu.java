@@ -1,13 +1,19 @@
 package nf;
 
 public class CompteRendu {
-    private String compteRendu;
+    private String cr;
     private String numArchivage;
 
 
-    public CompteRendu(String numArchivage, String compteRendu){
+    /**Constructeur de la classe
+     * @param numArchivage et cr
+     *       un numéro d'archivage lui permettant de correspondre à
+     *       un examen particulier et un texte en String correspondant au contenu du compte-rendu
+     *
+     */
+    public CompteRendu(String numArchivage, String cr){
         this.numArchivage=numArchivage;
-        this.compteRendu= compteRendu;
+        this.cr= cr;
     }
 
     public String getNumArchivage() {
@@ -15,7 +21,7 @@ public class CompteRendu {
     }
 
     public String getCompteRendu() {
-        return compteRendu;
+        return cr;
     }
 
 }

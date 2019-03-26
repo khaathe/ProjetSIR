@@ -14,6 +14,10 @@ public class Patient {
     private String sexe;
 
 
+    /**
+     * Constructeur par défaut de la classe. Permet d'inititaliser tous les attributs à des valeurs par défaut.
+     */
+
 
     public  Patient (){
         idPR = "";
@@ -25,16 +29,17 @@ public class Patient {
     }
 
 
+
     public Patient(String idPR, String idPatient, String nom, String prenom, GregorianCalendar naissance, String sexe){
         this.idPR = idPR;
         this.idPatient = idPatient;
         this.nom = nom;
         this.prenom = prenom;
-
-
-        if(sexe.equalsIgnoreCase("H")|sexe.equalsIgnoreCase("F")){
-        this.sexe=sexe;}
-        else{this.sexe="I";}
+        if( sexe.equalsIgnoreCase("H")
+                || sexe.equalsIgnoreCase("F"))
+            this.sexe=sexe;
+        else
+            this.sexe="I";
         this.naissance = naissance;
     }
 
@@ -62,13 +67,23 @@ public class Patient {
 
     public String getIdPR(){return idPR;}
 
+    /**
+     *  Méthode permettant de retourner l'ensemble des informations concernant le patient dans un string structuré
+     * @return String
+     */
     public String toString (){
-        String Newligne=System.getProperty("line.separator");
-        String info = idPR + ", "
+        return idPR + ", "
                 + nom + " " + prenom +", "
-                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime())+Newligne+", Sexe: "+getSexe();
-        return info;
+                + "Ne le : " + new SimpleDateFormat("yyyy-MM-dd").format(naissance.getTime())
+                + System.getProperty("line.separator") +", Sexe: "+getSexe();
     }
+
+    /**
+     * Méthode permettant de générer un identifiant radiologique aléatoirement.
+     * Utilise la méthode Math.random() pour la génération aléatoire, et limite l'identifiant à 15 chiffres au format décimal
+     * @return String
+     * Le numéro IdPR
+     */
 
     public static String generateIdPR () {
         double random = Math.random();

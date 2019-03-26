@@ -1,22 +1,22 @@
-package  ui;
+package ui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import nf.AbstractImage;
 import nf.Examen;
 import nf.Image;
+import nf.Profession;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VisualisationImage extends JPanel {
     private JPanel mainPanel;
@@ -25,7 +25,6 @@ public class VisualisationImage extends JPanel {
     private JCheckBox inversionCheckBox;
     private JCheckBox retournementCheckBox;
     private JTextArea annotationTextArea;
-    private JButton impressionbutton;
     private JButton validatebutton;
     private JButton annulebutton;
     private JPanel headPanel;
@@ -47,6 +46,7 @@ public class VisualisationImage extends JPanel {
     private JLabel pictureLabel;
     private JLabel progressionContrasteLabel;
     private JPanel picturePanel;
+    private JPanel actionPanel;
     private MainWindow mainWindow;
     private List<AbstractImage> picture;
     private Accueil accueil;
@@ -57,8 +57,6 @@ public class VisualisationImage extends JPanel {
     static final int LUMINOSITE_MAX = 100;
     static final int LUMINOSITE_INIT = 0;
     private ImagePanel imgPanel;
-    private Graphics2D g;
-    private ImageIcon imageIcon;
 
 
     public VisualisationImage(MainWindow mainWindow, Accueil accueil, List<AbstractImage> picture) {
@@ -67,9 +65,11 @@ public class VisualisationImage extends JPanel {
         this.picture = picture;
 
         $$$setupUI$$$();
+
         initComponent();
 
         initListener();
+
         initDifferentialAccess();
 
         annotationTextArea.addComponentListener(new ComponentAdapter() {
@@ -79,16 +79,11 @@ public class VisualisationImage extends JPanel {
 
 
     public void initDifferentialAccess() {
-        switch (mainWindow.getSir().getPersonneConnecte().getProfession()) {
-
-            case PH:
+        Profession profession = mainWindow.getSir().getPersonneConnecte().getProfession();
+        if (profession == Profession.PH)
                 iconeDoctorLabel.setIcon(new ImageIcon("resources/iconeMedecin.png"));
-                break;
-
-            case MANIPULATEUR:
-                iconeDoctorLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
-                break;
-        }
+        else if (profession == Profession.MANIPULATEUR)
+            iconeDoctorLabel.setIcon(new ImageIcon("resources/iconeManipulateur.png"));
         mainWindow.revalidate();
     }
 
@@ -113,68 +108,23 @@ public class VisualisationImage extends JPanel {
 
     public void initListener() {
 
-        validatebutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) { //NE FONCTIONNE PAS : PB DE NUMARCHIVAGE, NE VEUT PAS QUE CE SOIT LE MEME
-                validation();
-            }
-        });
+        validatebutton.addActionListener(actionEvent -> validation());
 
-        retournementCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                retournement();
-            }
-        });
+        retournementCheckBox.addActionListener(actionEvent -> retournement());
 
-        inversionCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                inversion();
-            }
-        });
+        inversionCheckBox.addActionListener(actionEvent -> inversion());
 
-        buttonRight.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                rotation(actionEvent);
-            }
-        });
+        buttonRight.addActionListener(actionEvent -> rotation(actionEvent));
 
-        buttonLeft.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                rotation(actionEvent);
-            }
-        });
+        buttonLeft.addActionListener(actionEvent -> rotation(actionEvent));
 
-        ecalircissementSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                eclaircissement();
-            }
-        });
+        ecalircissementSlider.addChangeListener(changeEvent -> eclaircissement());
 
-        pictureSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                pictureChanged();
-            }
-        });
+        pictureSlider.addChangeListener(changeEvent -> pictureChanged());
 
-        constrastSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                contraste();
-            }
-        });
+        constrastSlider.addChangeListener(changeEvent -> contraste());
 
-        annulebutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                retourAccueil();
-            }
-        });
+        annulebutton.addActionListener(actionEvent -> retourAccueil());
     }
 
     /**
@@ -251,11 +201,9 @@ public class VisualisationImage extends JPanel {
         leftRotationLabel.setText("");
         rotationPanel.add(leftRotationLabel, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         buttonRight = new JButton();
-        buttonRight.setIcon(new ImageIcon(getClass().getResource("/iconeRotationDroite.png")));
         buttonRight.setText("");
         rotationPanel.add(buttonRight, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         buttonLeft = new JButton();
-        buttonLeft.setIcon(new ImageIcon(getClass().getResource("/iconeRotationGauche.png")));
         buttonLeft.setInheritsPopupMenu(true);
         buttonLeft.setText("");
         rotationPanel.add(buttonLeft, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -277,9 +225,6 @@ public class VisualisationImage extends JPanel {
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel1, BorderLayout.SOUTH);
-        impressionbutton = new JButton();
-        impressionbutton.setText("Imprimer");
-        panel1.add(impressionbutton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         validatebutton = new JButton();
         validatebutton.setText("Ajouter annotation");
         panel1.add(validatebutton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -306,7 +251,7 @@ public class VisualisationImage extends JPanel {
             this.mainWindow.setContentPane(accueil.getMainPanel());
             this.mainWindow.revalidate();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             JOptionPane.showMessageDialog(null, "Problème d'interface");
         }
     }
@@ -352,17 +297,6 @@ public class VisualisationImage extends JPanel {
         imgPanel.repaint();
     }
 
-    public void ajouterAnnotation() {
-        int i = pictureSlider.getValue();
-        String annotation = annotationTextArea.getText();
-        picture.get(i).setAnnotation(annotation);
-        try {
-            mainWindow.getSir().getConn().addAnnotation(picture);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        revalidate();
-    }
     public void retournement() {
         int i = pictureSlider.getValue();
         AbstractImage ig = picture.get(i);
@@ -394,25 +328,11 @@ public class VisualisationImage extends JPanel {
             try {
                 mainWindow.getSir().getConn().addAnnotation(picture);
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getAnonymousLogger().log(Level.WARNING, e.getMessage());
             }
             revalidate();
         } else
             JOptionPane.showMessageDialog(null, "Modification des annotations non autorise", "Interdiction de modifier", JOptionPane.ERROR_MESSAGE);
-       /* Image newImg = new Image(picture.get(pictureSlider.getValue()).getNumArchivage());
-        newImg.setNumInstance(picture.get(pictureSlider.getValue()).getNumInstance() + 10);
-        newImg.setAnnotation(annotation);
-        picture.add(newImg);
-        constrastSlider.setValue(picture.get(pictureSlider.getValue()).getContraste());
-        ecalircissementSlider.setValue(picture.get(pictureSlider.getValue()).getLuminosite());
-        inversionCheckBox.setSelected(picture.get(pictureSlider.getValue()).isInverser());
-        retournementCheckBox.setSelected(picture.get(pictureSlider.getValue()).isRetourner());
-        revalidate();
-        try {
-            mainWindow.getSir().getConn().insertImage(picture);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
 
     public JPanel getGeneralPanel() {
@@ -421,12 +341,9 @@ public class VisualisationImage extends JPanel {
 
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
-
         pictureSlider = new JSlider(0, picture.size() - 1, 0);
-        Hashtable<Integer, JLabel> positionCursorPctr = new Hashtable<Integer, JLabel>();
+        Hashtable<Integer, JLabel> positionCursorPctr = new Hashtable<>();
         positionCursorPctr.put(0, new JLabel("1"));
-        //position.put(CONTRASTE_MAX / 2, new JLabel("2,5"));
         positionCursorPctr.put(picture.size() - 1, new JLabel(String.valueOf(picture.size())));
         pictureSlider.setLabelTable(positionCursorPctr);
         pictureSlider.setPaintLabels(true);
@@ -434,11 +351,9 @@ public class VisualisationImage extends JPanel {
         pictureSlider.setMinorTickSpacing(1);
         pictureSlider.setPaintTicks(true);
 
-
         constrastSlider = new JSlider(CONTRASTE_MIN, CONTRASTE_MAX, CONTRASTE_INIT);
-        Hashtable<Integer, JLabel> position = new Hashtable<Integer, JLabel>();
+        Hashtable<Integer, JLabel> position = new Hashtable<>();
         position.put(CONTRASTE_MIN, new JLabel("0"));
-        //position.put(CONTRASTE_MAX / 2, new JLabel("2,5"));
         position.put(CONTRASTE_MAX - 1, new JLabel("5"));
         constrastSlider.setLabelTable(position);
         constrastSlider.setPaintLabels(true);
