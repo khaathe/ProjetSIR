@@ -178,7 +178,7 @@ public abstract class AbstractImage {
      * @param sens
      *      Sens dans lequel la rotation se fait
      */
-    public void setRotation(int sens) {
+    public void rotate (int sens) {
         if (sens == ROTATE_LEFT) {
             if (this.getRotation() == ROTATE_LEFT)
                 this.rotation = ROTATE_LEFT;
@@ -197,6 +197,8 @@ public abstract class AbstractImage {
         }
     }
 
+    public void setRotation (int rotation) { this.rotation = rotation; }
+
     public void setContraste(int contraste) {
         this.contraste = contraste;
     }
@@ -209,8 +211,17 @@ public abstract class AbstractImage {
         this.inverser = !(this.isInverser());
     }
 
+    public void setInverser(boolean inverser) {
+        this.inverser = inverser;
+    }
+
+
     public void setRetourner() {
         this.retourner = !(this.isRetourner());
+    }
+
+    public void setRetourner(boolean retourner) {
+        this.retourner = retourner;
     }
 
     public void setAnnotation(String annotation) {

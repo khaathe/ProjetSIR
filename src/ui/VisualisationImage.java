@@ -57,7 +57,7 @@ public class VisualisationImage extends JPanel {
     static final int LUMINOSITE_MAX = 100;
     static final int LUMINOSITE_INIT = 0;
     private ImagePanel imgPanel;
-
+    private int rotation;
 
     /**
      * Constructeur de la classe initialisant les composants de l'interface, les listener, et l'accas differentiel
@@ -106,6 +106,7 @@ public class VisualisationImage extends JPanel {
      * Renvoie la premiere image de la liste
      */
     public void initComponent() {
+        rotation = AbstractImage.NO_ROTATE;
         nameDoctorLabel.setText("Mr/Mme " + mainWindow.getSir().getPersonneConnecte().getNom()
                 + " " + mainWindow.getSir().getPersonneConnecte().getPrenom()
                 + " (" + mainWindow.getSir().getPersonneConnecte().getIdMedical() + ")"
@@ -316,12 +317,22 @@ public class VisualisationImage extends JPanel {
     public void rotation(ActionEvent e) {
         int i = pictureSlider.getValue();
         int rotation = 0;
-        if (e.getSource().equals(buttonLeft))
+        if (e.getSource().equals(buttonLeft)) {
             rotation = Image.ROTATE_RIGHT;
-        else if (e.getSource().equals(buttonRight))
+            if (this.rotation == AbstractImage.NO_ROTATE)
+                this.rotation = AbstractImage.ROTATE_RIGHT;
+            else if (this.rotation == AbstractImage.ROTATE_LEFT)
+                this.rotation = AbstractImage.NO_ROTATE;
+        }
+        else if (e.getSource().equals(buttonRight)){
             rotation = Image.ROTATE_LEFT;
+            if (this.rotation == AbstractImage.NO_ROTATE)
+                this.rotation = AbstractImage.ROTATE_LEFT;
+            else if (this.rotation == AbstractImage.ROTATE_RIGHT)
+                this.rotation = AbstractImage.NO_ROTATE;
+        }
         AbstractImage ig = picture.get(i);
-        ig.setRotation(rotation);
+        ig.rotate(rotation);
         BufferedImage imageModif = ig.getImage();
         imgPanel.setImg(imageModif);
         imgPanel.repaint();
@@ -357,15 +368,15 @@ public class VisualisationImage extends JPanel {
      */
     public void pictureChanged() {
         int i = pictureSlider.getValue();
+        picture.get(i).setContraste(constrastSlider.getValue());
+        picture.get(i).setLuminosite(ecalircissementSlider.getValue());
+        picture.get(i).setRotation(rotation);
+        picture.get(i).setInverser(inversionCheckBox.isSelected());
+        picture.get(i).setRetourner(retournementCheckBox.isSelected());
+        annotationTextArea.setText(picture.get(i).getAnnotation());
         BufferedImage imageModif = picture.get(i).getImage();
         imgPanel.setImg(imageModif);
         imgPanel.repaint();
-        constrastSlider.setValue(picture.get(i).getContraste());
-        constrastSlider.setValue(picture.get(i).getContraste());
-        ecalircissementSlider.setValue(picture.get(i).getLuminosite());
-        inversionCheckBox.setSelected(picture.get(i).isInverser());
-        retournementCheckBox.setSelected(picture.get(i).isRetourner());
-        annotationTextArea.setText(picture.get(i).getAnnotation());
         revalidate();
     }
 
