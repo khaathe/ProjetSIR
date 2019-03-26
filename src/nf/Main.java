@@ -1,35 +1,46 @@
 package nf;
 
+<<<<<<< HEAD
 import library.interfaces.ClientHL7;
+=======
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+>>>>>>> e8243f2482fc194522621b364b8c689ab1b44dbe
 
 public class Main {
 
 
     public static void main(String[] args) throws Exception {
-       Connexion c= new Connexion();
+       /*Connexion c= new Connexion();
 
        c.connection("robertamandine","171197Ar");
+<<<<<<< HEAD
        c.disconnection();
         ClientHL7 hl7 = new ClientHL7();
        /*GregorianCalendar g= new GregorianCalendar();
+=======
+       c.disconnection();*/
+       GregorianCalendar g= new GregorianCalendar();
+>>>>>>> e8243f2482fc194522621b364b8c689ab1b44dbe
        g.set(1900,03,05);
        Patient p= new Patient("506","81","Dancelme","Loic", g,"errgkvjbre");
-       c.addPatient(p);
+       PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio("111588", "Nom", "Prenom", Profession.PH);
        CompteRendu compteRendu=new CompteRendu("123532","kibigzukefrjvfejhvdzckjzev");
-        ArrayList<AbstractImage> listImage = new ArrayList<>();
+       List<AbstractImage> listImage = new ArrayList<>();
        Examen examen = new Examen(
                 new GregorianCalendar(),
                 "08470296",
                 TypeExamen.SCANNER,
                 p,
-                c.getPersonnelServiceRadio("1"),
-                ServiceHosp.PNEUMOLOGIE,
+                personnelServiceRadio,
+                ServiceHosp.UNKNOWN,
                 listImage,
                 compteRendu
         );
 
        HL7 hl7=new HL7();
-       hl7.sendMessage(examen, HL7.ADMIT_PATIENT);*/
+       hl7.sendMessage(examen, HL7.ADMIT_PATIENT);
         /*PersonnelServiceRadio personnelServiceRadio = new PersonnelServiceRadio(
 
     public static void main(String[] args) {

@@ -13,9 +13,8 @@ import java.util.List;
 public class Connexion {
 
     private Connection con;
-
-//    private static String url = "jdbc:mysql://localhost:3306/sir";
-    private static String url = "jdbc:mysql://db4free.net:3306/projet_sir";
+    private static String url = "jdbc:mysql://localhost:3306/sir";
+    //private static String url = "jdbc:mysql://db4free.net:3306/projet_sir";
     private static String driver = "com.mysql.cj.jdbc.Driver";
     private String argument = "?serverTimezone=UTC";
 
@@ -23,12 +22,18 @@ public class Connexion {
         con = null;
     }
 
+
+    /* Afin de se connecter il faut un nom d'utilisateur et un mot de passe et la méthode crée ensuite une connection avec la base de données phpmyadmin grace
+    à l'url, le driver et l'argument
+     */
     public void connection(String user, String mdp) throws Exception {
         boolean test = true;
         Class.forName(driver);
         con = DriverManager.getConnection(url+argument, user, mdp);
     }
 
+    /*cette classe permet simplement de se déconnecter en implementant la méthode .close*/
+    
     public void disconnection() throws Exception {
         con.close();
     }

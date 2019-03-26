@@ -13,6 +13,8 @@ public class Patient {
     private GregorianCalendar naissance;
     private String sexe;
 
+
+
     public  Patient (){
         idPR = "";
         idPatient = "";
@@ -21,6 +23,7 @@ public class Patient {
         naissance = new GregorianCalendar();
         sexe = "";
     }
+
 
     public Patient(String idPR, String idPatient, String nom, String prenom, GregorianCalendar naissance, String sexe){
         this.idPR = idPR;
